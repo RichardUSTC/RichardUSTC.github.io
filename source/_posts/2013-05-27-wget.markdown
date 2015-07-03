@@ -1,0 +1,22 @@
+---
+layout: post
+title: "利用wget复制网站"
+date: 2013-05-27 13:51
+comments: true
+categories: Command-Line
+---
+
+曾经维护过一个网站，但是为了成本和安全性多方面的考虑，主机上只host静态网页。于是就在自己的机器上搭建wordpress环境，在本地更新内容之后，使用wget将整个网站复制下来，再上传到远程主机上。整个网页看起来和直接使用wordpress是一模一样的。
+
+使用的命令如下：
+```bash
+wget -E -c -r -p -k -np -l 100  http://localhost/example/
+```
+下面分别解释一下各个参数的含义：
+
+*	`-E`: 如果下载了一个网页文件，但是没有后缀，使用这个选项会自动调整后缀为`html`。这个选项在处理动态网站的时候很有用。比如`http://localhost/example/?key=123`。等同`--adjust-extension`。
+*	`-c`: 续传，等同`--continue`。
+*	`-r`: 递归下载，等同`--recursive`。使用这个选项之后，wget会自动找到当前页面中的链接，并下载链接对应的文件。
+*	`-p`: 下载正常显示页面所需要的所有资源文件，比如内置图片、css文件等等，等同与`--page-requisites`。
+*	`-k`: 将链接中的绝对路径转换为相对路径，这样下载的文件可以放置在任何位置访问，等同于`--convert-links`。
+*	`-np`: 不下载指定url的父目录中的文件，在本例中，这个选项表示只下载目标网站example/目录下的文件，等同于`--no-parent`。

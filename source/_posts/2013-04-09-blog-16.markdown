@@ -1,0 +1,50 @@
+---
+layout: post
+title: C++中的类模版
+date: 2013-04-09 14:04
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<p>C++中的类模版语法示例：</p>
+<div class="cnblogs_code">
+<pre>templeate &lt;typename T&gt;
+<span style="color: #0000ff;">class</span><span style="color: #000000;"> Foo{
+    ...
+};</span></pre>
+</div>
+<p>当然，typename也可以用class来替代。</p>
+<p>如果类的成员函数单独拿出来写，语法示例：</p>
+<div class="cnblogs_code">
+<pre>template &lt;typename T&gt;<span style="color: #000000;">
+T Foo</span>&lt;T&gt;::foo(T &amp;<span style="color: #000000;">t){
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> t;
+}</span></pre>
+</div>
+<p>当然成员函数本身还可以再是模版函数</p>
+<div class="cnblogs_code">
+<pre>template &lt;typename T1&gt;
+<span style="color: #0000ff;">class</span><span style="color: #000000;"> Foo{
+    ...
+    template </span>&lt;typename T2&gt;<span style="color: #000000;">
+    T2 foo(T2 </span>&amp;<span style="color: #000000;">t2);
+};
+
+template </span>&lt;typename T1&gt;<span style="color: #000000;">
+    template </span>&lt;typename T2&gt;<span style="color: #000000;">
+T2 Foo</span>&lt;T1&gt;::foo(T2 &amp;<span style="color: #000000;">t2){
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> t2;
+}</span></pre>
+</div>
+<p>类模版和函数模版一样，也可以指定nontype parameter。可以参考<a href="http://www.cnblogs.com/richardustc/archive/2013/03/30/2991072.html" target="_blank">函数模版中的nontype parameter</a>。</p>
+<p>类模版参数和函数模版参数有时候会做一些非常小的转换，包括非const类型的转换成const类型、数组或函数转指针，以满足模版实例化的需求。</p>
+<p><strong>NOTE:</strong></p>
+<p>新学到一个知识点：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">class</span><span style="color: #000000;"> Foo{
+    ...
+    typedef unsigned </span><span style="color: #0000ff;">long</span><span style="color: #000000;"> size_t;
+    ...
+};</span></pre>
+</div>
+<p>以后就可以使用Foo::size_t这个新定义的类型了。</p>

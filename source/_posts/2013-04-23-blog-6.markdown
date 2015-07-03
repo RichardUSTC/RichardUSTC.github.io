@@ -1,0 +1,15 @@
+---
+layout: post
+title: C++中的枚举
+date: 2013-04-23 01:04
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<ol>
+<li>没有类型名，全局作用域的枚举，比如enum {x0, x1, x2}</li>
+<li>有类型名，全局作用域的枚举，比如enum var {y0, y1, y2}。<br />前两种枚举中x0,x1,x2,y0,y1,y2的作用域是全局的，不能重复定义。比如第一种定义了x0，在enum var中就不能使用。</li>
+<li>有类型名的，有作用域的枚举，比如enum class color{red, blue, yellow}或enum struct color{red, blue, yellow}<br />这中enum是C++11的特性。这里面的red、blue和yellow是限定在color内部的，必须以color::red的形式来使用。</li>
+<li>枚举值实际上是常量，可以在定义枚举的时候赋值，并且一个枚举之内的枚举值的值可以相同。<br />比如 enum{x0=3, x1=5, x2=3}</li>
+
+</ol>

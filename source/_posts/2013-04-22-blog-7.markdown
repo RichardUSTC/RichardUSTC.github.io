@@ -1,0 +1,15 @@
+---
+layout: post
+title: C++特殊技巧
+date: 2013-04-22 14:04
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<ol>
+<li>通过overloading new operation function和delete operator function来控制内存的分配。</li>
+<li>placement new可以在指定内存处创建新对象，而并不申请新的内存。</li>
+<li>可以在程序中直接调用析构函数，但是对应的内存并不会被释放。</li>
+<li>可以通过typeid函数来取得类型信息（RTTI）</li>
+<li></li>
+</ol>

@@ -1,0 +1,77 @@
+---
+layout: post
+title: C++中的虚函数(1)
+date: 2013-03-29 02:03
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<p>虚函数语法形式</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">class</span><span style="color: #000000;"> Foo{
+    ...
+    </span><span style="color: #0000ff;">virtual</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> func();
+    ...
+};</span></pre>
+</div>
+<p>C++虚函数必须和C++的继承结合起来一起看。示例是最好的解释。</p>
+<div class="cnblogs_code">
+<pre>#include &lt;iostream&gt;
+<span style="color: #0000ff;">using</span> <span style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
+</span><span style="color: #0000ff;">class</span><span style="color: #000000;"> Base{
+    </span><span style="color: #0000ff;">public</span><span style="color: #000000;">:
+        </span><span style="color: #0000ff;">void</span><span style="color: #000000;"> func1(){
+            cout</span>&lt;&lt;<span style="color: #800000;">"</span><span style="color: #800000;">I'm Base func1</span><span style="color: #800000;">"</span>&lt;&lt;<span style="color: #000000;">endl;
+        }
+        </span><span style="color: #0000ff;">virtual</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> func2(){
+            cout</span>&lt;&lt;<span style="color: #800000;">"</span><span style="color: #800000;">I'm Base func2</span><span style="color: #800000;">"</span>&lt;&lt;<span style="color: #000000;">endl;
+        }
+};
+
+</span><span style="color: #0000ff;">class</span> Derived:<span style="color: #0000ff;">public</span><span style="color: #000000;"> Base{
+    </span><span style="color: #0000ff;">public</span><span style="color: #000000;">:
+        </span><span style="color: #0000ff;">void</span><span style="color: #000000;"> func1(){
+            cout</span>&lt;&lt;<span style="color: #800000;">"</span><span style="color: #800000;">I'm Derived func1</span><span style="color: #800000;">"</span>&lt;&lt;<span style="color: #000000;">endl;
+        }
+        </span><span style="color: #0000ff;">virtual</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> func2(){
+            cout</span>&lt;&lt;<span style="color: #800000;">"</span><span style="color: #800000;">I'm Derived func2</span><span style="color: #800000;">"</span>&lt;&lt;<span style="color: #000000;">endl;
+        }
+};
+
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> main(){
+    Derived d</span>=<span style="color: #000000;"> Derived();
+    Base </span>&amp;o =<span style="color: #000000;"> d;            //创建了一个指向子类对象的引用
+    o.func1();              //func1不是虚函数，因此使用了Base的func1方法
+    o.func2();              //func2是虚函数，因此根据引用所指向的实际对象的类型选择func2，即Derived的func2
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+}</span></pre>
+</div>
+<p>运行结果</p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">I'm Base func1
+I'm Derived func2</span></pre>
+</div>
+<p>汇编代码分析</p>
+<div class="cnblogs_code">
+<pre>  4<span style="color: #800080;">0091c</span>:       <span style="color: #800080;">48</span> c7 <span style="color: #800080;">45</span> f0 <span style="color: #800080;">00</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span><span style="color: #000000;">    movq   $0x0,-0x10(%rbp)          #-0x10(%rbp)中存放的是对象d，这个对象占用8个字节
+  </span><span style="color: #800080;">400923</span>:       <span style="color: #800080;">00</span>                                                       #这8个字节将会用来存储一个指针，指针指向Derived类的虚函数表
+  <span style="color: #800080;">400924</span>:       <span style="color: #800080;">48</span> 8d <span style="color: #800080;">45</span> f0             <span style="color: #0000ff;">lea</span><span style="color: #000000;">    -0x10(%rbp),%rax
+  </span><span style="color: #800080;">400928</span>:       <span style="color: #800080;">48</span> <span style="color: #800080;">89</span> c7                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %rax,%rdi
+  4</span><span style="color: #800080;">0092b</span>:       e8 <span style="color: #800080;">18</span> <span style="color: #800080;">01</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span>          callq  4<span style="color: #800080;">00a48</span><span style="color: #000000;"> &lt;_ZN7DerivedC1Ev&gt;  #调用Derived的默认构造函数
+  </span><span style="color: #800080;">400930</span>:       <span style="color: #800080;">48</span> 8d <span style="color: #800080;">45</span> f0             <span style="color: #0000ff;">lea</span><span style="color: #000000;">    -0x10(%rbp),%rax
+  </span><span style="color: #800080;">400934</span>:       <span style="color: #800080;">48</span> <span style="color: #800080;">89</span> <span style="color: #800080;">45</span> f8             <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %rax,-0x8(%rbp)           #-0x8(%ebp)存储引用o，o的内容实际上是对象d的起始地址。
+  </span><span style="color: #800080;">400938</span>:       <span style="color: #800080;">48</span> 8b <span style="color: #800080;">45</span> f8             <span style="color: #0000ff;">mov</span><span style="color: #000000;">    -0x8(%rbp),%rax
+  4</span><span style="color: #800080;">0093c</span>:       <span style="color: #800080;">48</span> <span style="color: #800080;">89</span> c7                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %rax,%rdi                 #这两行准备this指针
+  4</span><span style="color: #800080;">0093f</span>:       e8 <span style="color: #800080;">70</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span>          callq  4<span style="color: #800080;">009b4</span><span style="color: #000000;"> &lt;_ZN4Base5func1Ev  #不是虚函数，直接调用Base的func1
+  </span><span style="color: #800080;">400944</span>:       <span style="color: #800080;">48</span> 8b <span style="color: #800080;">45</span> f8             <span style="color: #0000ff;">mov</span><span style="color: #000000;">    -0x8(%rbp),%rax           #取出d的地址
+  </span><span style="color: #800080;">400948</span>:       <span style="color: #800080;">48</span> 8b <span style="color: #800080;">00</span>                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    (%rax),%rax               #取出d的内容，即指向Derived类虚函数表的指针
+  4</span><span style="color: #800080;">0094b</span>:       <span style="color: #800080;">48</span> 8b <span style="color: #800080;">10</span>                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    (%rax),%rdx               #func2是Derived类的唯一虚函数，即第0项。取出func2的地址。
+  4</span><span style="color: #800080;">0094e</span>:       <span style="color: #800080;">48</span> 8b <span style="color: #800080;">45</span> f8             <span style="color: #0000ff;">mov</span><span style="color: #000000;">    -0x8(%rbp),%rax
+  </span><span style="color: #800080;">400952</span>:       <span style="color: #800080;">48</span> <span style="color: #800080;">89</span> c7                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %rax,%rdi                 #这两行也是准备this指针
+  </span><span style="color: #800080;">400955</span>:       ff d2                   callq  *%rdx                     #调用func2</pre>
+</div>
+<p>如果感兴趣，可以用gdb实际调试一下，观察运行的过程。</p>
+<p><strong>NOTE 1:&nbsp;</strong>当子类不override父类的虚函数，那么子类就自动继承父类的虚函数。</p>
+<p><strong>NOTE 2: </strong>虚函数也可以有默认参数。如果用父类的指针或引用指向子类的对象，那么调用的函数是子类的，使用的默认参数却是父类函数的。（C++真是无比混乱啊！）</p>
+<p><strong>NOTE 3:</strong> 如果不想动态调用虚函数，可以使用类名+'::'来限定调用哪个函数。例如，上例中可以添加语句o.Base::func2()来调用父类的func2。</p>
+<p><strong>NOTE 4:</strong>父类的函数是虚函数，那么子类的对应的函数即使不添加virtual修饰，依然是虚函数。子类最好也添加上virtual修饰，这样代码含义更加清晰。</p>

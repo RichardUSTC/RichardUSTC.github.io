@@ -1,0 +1,65 @@
+---
+layout: post
+title: 小程序通用Makefile
+date: 2013-04-18 09:04
+comments: true
+author: RichardUSTC
+categories: Toolchain
+---
+<p>有时候经常需要写一些小的测试用例，有一个Makefile会比较方便。于是就想到写一个比较通用的Makefile。</p>
+<p><strong>github地址：</strong><a href="https://github.com/RichardUSTC/general-makefile">https://github.com/RichardUSTC/general-makefile</a></p>
+<p>这个Makefile的特点：</p>
+<ul>
+<li>支持C和C++程序</li>
+<li>每个C/C++源文件编译成一个可执行程序</li>
+<li>根据需要，可以通过make dump来dump出可执行程序的汇编代码，编译分析</li>
+<li>make时可以在命令行指定CC、CXX、CFLAGS、CXXFLAGS、LDFLAGS、LIBS、OBJDUMP和DUMP_FLAGS变量。例如make LIBS=-lpthread。注意这时等号两侧不能有空格</li>
+<li>编译出来的程序带有调试信息</li>
+<li>使用时，放在源码所在目录即可
+<div class="cnblogs_code">
+<pre>CC =<span style="color: #000000;"> gcc
+CXX </span>=<span style="color: #000000;"> g++
+OBJDUMP </span>=<span style="color: #000000;"> objdump
+
+INCLUDES +</span>=<span style="color: #000000;">
+CFLAGS +</span>=<span style="color: #000000;"> -g
+CXXFLAGS +</span>=<span style="color: #000000;"> -g
+LDFLAGS +</span>=<span style="color: #000000;">
+LIBS +</span>=<span style="color: #000000;">
+DUMP_FLAGS </span>=<span style="color: #000000;"> -d
+
+ifneq (${INCLUDES}</span>,<span style="color: #000000;"> )
+    CFLAGS +</span>=<span style="color: #000000;"> -I${INCLUDES}
+    CXXFLAGS +</span>=<span style="color: #000000;"> -I${INCLUDES}
+endif
+
+
+C_SRC </span>=<span style="color: #000000;"> $(wildcard *.c)
+C_TARGET </span>= $(patsubst %.c, %,<span style="color: #000000;"> ${C_SRC})
+C_DUMP</span>= $(patsubst %.c, %.dump,<span style="color: #000000;"> ${C_SRC})
+CPP_SRC </span>=<span style="color: #000000;"> $(wildcard *.cpp)
+CPP_TARGET </span>= $(patsubst %.cpp, %,<span style="color: #000000;"> ${CPP_SRC})
+CPP_DUMP</span>= $(patsubst %.cpp, %.dump,<span style="color: #000000;"> ${CPP_SRC})
+TARGET </span>=<span style="color: #000000;"> ${C_TARGET} ${CPP_TARGET}
+DUMP </span>=<span style="color: #000000;"> ${C_DUMP} ${CPP_DUMP}
+
+all: ${TARGET}
+
+dump: ${DUMP} ${TARGET}
+
+clean:
+    @rm -f ${TARGET} ${DUMP}
+
+${C_TARGET}: %: %.c
+    ${CC} -o $@ $&lt; ${CFLAGS} ${LDFLAGS} ${LIBS}
+
+${CPP_TARGET}: %: %.cpp
+    ${CXX} -o $@ $&lt; ${CXXFLAGS} ${LDFLAGS} ${LIBS}
+
+${DUMP}: %.dump: %
+    ${OBJDUMP} ${DUMP_FLAGS} $&lt; &gt; $@</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</li>
+</ul>

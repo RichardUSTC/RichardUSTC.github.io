@@ -1,0 +1,41 @@
+---
+layout: post
+title: C++中的异常处理
+date: 2013-04-18 09:04
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<p>C++异常处理的语法</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">try</span><span style="color: #000000;">{
+    ...
+    throw aSomeException;
+    ...
+}</span><span style="color: #0000ff;">catch</span><span style="color: #000000;">(SomeException e){
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">code to handle the exception</span>
+<span style="color: #000000;">    ...<br />　　//optional rethrow<br />   throw;<br />   ...
+}<br />或<br />try{<br />   ...<br />　　//call a function that throws exception<br />   foo();<br />   ...<br />}catch(SomeException e){<br />　　//code to handle the exception<br />   ...<br />}</span></pre>
+</div>
+<p>异常的特性：</p>
+<ul>
+<li>抛出异常如果没有被处理，就会往上一层抛出，直至被处理或者到达main函数。如果main函数中仍不能处理这个异常，那么就会调用terminate结束程序。</li>
+<li>产生异常的时候，throw语句之后的代码不会被执行， 但是程序会自动析构局部对象。所以在可能发生异常的地方，应当把资源申请包装在类内部，在析构函数中自动释放。</li>
+<li>析构函数中发生的异常需要在析构函数内部处理。否则，在异常向上抛出的过程中，析构函数再一次抛出异常会导致程序调用terminate，使得整个程序退出。</li>
+<li>构造函数中如果发生异常，程序将自动释放已经初始化过的成员。</li>
+<li>throw语句抛出的类型可以是基本类型，也可以是类类型。类类型需要有可访问的析构函数、move constructor(C++11中的特性)或者copy constructor。数组类型和函数将被转换为指针类型。抛出类型为编译时的静态类型，而不是动态运行时的类型。</li>
+<li>throw语句抛出的类型如果是指针，需要保证指针指向的内容一直可用。</li>
+<li>匹配catch块时使用第一次匹配到的catch块。</li>
+<li>catch块中仍然可以throw，这次throw语句不带参数。如第一个例子中catch块中所示。</li>
+<li>catch(...){}可以catch所有的异常。</li>
+</ul>
+<p>构造函数中处理异常，示例</p>
+<div class="cnblogs_code">
+<pre>Foo::Foo(<span style="color: #0000ff;">int</span> i) <span style="color: #0000ff;">try</span><span style="color: #000000;">: foo_i(i) {<br />    //constructor body<br /></span><span>    ...</span></pre>
+<pre><em id="__mceDel"><span style="color: #000000;">}</span><span style="color: #0000ff;">catch</span><span style="color: #000000;">(SomeException e){
+   </span><span style="color: #008000;">//</span><span style="color: #008000;">handle exception</span>
+}</em></pre>
+</div>
+<p>这种形式被成为function try block，这个异常处理函数既处理初始化列表中产生的异常，也处理constructor body中产生的异常。</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

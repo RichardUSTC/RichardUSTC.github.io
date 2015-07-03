@@ -1,0 +1,25 @@
+---
+layout: post
+title: C++中的顺序容器
+date: 2013-03-14 13:03
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<p>继续之前的C++复习笔记。</p>
+<p>顺序容器中放置的元素不能是引用或者不可复制的对象（比如输入输出流对象）。</p>
+<p>C++中的顺序容器有vector、deque、forward_list。</p>
+<p>在复习这一部分的时候，遇到了C++中的adaptor的概念。adaptor在用已有的类（函数、迭代器）为基础，创造出另一种不同功能的类（函数、迭代器）。</p>
+<p>例如</p>
+<div class="cnblogs_code">
+<pre>stack&lt;<span style="color: #0000ff;">int,</span> vector&lt;<span style="color: #0000ff;">int</span>&gt; &gt; s;</pre>
+</div>
+<p>里面的stack类使用vector作为基础数据结构，利用vector的成员函数包装出back(), push_back()和pop()，实现栈功能。</p>
+<p>C++中的顺序容器：</p>
+<p>1. vector</p>
+<p>2. deque</p>
+<p>3. forward_list</p>
+<p>4. stack</p>
+<p>5. queue</p>
+<p>6. priority_queue</p>
+<p>7. ...</p>

@@ -1,0 +1,32 @@
+---
+layout: post
+title: "Git SVN"
+date: 2013-05-20 11:13
+comments: true
+categories: Git
+---
+目前有很多项目使用了svn。为了利用git的优势，可以使用git svn系列命令来实现git与svn的结合。
+详细的资料可以参考[git svn教程][git svn tutorial]。
+
+从svn仓库中取出数据。
+```bash
+git svn clone <svn-repo> <repo-name>
+```
+向svn仓库中推送本地的更改。
+注意：需要先用git commit提交本地更改到本地仓库。
+```bash
+git svn dcommit -m "comment"
+```
+获取svn仓库中的更改，和本地内容进行合并
+```bash
+git svn rebase
+```
+查看svn式的log
+```bash
+git svn log
+```
+此外，在本地仓库中的分支内容的合并最好不要直接merge，而是rebase。因为使用merge方式合并，代码提交历史不是线性的，提交到svn仓库之后，源分支的提交历史信息就丢失了。
+
+有时候，不希望svn代码仓库中包含.gitignore文件。这时候，可以将需要写在.gitignore目录中的规则写在`$GIT_DIR/info/exclude`文件中，通常`$GIT_DIR`就是`./.git`。这个exclude文件仅作用于当前的本地仓库，并且不会被提交到svn仓库中。
+
+[git svn tutorial]: http://git-scm.com/book/en/Git-and-Other-Systems-Git-and-Subversion

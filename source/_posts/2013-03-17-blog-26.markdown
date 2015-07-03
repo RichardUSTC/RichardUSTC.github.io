@@ -1,0 +1,92 @@
+---
+layout: post
+title: C++中lambda的实现(1)
+date: 2013-03-17 10:03
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<p>在看C++ Primer的过程中，发现C++11标准中添加了lambda和类型推断系统。这篇文章介绍了很多<a title="初探C++11之lambda表达式" href="http://www.cnblogs.com/l00l/archive/2012/02/04/2338038.html" target="_blank">lambda的实例</a>。</p>
+<p>为了弄清楚lambda的实现，特地做了一个小实验。这一次只看non-mutable lambda。测试的gcc版本为4.6.3（貌似4.5以前的gcc不支持lambda表达式）。</p>
+<p>代码：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">//</span><span style="color: #008000;">test.cpp</span>
+<span style="color: #008080;"> 2</span> #include &lt;iostream&gt;
+<span style="color: #008080;"> 3</span> template&lt;typename Func&gt;
+<span style="color: #008080;"> 4</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> test(Func f){
+</span><span style="color: #008080;"> 5</span>     std::cout&lt;&lt;f(<span style="color: #800080;">3</span>)&lt;&lt;<span style="color: #000000;">std::endl;
+</span><span style="color: #008080;"> 6</span> <span style="color: #000000;">}
+</span><span style="color: #008080;"> 7</span> template&lt;typename Func&gt;
+<span style="color: #008080;"> 8</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> test2(Func f){
+</span><span style="color: #008080;"> 9</span>     std::cout&lt;&lt;f(<span style="color: #800080;">13</span>)&lt;&lt;<span style="color: #000000;">std::endl;
+</span><span style="color: #008080;">10</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">11</span> <span style="color: #0000ff;">int</span><span style="color: #000000;"> main(){
+</span><span style="color: #008080;">12</span>     <span style="color: #0000ff;">int</span> a = <span style="color: #800080;">1</span><span style="color: #000000;">;
+</span><span style="color: #008080;">13</span>     <span style="color: #0000ff;">int</span> b = <span style="color: #800080;">2</span><span style="color: #000000;">;
+</span><span style="color: #008080;">14</span>     auto f = [a,b](<span style="color: #0000ff;">int</span> c){<span style="color: #0000ff;">return</span> a+b+<span style="color: #000000;">c;};
+</span><span style="color: #008080;">15</span> <span style="color: #000000;">    test(f);
+</span><span style="color: #008080;">16</span>     a=<span style="color: #800080;">2</span>;b=<span style="color: #800080;">3</span><span style="color: #000000;">;
+</span><span style="color: #008080;">17</span> <span style="color: #000000;">    test2(f);
+</span><span style="color: #008080;">18</span>     <span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+</span><span style="color: #008080;">19</span> }</pre>
+</div>
+<p>编译方法</p>
+<div class="cnblogs_code">
+<pre>g++ -std=c++0x test.<span style="color: #0000ff;">cpp</span> -o test</pre>
+</div>
+<p>运行结果</p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">./test
+</span>6
+16</pre>
+</div>
+<p>在这个例子中，代码第14行创建了一个non-mutable lambda。这里使用了类型自动推断，f的类型编译器会自动计算出来。[]称为capture list，里面的a和b的值同main里面的a和b的值是一样的，而且可以发现non-mutable lambda创建之后再对main中的a、b赋值，不会影响到capture list中的a和b的值。此外capture list中a和b是只读的，试图写这两个值时，编译器会报错。这个lamda函数的返回值类型是int，这也可以由编译器自动推断出来。</p>
+<p>现在来看看生成的汇编代码，来看看C++是如何实现non-mutable lambda的。</p>
+<p>下面这一段是从main函数的汇编代码中截取出来的，对应了C++代码第12行到15行。各行的意义参见注释。</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #800080;">8048612</span>:       c7 <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> <span style="color: #800080;">18</span> <span style="color: #800080;">01</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span><span style="color: #000000;">    movl   $0x1,0x18(%esp)  #给main中的a赋值
+</span><span style="color: #008080;"> 2</span>  <span style="color: #800080;">8048619</span>:       <span style="color: #800080;">00</span> 
+<span style="color: #008080;"> 3</span>  8<span style="color: #800080;">04861a</span>:       c7 <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> 1c <span style="color: #800080;">02</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span><span style="color: #000000;">    movl   $0x2,0x1c(%esp) #给main中的b赋值
+</span><span style="color: #008080;"> 4</span>  <span style="color: #800080;">8048621</span>:       <span style="color: #800080;">00</span> 
+<span style="color: #008080;"> 5</span>  <span style="color: #800080;">8048622</span>:       8b <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> <span style="color: #800080;">18</span>             <span style="color: #0000ff;">mov</span><span style="color: #000000;">    0x18(%esp),%eax 
+</span><span style="color: #008080;"> 6</span>  <span style="color: #800080;">8048626</span>:       <span style="color: #800080;">89</span> <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> <span style="color: #800080;">10</span>             <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %eax,0x10(%esp) #将main中的a值copy到capture list中的a（记为c_a)
+</span><span style="color: #008080;"> 7</span>  8<span style="color: #800080;">04862a</span>:       8b <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> 1c             <span style="color: #0000ff;">mov</span><span style="color: #000000;">    0x1c(%esp),%eax
+</span><span style="color: #008080;"> 8</span>  8<span style="color: #800080;">04862e</span>:       <span style="color: #800080;">89</span> <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> <span style="color: #800080;">14</span>             <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %eax,0x14(%esp) #将main中的b值copy到capture list中的b (记为c_b)
+</span><span style="color: #008080;"> 9</span>  <span style="color: #800080;">8048632</span>:       8b <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> <span style="color: #800080;">10</span>             <span style="color: #0000ff;">mov</span><span style="color: #000000;">    0x10(%esp),%eax 
+</span><span style="color: #008080;">10</span>  <span style="color: #800080;">8048636</span>:       8b <span style="color: #800080;">54</span> <span style="color: #800080;">24</span> <span style="color: #800080;">14</span>             <span style="color: #0000ff;">mov</span><span style="color: #000000;">    0x14(%esp),%edx
+</span><span style="color: #008080;">11</span>  8<span style="color: #800080;">04863a</span>:       <span style="color: #800080;">89</span> <span style="color: #800080;">04</span> <span style="color: #800080;">24</span>                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %eax,(%esp)     #%eax中放着c_a的值
+</span><span style="color: #008080;">12</span>  8<span style="color: #800080;">04863d</span>:       <span style="color: #800080;">89</span> <span style="color: #800080;">54</span> <span style="color: #800080;">24</span> <span style="color: #800080;">04</span>             <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %edx,0x4(%esp)  #将capture list中a、b的值分别取出，放在栈上作为函数调用的参数<br />　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　 #(分别记为c_a_copy1, c_b_copy1)
+</span><span style="color: #008080;">13</span>  <span style="color: #800080;">8048641</span>:       e8 2b <span style="color: #800080;">00</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span>          <span style="color: #0000ff;">call</span>   <span style="color: #800080;">8048671</span> &lt;_Z4testIZ4mainEUliE_EvT_&gt; #调用test(f)</pre>
+</div>
+<p>下面这一段是从函数模版test的汇编代码中截取的一段，对应了test中的f(3)这个表达式。</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span>  <span style="color: #800080;">8048677</span>:       c7 <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> <span style="color: #800080;">04</span> <span style="color: #800080;">03</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span><span style="color: #000000;">    movl   $0x3,0x4(%esp)   #将3作为参数放在栈上
+</span><span style="color: #008080;">2</span>  8<span style="color: #800080;">04867e</span>:       <span style="color: #800080;">00</span> 
+<span style="color: #008080;">3</span>  8<span style="color: #800080;">04867f</span>:       8d <span style="color: #800080;">45</span> <span style="color: #800080;">08</span>                <span style="color: #0000ff;">lea</span><span style="color: #000000;">    0x8(%ebp),%eax   #0x8(%ebp)对应的地址就是c_a_copy1
+</span><span style="color: #008080;">4</span>  <span style="color: #800080;">8048682</span>:       <span style="color: #800080;">89</span> <span style="color: #800080;">04</span> <span style="color: #800080;">24</span>                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %eax,(%esp)      #将这个地址(c_a_copy1的地址）放在栈上
+</span><span style="color: #008080;">5</span>  <span style="color: #800080;">8048685</span>:       e8 6a ff ff ff          <span style="color: #0000ff;">call</span>   8<span style="color: #800080;">0485f4</span> &lt;_ZZ4mainENKUliE_clEi&gt; #调用lambda的代码</pre>
+</div>
+<p>下面是lambda代码对应的汇编码</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> 8<span style="color: #800080;">0485f7</span>:       8b <span style="color: #800080;">45</span> <span style="color: #800080;">08</span>                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    0x8(%ebp),%eax    #将c_a_copy1的地址取出
+</span><span style="color: #008080;">2</span>  8<span style="color: #800080;">0485fa</span>:       8b <span style="color: #800080;">10</span>                   <span style="color: #0000ff;">mov</span><span style="color: #000000;">    (%eax),%edx　　　 #%edx中存放c_a_copy1的值
+</span><span style="color: #008080;">3</span>  8<span style="color: #800080;">0485fc</span>:       8b <span style="color: #800080;">45</span> <span style="color: #800080;">08</span>                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    0x8(%ebp),%eax
+</span><span style="color: #008080;">4</span>  8<span style="color: #800080;">0485ff</span>:       8b <span style="color: #800080;">40</span> <span style="color: #800080;">04</span>                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    0x4(%eax),%eax   #%eax中存放着c_b_copy1的值
+</span><span style="color: #008080;">5</span>  <span style="color: #800080;">8048602</span>:       <span style="color: #800080;">01</span> d0                   <span style="color: #0000ff;">add</span><span style="color: #000000;">    %edx,%eax
+</span><span style="color: #008080;">6</span>  <span style="color: #800080;">8048604</span>:       <span style="color: #800080;">03</span> <span style="color: #800080;">45</span> <span style="color: #800080;">0c</span>                <span style="color: #0000ff;">add</span>    0xc(%ebp),%eax　　#0xc(%ebp)中放着参数c的值，着两行对应a+b+c</pre>
+</div>
+<p>从上面的代码来看，C++在编译lambda的时将lambda作为一个特殊的函数来处理。non-mutable lambda编译出来的代码与函数的代码类似，capture list中的值是存放在创建者（本例中是main函数）的栈上的。使用non-mutable lambda的时候，capture list中的值被拷贝出来放在调用栈上，在lambda函数中取出来使用。</p>
+<p>下面再来看一下main中的另一段汇编代码，这一段代码对应着C++中的16和17行。</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span>  <span style="color: #800080;">8048646</span>:       c7 <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> <span style="color: #800080;">18</span> <span style="color: #800080;">02</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span><span style="color: #000000;">    movl   $0x2,0x18(%esp)   #给a赋值为2，没有影响c_a的值
+</span><span style="color: #008080;">2</span>  8<span style="color: #800080;">04864d</span>:       <span style="color: #800080;">00</span> 
+<span style="color: #008080;">3</span>  8<span style="color: #800080;">04864e</span>:       c7 <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> 1c <span style="color: #800080;">03</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span><span style="color: #000000;">    movl   $0x3,0x1c(%esp)   #给b赋值为3，没有影响到c_b的值
+</span><span style="color: #008080;">4</span>  <span style="color: #800080;">8048655</span>:       <span style="color: #800080;">00</span> 
+<span style="color: #008080;">5</span>  <span style="color: #800080;">8048656</span>:       8b <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> <span style="color: #800080;">10</span>             <span style="color: #0000ff;">mov</span><span style="color: #000000;">    0x10(%esp),%eax
+</span><span style="color: #008080;">6</span>  8<span style="color: #800080;">04865a</span>:       8b <span style="color: #800080;">54</span> <span style="color: #800080;">24</span> <span style="color: #800080;">14</span>             <span style="color: #0000ff;">mov</span><span style="color: #000000;">    0x14(%esp),%edx
+</span><span style="color: #008080;">7</span>  8<span style="color: #800080;">04865e</span>:       <span style="color: #800080;">89</span> <span style="color: #800080;">04</span> <span style="color: #800080;">24</span>                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %eax,(%esp)
+</span><span style="color: #008080;">8</span>  <span style="color: #800080;">8048661</span>:       <span style="color: #800080;">89</span> <span style="color: #800080;">54</span> <span style="color: #800080;">24</span> <span style="color: #800080;">04</span>             <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %edx,0x4(%esp)    #仍然是从c_a和c_b中拷贝值放在栈上
+</span><span style="color: #008080;">9</span>  <span style="color: #800080;">8048665</span>:       e8 <span style="color: #800080;">42</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span>          <span style="color: #0000ff;">call</span>   8<span style="color: #800080;">0486ac</span> &lt;_Z5test2IZ4mainEUliE_EvT_&gt; #调用test2(f)，后面部分的原理与test(f)相似</pre>
+</div>
+<p>从这段代码我们可以看出，capture list中的变量的值使用的是non-mutable lambda创建的时刻的值，以后不随着capture list外的值的变化而变化。</p>
+<p>这篇文章分析了一下<a title="C++ lambda实现" href="http://www.cnblogs.com/richardustc/archive/2013/03/31/2991865.html">mutable lambda的实现</a>。</p>

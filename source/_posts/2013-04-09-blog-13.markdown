@@ -1,0 +1,27 @@
+---
+layout: post
+title: 取得ld默认的ldscript配置
+date: 2013-04-09 15:04
+comments: true
+author: RichardUSTC
+categories: Toolchain
+---
+<p>有时候我们需要修改一些链接时的参数，但是不想从零开始写一个链接脚本，这个时候可以利用命令</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">ld</span> --verbose &gt; my_ldscript</pre>
+</div>
+<p>通过这条命令得到的my_ldscript中有两行&ldquo;==========================&rdquo;分割线，取出两条分割线中间的内容就是ld默认使用的脚本了。</p>
+<p>有了这个脚本，我们就可以根据自己的需要调整一下链接时的参数了。</p>
+<p>比如，我在64位x86下，将这一行</p>
+<div class="cnblogs_code">
+<pre>PROVIDE (__executable_start = SEGMENT_START("text-segment", 0x400000))<span style="color: #008000;">;</span><span style="color: #008000;"> . = SEGMENT_START("text-segment", 0x400000) + SIZEOF_HEADERS;</span></pre>
+</div>
+<p>修改成</p>
+<div class="cnblogs_code">
+<pre>PROVIDE (__executable_start = SEGMENT_START("text-segment",<span style="background-color: #ffff00;">0x800000</span>))<span style="color: #008000;">;</span><span style="color: #008000;"> . = SEGMENT_START("text-segment", <span style="background-color: #ffff00;">0x800000</span>) + SIZEOF_HEADERS;</span></pre>
+</div>
+<p>编译的时候使用-T指定链接脚本</p>
+<div class="cnblogs_code">
+<pre>gcc -c test.c<br />gcc -o test -T my_ldscript test.o</pre>
+</div>
+<p>编译出来的程序代码段就是从0x800000以上空间开始的了。</p>

@@ -1,0 +1,97 @@
+---
+layout: post
+title: 截获Linux操作系统异常处理
+date: 2013-05-03 12:05
+comments: true
+author: RichardUSTC
+categories: Kernel
+---
+<p>&nbsp; &nbsp; 在某些情况下，我们可能需要去截获Linux操作系统的一些异常处理，比如截获page fault异常处理。</p>
+<h1>可以修改内核的情况下</h1>
+<p>&nbsp; &nbsp; 如果我们能够修改内核，那么截获page fault异常处理就会非常简单。以linux 3.8.0内核为例，系统中发生page fault之后，会进入page fault异常处理，调用do_page_fault函数。do_page_fault的代码如下：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> dotraplinkage <span style="color: #0000ff;">void</span><span style="color: #000000;"> __kprobes
+</span><span style="color: #008080;">2</span> do_page_fault(<span style="color: #0000ff;">struct</span> pt_regs *regs, unsigned <span style="color: #0000ff;">long</span><span style="color: #000000;"> error_code)
+</span><span style="color: #008080;">3</span> <span style="color: #000000;">{
+</span><span style="color: #008080;">4</span> <span style="color: #000000;">    exception_enter(regs);
+</span><span style="color: #008080;">5</span> <span style="color: #000000;">    __do_page_fault(regs, error_code);
+</span><span style="color: #008080;">6</span> <span style="color: #000000;">    exception_exit(regs);
+</span><span style="color: #008080;">7</span> }</pre>
+</div>
+<p>&nbsp; &nbsp; 我们把do_page_fault函数的内容提取出来，写成一个新的函数default_do_page_fault。再增加一个函数指针do_page_fault_handler，初始化为default_do_page_fault。将原来的do_page_fault内部改为调用函数指针do_page_fault_handler。修改之后的代码如下：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">void</span><span style="color: #000000;">
+default_do_page_fault(</span><span style="color: #0000ff;">struct</span> pt_regs *regs, unsigned <span style="color: #0000ff;">long</span><span style="color: #000000;"> error_code)
+{
+    exception_enter(regs);
+    __do_page_fault(regs, error_code);
+    exception_exit(regs);
+}<br />EXPORT_SYMBOL(default_do_page_fault);
+
+typedef </span><span style="color: #0000ff;">void</span> (*do_page_fault_handler_t)(<span style="color: #0000ff;">struct</span> pt_regs *, unsigned <span style="color: #0000ff;">long</span><span style="color: #000000;">);
+
+do_page_fault_handler_t do_page_fault_handler </span>=<span style="color: #000000;"> default_do_page_fault;
+EXPORT_SYMBOL(do_page_fault_handler);
+
+dotraplinkage </span><span style="color: #0000ff;">void</span><span style="color: #000000;"> __kprobes
+do_page_fault(</span><span style="color: #0000ff;">struct</span> pt_regs *regs, unsigned <span style="color: #0000ff;">long</span><span style="color: #000000;"> error_code){
+    do_page_fault_handler(regs, error_code);
+}</span></pre>
+</div>
+<p>&nbsp; &nbsp; 由于do_page_fault_handler被EXPORT_SYMBOL导出，我们在内核模块中可以很方便地访问它。只要将do_page_fault_handler的值设置为自定义的page fault异常处理函数，就能完成截获功能。如果想要恢复原来的异常处理函数，只需要再次把do_page_fault_handler设置为default_do_page_fault即可。</p>
+<h1>不能修改内核的情况下</h1>
+<p>&nbsp; &nbsp;但是有些情况下，我们不能直接修改内核代码，需要在已经编译好的内核上完成截获功能。</p>
+<p>&nbsp; &nbsp;开始的时候，我考虑在do_page_fault函数开始处插入跳转代码，跳转到自定义的page fault处理函数中。但是实践的时候发现，内核不允许直接修改do_page_fault的代码。</p>
+<p>&nbsp; &nbsp; 经过一番调查，又想到一个新的办法，即通过更改IDT表的方式来截获page fault。</p>
+<p>&nbsp; &nbsp; 内核原有的IDT表肯定是不能直接写的，所以我申请了一个页，将原来的IDT表复制过来，再更改页面异常对应的ISR(Interrupt Service Routine)。page fault的ISR名称为page_fault，它将寄存器压栈，将error number压栈，然后调用do_page_fault，待do_page_fault返回之后再恢复寄存器，退出异常处理。</p>
+<p>&nbsp; &nbsp; 在Linux内核中，ISR是用汇编写的。例如，x86_64 Linux的ISR源码位于内核源码arch/x86/kernel/entry_64.S中，X86_32的位于arch/x86/kernel/entry_32.S中。如果去读entry_64.S或者entry_32.S，你会发现这两个文件非常复杂，利用了很多的汇编宏和宏定义，无法方便地基于它们写一个自定义的ISR出来。</p>
+<p>&nbsp; &nbsp; 我的解决办法是将内核编译出来，反汇编vmlinux.o，然后查找page_fault，找到其汇编代码。下面的汇编代码就是linux-3.8.0 X86_64内核的</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #000000;">ffffffff8136f6f0 &lt;page_fault&gt;:
+</span><span style="color: #008080;"> 2</span> <span style="color: #008080;">ffffffff8136f6f0:</span>       <span style="color: #800080;">66</span> <span style="color: #800080;">66</span> <span style="color: #800080;">90</span>                data32 <span style="color: #0000ff;">xchg</span><span style="color: #000000;"> %ax,%ax
+</span><span style="color: #008080;"> 3</span> <span style="color: #008080;">ffffffff8136f6f3:</span>       ff <span style="color: #800080;">15</span> <span style="color: #800080;">07</span> <span style="color: #800080;">0a</span> 2b <span style="color: #800080;">00</span><span style="color: #000000;">       callq  *0x2b0a07(%rip)        # ffffffff81620100 &lt;pv_irq_ops+0x30&gt;
+</span><span style="color: #008080;"> 4</span> <span style="color: #008080;">ffffffff8136f6f9:</span>       <span style="color: #800080;">48</span> <span style="color: #800080;">83</span> ec <span style="color: #800080;">78</span>             <span style="color: #0000ff;">sub</span><span style="color: #000000;">    $0x78,%rsp
+</span><span style="color: #008080;"> 5</span> <span style="color: #008080;">ffffffff8136f6fd:</span>       e8 ae <span style="color: #800080;">01</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span><span style="color: #000000;">          callq  ffffffff8136f8b0 &lt;error_entry&gt;
+</span><span style="color: #008080;"> 6</span> <span style="color: #008080;">ffffffff8136f702:</span>       <span style="color: #800080;">48</span> <span style="color: #800080;">89</span> e7                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %rsp,%rdi
+</span><span style="color: #008080;"> 7</span> <span style="color: #008080;">ffffffff8136f705:</span>       <span style="color: #800080;">48</span> 8b <span style="color: #800080;">74</span> <span style="color: #800080;">24</span> <span style="color: #800080;">78</span>          <span style="color: #0000ff;">mov</span><span style="color: #000000;">    0x78(%rsp),%rsi
+</span><span style="color: #008080;"> 8</span> <span style="color: #008080;">ffffffff8136f70a:</span>       <span style="color: #800080;">48</span> c7 <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> <span style="color: #800080;">78</span><span style="color: #000000;"> ff ff    movq   $0xffffffffffffffff,0x78(%rsp)
+</span><span style="color: #008080;"> 9</span> <span style="color: #008080;">ffffffff8136f711:</span><span style="color: #000000;">       ff ff 
+</span><span style="color: #008080;">10</span> <span style="color: #008080;">ffffffff8136f713:</span>       e8 1f 2e <span style="color: #800080;">00</span> <span style="color: #800080;">00</span><span style="color: #000000;">          callq  ffffffff81372537 &lt;do_page_fault&gt;
+</span><span style="color: #008080;">11</span> <span style="color: #008080;">ffffffff8136f718:</span>       e9 <span style="color: #800080;">33</span> <span style="color: #800080;">02</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span><span style="color: #000000;">          jmpq   ffffffff8136f950 &lt;error_exit&gt;
+</span><span style="color: #008080;">12</span> <span style="color: #008080;">ffffffff8136f71d:</span>       <span style="color: #800080;">0f</span> 1f <span style="color: #800080;">00</span>                nopl   (%rax)</pre>
+</div>
+<p>我仿照着写了一个，名为my_page_fault</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> asmlinkage <span style="color: #0000ff;">void</span> my_page_fault(<span style="color: #0000ff;">void</span><span style="color: #000000;">);
+</span><span style="color: #008080;"> 2</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   .text</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;"> 3</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   .type my_page_fault,@function</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;"> 4</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">my_page_fault:</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;"> 5</span> <span style="color: #008000;">//</span><span style="color: #008000;">the first 3 bytes of the routine basically do nothing,
+</span><span style="color: #008080;"> 6</span> <span style="color: #008000;">//</span><span style="color: #008000;">but I decide to keep them because kernel may rely on them for some special purpose</span>
+<span style="color: #008080;"> 7</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   .byte 0x66</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;"> 8</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   xchg %ax, %ax</span><span style="color: #800000;">"</span><span style="color: #000000;">); 
+</span><span style="color: #008080;"> 9</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   callq *addr_adjust_exception_frame</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;">10</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   sub $0x78, %rsp</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;">11</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   callq *addr_error_entry</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;">12</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   mov %rsp, %rdi</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;">13</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   mov 0x78(%rsp), %rsi</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;">14</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   movq $0xffffffffffffffff, 0x78(%rsp)</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;">15</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   callq my_do_page_fault</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;">16</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   jmpq *addr_error_exit</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;">17</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   nopl (%rax)</span><span style="color: #800000;">"</span>);</pre>
+</div>
+<p>其中第9行addr_adjust_exception_frame是(pv_irq_ops+0x30)地址处存储的值；第11行addr_error_entry是error_entry的地址；第16行addr_error_exit是error_exit的地址。这几个值需要从System.map文件中查询，然后用内核模块参数的形式传入。而my_do_page_fault则是我们自己定义的page fault处理函数。</p>
+<p>&nbsp; &nbsp; 如果需要<a href="http://cs.usfca.edu/~cruse/cs635s03/pgfaults.c" target="_blank">截获X86_32的page fault，可以参考这个C文件</a>。不过需要注意的是，新版内核有所变动，这里的代码需要根据自己的情况做一些调整。</p>
+<p>&nbsp; &nbsp; 有了自定义的ISR之后，就可以将这个ISR填到IDT中，加载新的IDT表之后，自定义的page fault处理函数就开始发挥作用了。这个过程主要有以下几个步骤：</p>
+<ol>
+<li>用store_idt(&amp;default_idtr)保存现有的IDT寄存器值</li>
+<li>从default_idtr中读出IDT表首地址和表的大小</li>
+<li>申请一个页面</li>
+<li>将原来的idt表拷贝到新申请的页面中</li>
+<li>利用pack_gate将my_page_fault（注意不是my_do_page_fault）填入到对应的IDT项中</li>
+<li>在idtr中填写新的IDT表地址和大小，用load_idt(&amp;idtr)加载新的IDT表到当前CPU</li>
+<li>利用smp_call_function，将新的IDT表加载到其他CPU上。</li>
+</ol>
+<p>&nbsp; &nbsp; 如果想恢复原来的IDT表，则用load(&amp;default_idtr)和smp_call_function加载原来的IDT表，释放申请的页面。</p>
+<p>&nbsp; &nbsp; 读完文章之后，可以参考我的github中的代码：<a href="https://github.com/RichardUSTC/intercept-page-fault-handler">https://github.com/RichardUSTC/intercept-page-fault-handler</a></p>
+<p>&nbsp; &nbsp; 本文链接：<a href="http://www.cnblogs.com/richardustc/archive/2013/05/03/3057455.html">http://www.cnblogs.com/richardustc/archive/2013/05/03/3057455.html</a></p>

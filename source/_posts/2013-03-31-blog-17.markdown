@@ -1,0 +1,78 @@
+---
+layout: post
+title: C++中lambda的实现(2)
+date: 2013-03-31 08:03
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<p>之前写了一篇<a title="C++中lambda的实现" href="http://www.cnblogs.com/richardustc/archive/2013/03/17/2964736.html">C++中的lambda的实现(1)</a>，从汇编语言的角度来分析了一下non-mutable lambda的实现方式。这篇文章主要介绍一下mutable lambda的实现方式。<a title="C++ lambda" href="http://www.cnblogs.com/hujian/archive/2012/02/14/2350306.html">而这篇文章中有比较详细的lambda语法示例</a>。</p>
+<p>实验用gcc版本4.7.2，据说4.5以前的gcc不能支持C++11中的lambda。</p>
+<p>C++源码</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">//</span><span style="color: #008000;">lambda.cpp</span>
+<span style="color: #008080;"> 2</span> #include &lt;iostream&gt;
+<span style="color: #008080;"> 3</span> <span style="color: #0000ff;">using</span> <span style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
+</span><span style="color: #008080;"> 4</span> <span style="color: #0000ff;">int</span><span style="color: #000000;"> main(){
+</span><span style="color: #008080;"> 5</span>     <span style="color: #0000ff;">int</span><span style="color: #000000;"> a,b;
+</span><span style="color: #008080;"> 6</span>     a = <span style="color: #800080;">1</span><span style="color: #000000;">;
+</span><span style="color: #008080;"> 7</span>     b = <span style="color: #800080;">2</span><span style="color: #000000;">;
+</span><span style="color: #008080;"> 8</span>     auto f = [&amp;a, &amp;b](<span style="color: #0000ff;">int</span> c)-&gt;<span style="color: #0000ff;">int</span>{ a++; b++; <span style="color: #0000ff;">return</span> a+b+<span style="color: #000000;">c;}; //创建一个lambda表达式，'&amp;'表示a, b以引用传递，<br />                                                                //可以被修改，并且修改会反映到main中的a、b
+</span><span style="color: #008080;"> 9</span>     cout&lt;&lt;<span style="color: #800000;">"</span><span style="color: #800000;">result= </span><span style="color: #800000;">"</span>&lt;&lt;f(<span style="color: #800080;">3</span>)&lt;&lt;<span style="color: #000000;">endl;
+</span><span style="color: #008080;">10</span>     cout&lt;&lt;<span style="color: #800000;">"</span><span style="color: #800000;">a= </span><span style="color: #800000;">"</span>&lt;&lt;a&lt;&lt;<span style="color: #000000;">endl;
+</span><span style="color: #008080;">11</span>     cout&lt;&lt;<span style="color: #800000;">"</span><span style="color: #800000;">b= </span><span style="color: #800000;">"</span>&lt;&lt;b&lt;&lt;<span style="color: #000000;">endl;
+</span><span style="color: #008080;">12</span>     <span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+</span><span style="color: #008080;">13</span> }</pre>
+</div>
+<p>编译运行</p>
+<div class="cnblogs_code">
+<pre>g++ -std=c++0x lambda.cpp -<span style="color: #000000;">o lambda
+.</span>/<span style="color: #000000;">lambda
+result</span>= <span style="color: #800080;">8</span><span style="color: #000000;">
+a</span>= <span style="color: #800080;">2</span><span style="color: #000000;">
+b</span>= <span style="color: #800080;">3</span></pre>
+</div>
+<p>从结果来看，lamba表达式执行之后，a、b的值成功地被修改了。</p>
+<p>下面这一段是main函数6-8行以及f(3)对应的汇编代码，同上次分析的一样，lambda在C++中编译成一个函数。</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span>  8<span style="color: #800080;">0487ea</span>:       c7 <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> <span style="color: #800080;">10</span> <span style="color: #800080;">01</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span><span style="color: #000000;">    movl   $0x1,0x10(%esp)  # a=1
+</span><span style="color: #008080;"> 2</span>  8<span style="color: #800080;">0487f1</span>:       <span style="color: #800080;">00</span> 
+<span style="color: #008080;"> 3</span>  8<span style="color: #800080;">0487f2</span>:       c7 <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> <span style="color: #800080;">14</span> <span style="color: #800080;">02</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span><span style="color: #000000;">    movl   $0x2,0x14(%esp)  # b=2
+</span><span style="color: #008080;"> 4</span>  8<span style="color: #800080;">0487f9</span>:       <span style="color: #800080;">00</span> 
+<span style="color: #008080;"> 5</span>  8<span style="color: #800080;">0487fa</span>:       8d <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> <span style="color: #800080;">10</span>             <span style="color: #0000ff;">lea</span><span style="color: #000000;">    0x10(%esp),%eax
+</span><span style="color: #008080;"> 6</span>  8<span style="color: #800080;">0487fe</span>:       <span style="color: #800080;">89</span> <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> <span style="color: #800080;">18</span>             <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %eax,0x18(%esp)  #0x18(%ebp)（记为ref_a)中存放了a的地址
+</span><span style="color: #008080;"> 7</span>  <span style="color: #800080;">8048802</span>:       8d <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> <span style="color: #800080;">14</span>             <span style="color: #0000ff;">lea</span><span style="color: #000000;">    0x14(%esp),%eax
+</span><span style="color: #008080;"> 8</span>  <span style="color: #800080;">8048806</span>:       <span style="color: #800080;">89</span> <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> 1c             <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %eax,0x1c(%esp)  #0x1c(%ebp)（记为ref_b）中存放了b的地址
+</span><span style="color: #008080;"> 9</span>  8<span style="color: #800080;">04880a</span>:       c7 <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> <span style="color: #800080;">04</span> <span style="color: #800080;">03</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span><span style="color: #000000;">    movl   $0x3,0x4(%esp)   #将f(3)中的参数3放在栈上
+</span><span style="color: #008080;">10</span>  <span style="color: #800080;">8048811</span>:       <span style="color: #800080;">00</span> 
+<span style="color: #008080;">11</span>  <span style="color: #800080;">8048812</span>:       8d <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> <span style="color: #800080;">18</span>             <span style="color: #0000ff;">lea</span><span style="color: #000000;">    0x18(%esp),%eax
+</span><span style="color: #008080;">12</span>  <span style="color: #800080;">8048816</span>:       <span style="color: #800080;">89</span> <span style="color: #800080;">04</span> <span style="color: #800080;">24</span>                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %eax,(%esp)      #将ref_a的地址放在栈上
+</span><span style="color: #008080;">13</span>  <span style="color: #800080;">8048819</span>:       e8 8e ff ff ff          <span style="color: #0000ff;">call</span>   8<span style="color: #800080;">0487ac</span> &lt;_ZZ4mainENKUliE_clEi&gt;  #调用lambda对应的函数</pre>
+</div>
+<p>下面这一段是lambda函数所对应的汇编代码</p>
+<div class="cnblogs_code">
+<pre> 8<span style="color: #800080;">0487ac</span>:       <span style="color: #800080;">55</span>                      <span style="color: #0000ff;">push</span><span style="color: #000000;">   %ebp
+ 8</span><span style="color: #800080;">0487ad</span>:       <span style="color: #800080;">89</span> e5                   <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %esp,%ebp
+ 8</span><span style="color: #800080;">0487af</span>:       8b <span style="color: #800080;">45</span> <span style="color: #800080;">08</span>                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    0x8(%ebp),%eax         #取出上面一段汇编代码中12行所存的ref_a的地址
+ 8</span><span style="color: #800080;">0487b2</span>:       8b <span style="color: #800080;">00</span>                   <span style="color: #0000ff;">mov</span><span style="color: #000000;">    (%eax),%eax            #取出ref_a的值，也就是a的地址
+ 8</span><span style="color: #800080;">0487b4</span>:       8b <span style="color: #800080;">10</span>                   <span style="color: #0000ff;">mov</span><span style="color: #000000;">    (%eax),%edx            #取出a的值到edx
+ 8</span><span style="color: #800080;">0487b6</span>:       <span style="color: #800080;">83</span> c2 <span style="color: #800080;">01</span>                <span style="color: #0000ff;">add</span><span style="color: #000000;">    $0x1,%edx              # a++
+ 8</span><span style="color: #800080;">0487b9</span>:       <span style="color: #800080;">89</span> <span style="color: #800080;">10</span>                   <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %edx,(%eax)            #存回a，注意这个时候是存回到了main函数栈上的a里面
+ 8</span><span style="color: #800080;">0487bb</span>:       8b <span style="color: #800080;">45</span> <span style="color: #800080;">08</span>                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    0x8(%ebp),%eax         #取出ref_a的地址
+ 8</span><span style="color: #800080;">0487be</span>:       8b <span style="color: #800080;">40</span> <span style="color: #800080;">04</span>                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    0x4(%eax),%eax         #ref_a和ref_b是紧挨着存储的<br />                                                                      #这一条指令取出ref_b的值，也就是b的地址
+ 8</span><span style="color: #800080;">0487c1</span>:       8b <span style="color: #800080;">10</span>                   <span style="color: #0000ff;">mov</span><span style="color: #000000;">    (%eax),%edx            #取出b的值，放入edx
+ 8</span><span style="color: #800080;">0487c3</span>:       <span style="color: #800080;">83</span> c2 <span style="color: #800080;">01</span>                <span style="color: #0000ff;">add</span><span style="color: #000000;">    $0x1,%edx              # b++
+ 8</span><span style="color: #800080;">0487c6</span>:       <span style="color: #800080;">89</span> <span style="color: #800080;">10</span>                   <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %edx,(%eax)            #存回b
+ 8</span><span style="color: #800080;">0487c8</span>:       8b <span style="color: #800080;">45</span> <span style="color: #800080;">08</span>                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    0x8(%ebp),%eax         
+ 8</span><span style="color: #800080;">0487cb</span>:       8b <span style="color: #800080;">00</span>                   <span style="color: #0000ff;">mov</span><span style="color: #000000;">    (%eax),%eax
+ 8</span><span style="color: #800080;">0487cd</span>:       8b <span style="color: #800080;">10</span>                   <span style="color: #0000ff;">mov</span><span style="color: #000000;">    (%eax),%edx            #再取a的值，放在edx
+ 8</span><span style="color: #800080;">0487cf</span>:       8b <span style="color: #800080;">45</span> <span style="color: #800080;">08</span>                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    0x8(%ebp),%eax
+ 8</span><span style="color: #800080;">0487d2</span>:       8b <span style="color: #800080;">40</span> <span style="color: #800080;">04</span>                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    0x4(%eax),%eax
+ 8</span><span style="color: #800080;">0487d5</span>:       8b <span style="color: #800080;">00</span>                   <span style="color: #0000ff;">mov</span><span style="color: #000000;">    (%eax),%eax
+ 8</span><span style="color: #800080;">0487d7</span>:       <span style="color: #800080;">01</span> c2                   <span style="color: #0000ff;">add</span><span style="color: #000000;">    %eax,%edx              #edx = a+b
+ 8</span><span style="color: #800080;">0487d9</span>:       8b <span style="color: #800080;">45</span> <span style="color: #800080;">0c</span>                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    0xc(%ebp),%eax         #取出上一段汇编中第9行放在站上的参数3
+ 8</span><span style="color: #800080;">0487dc</span>:       <span style="color: #800080;">01</span> d0                   <span style="color: #0000ff;">add</span><span style="color: #000000;">    %edx,%eax              #eax= a+b+c，而函数返回值放在eax中
+ 8</span><span style="color: #800080;">0487de</span>:       5d                      <span style="color: #0000ff;">pop</span><span style="color: #000000;">    %ebp
+ 8</span><span style="color: #800080;">0487df</span>:       c3                      <span style="color: #0000ff;">ret</span>  </pre>
+</div>
+<p>从上面的汇编分析来看，gcc在实现mutable lambda的时候，将lambda的代码编译为函数，将capture list中的可写变量的地址通过一些手段传入到lambda实现函数中。对比之下，non-mutable的lambda则将capture list中变量的值复制一遍，再将复制出来的变量的地址通过一些手段传入lambda实现函数。</p>

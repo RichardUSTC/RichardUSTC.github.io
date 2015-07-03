@@ -1,0 +1,39 @@
+---
+layout: post
+title: C++中的函数模版
+date: 2013-03-30 14:03
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<h1>函数模版</h1>
+<p>语法结构</p>
+<div class="cnblogs_code">
+<pre>template &lt;template_parameter_list&gt;<span style="color: #000000;">
+[ inline </span>|<span style="color: #000000;"> const_expr] func_name( func_parameter_list){
+   ...
+}</span></pre>
+</div>
+<p>template_parameter_list不能为空，多个template parameter之间用','来分隔。template parameter分为两种：type parameter和nontype parameter。</p>
+<ol>
+<li>type paramter<br />语法形式 typename | class type_name<br />其中'typename'关键字和'class'关键字是等价的。推荐使用typename，因为模版适用的类型不仅仅是class，用typename表意更准确一些。</li>
+<li>nontype parameter<br />语法形式 type value_name<br />type在定义模版的时候必须指定，而value_name在模版体中作为一个常量来使用。在使用模版的时候，传进来的必须是常量表达式，比如常数、const指针或引用以及函数。</li>
+</ol>
+<p>常见的函数模版示例</p>
+<div class="cnblogs_code">
+<pre>template&lt;typename T&gt;
+<span style="color: #0000ff;">int</span> compare(<span style="color: #0000ff;">const</span> T&amp; v1, <span style="color: #0000ff;">const</span> T&amp;<span style="color: #000000;"> v2){
+    </span><span style="color: #0000ff;">if</span>(less&lt;T&gt;<span style="color: #000000;">()(v1, v2))
+        </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">1</span><span style="color: #000000;">;
+    </span><span style="color: #0000ff;">if</span>(less&lt;T&gt;<span style="color: #000000;">()(v2, v1))
+        </span><span style="color: #0000ff;">return</span> -<span style="color: #800080;">1</span><span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+}</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre>template&lt;<span style="color: #0000ff;">int</span> M, <span style="color: #0000ff;">int</span> N&gt;
+<span style="color: #0000ff;">int</span> compare(<span style="color: #0000ff;">const</span> <span style="color: #0000ff;">char</span> v1[M], <span style="color: #0000ff;">const</span> <span style="color: #0000ff;">char</span><span style="color: #000000;"> v2[N]){
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> strcmp(v1, v2);
+}</span></pre>
+</div>
+<p><strong>NOTE: </strong>定义模版的时候，应该尽可能少一些限定，以便适用面更广。</p>

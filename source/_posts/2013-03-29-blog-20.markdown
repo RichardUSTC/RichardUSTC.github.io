@@ -1,0 +1,24 @@
+---
+layout: post
+title: C++ overload、override、overwrite
+date: 2013-03-29 12:03
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<p><a title="overload、override、overwrite" href="http://blog.csdn.net/penzo/article/details/6001193">这篇文章对C++的overload、override和overwrite有一个详细的介绍</a>。</p>
+<p>Java与C++有些不同。</p>
+<p>例如，父类实现了func()和func(int x)，子类继承父类之后只实现func()。C++中，子类的对象无法调用func(int x)，而Java中，子类的对象可以调用父类的func(int x)。</p>
+<p>C++中也可以用using语句来实现类似Java的效果。</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">class</span><span style="color: #000000;"> Base{
+    </span><span style="color: #0000ff;">void</span><span style="color: #000000;"> foo(){...}
+    </span><span style="color: #0000ff;">void</span> foo(<span style="color: #0000ff;">int</span><span style="color: #000000;">){...}
+};
+
+</span><span style="color: #0000ff;">class</span> Derived:<span style="color: #0000ff;">public</span><span style="color: #000000;"> Base{
+    </span><span style="color: #0000ff;">using</span><span style="color: #000000;"> Base::foo;
+    </span><span style="color: #0000ff;">void</span><span style="color: #000000;"> foo(){...}
+};</span></pre>
+</div>
+<p>在这种情况下，Derived类的对象就可以调用Base的foo(int)函数了。</p>

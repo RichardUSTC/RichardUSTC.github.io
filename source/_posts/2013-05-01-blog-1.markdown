@@ -1,0 +1,28 @@
+---
+layout: post
+title: 利用“.byte”在嵌入式汇编中直接插入机器码
+date: 2013-05-01 03:05
+comments: true
+author: RichardUSTC
+categories: Toolchain
+---
+<p>最近做的工作需要截获page_fault异常处理，需要模仿着原来的page fault异常处理例程写一个自己的异常处理例程。这个异常处理例程有一部分是汇编代码写的。反汇编原来的内核，发现这样一条指令</p>
+<div class="cnblogs_code">
+<pre><span style="color: #800080;">66</span> <span style="color: #800080;">66</span> <span style="color: #800080;">90</span>    data32 <span style="color: #0000ff;">xchg</span> %ax, %ax</pre>
+</div>
+<p>但是在汇编中，直接用</p>
+<div class="cnblogs_code">
+<pre>asm(<span style="color: #800000;">"</span><span style="color: #800000;">data32 xchg %ax, %ax);</span></pre>
+</div>
+<p>的方式没有办法编译通过。编译器总是报告：`data32' is not supported in 64 bit system. 而直接</p>
+<div class="cnblogs_code">
+<pre>asm(<span style="color: #800000;">"</span><span style="color: #800000;">xchg %ax, %ax</span><span style="color: #800000;">"</span>);</pre>
+</div>
+<p>编译之后的汇编代码则只是66 90。</p>
+<p>尝试了不少办法，最终去追踪内核代码，发现可以用这种方式来实现</p>
+<div class="cnblogs_code">
+<pre>asm(<span style="color: #800000;">"</span><span style="color: #800000;">.byte 0x66</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+asm(</span><span style="color: #800000;">"</span><span style="color: #800000;">xchg %ax, %ax</span><span style="color: #800000;">"</span>);</pre>
+</div>
+<p>最终编译出来的代码，果然就是66 66 90。</p>
+<p>用这种方法就可以实现直接在嵌入式汇编中硬编码机器码。在某些场合，比如底层机器新增加了指令，而编译器还没有做相应的扩展，使用这种方法可以达到使用新指令的目的。</p>

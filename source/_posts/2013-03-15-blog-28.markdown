@@ -1,0 +1,42 @@
+---
+layout: post
+title: QEMU编译及使用方法
+date: 2013-03-15 05:03
+comments: true
+author: RichardUSTC
+categories: Other
+---
+<p>QEMU是一个支持跨平台虚拟化的虚拟机，有user mode和system mode两种配置方式。其中qemu在system mode配置下模拟出整个计算机，可以在qemu之上运行一个操作系统。QEMU的system mode与常见的VMware和Virtualbox等虚拟机比较相似，但是QEMU的优势是可以跨指令集。例如，VMware和Virtualbox之类的工具通常只能在x86计算机上虚拟出一个x86计算机，而QEMU支持在x86上虚拟出一个ARM计算机。qemu在user mode配置下，可以运行跟当前平台指令集不同的平台可执行程序。例如可以用qemu在x86上运行ARM的可执行程序，但是两个平台必须是同一种操作系统，比如Linux。</p>
+<p>QEMU还支持很多其他的平台，<a title="QEMU支持列表" href="http://qemu.weilnetz.de/qemu-doc.html#intro_005ffeatures" target="_blank">详细列表参见这里</a>。</p>
+<p>QEMU中有两个重要的名词host和target(guest)，其中host表示qemu程序本身运行的平台，target(guest)表示qemu虚拟出的计算机平台(system mode)或支持的可执行程序的运行平台(user mode)。</p>
+<p>下面描述一下编译和使用host为x86，target(guest)为ARM的步骤</p>
+<p>1. 下载QEMU源码</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">wget</span> http:<span style="color: #008000;">//</span><span style="color: #008000;">wiki.qemu-project.org/download/qemu-1.4.0.tar.bz2</span></pre>
+</div>
+<p>2. 解压、configure</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">tar</span> xvf qemu-<span style="color: #800080;">1.4</span>.<span style="color: #800080;">0</span>.<span style="color: #0000ff;">tar</span><span style="color: #000000;">.bz2
+cd qemu</span>-<span style="color: #800080;">1.4</span>.<span style="color: #800080;">0</span><span style="color: #000000;">
+.</span>/configure --target-list=arm-softmmu,arm-linux-user --prefix=&lt;prefix&gt;</pre>
+</div>
+<p>其中--target-list指定需要编译的target(guest)，arm-softmmu表示要编译system mode的QEMU，arm-linux-user表示要编译user mode的QEMU。</p>
+<p>如果configure提示缺少某些库的话，按照提示安装即可。</p>
+<p>3. make和安装</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">make</span> &amp;&amp; <span style="color: #0000ff;">make</span> <span style="color: #0000ff;">install</span></pre>
+</div>
+<p>编译完成之后，得到的qemu-system-arm对应的就是system mode的虚拟机，qemu-arm对应的就是user mode的模拟器。</p>
+<p>4. 使用qemu-arm</p>
+<p>使用qemu-arm的方法很简单，只需要在原来的程序执行命令之前添加qemu-arm即可。</p>
+<p><span>例如： 原来运行命令</span></p>
+<div class="cnblogs_code">
+<pre>&lt;executable&gt; &lt;arg1&gt; &lt;arg2&gt;&nbsp;...</pre>
+</div>
+<p>&nbsp;&nbsp;使用qemu-arm运行</p>
+<div class="cnblogs_code">
+<pre>qemu-arm &lt;executable&gt; &lt;arg1&gt; &lt;arg2&gt; ...</pre>
+</div>
+<p>5. 使用qemu-system-arm</p>
+<p>使用qemu-system-arm的方法相对稍微复杂。</p>
+<p>这里有一个<a href="http://www.aurel32.net/info/debian_arm_qemu.php">qemu-system-arm安装使用debian教程</a>，教程中用到的版本比较老，可以<a href="http://people.debian.org/~aurel32/qemu/armel/" target="_blank">在这里下载较新的版本</a>，安装原理是类似的。</p>

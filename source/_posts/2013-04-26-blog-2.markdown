@@ -1,0 +1,49 @@
+---
+layout: post
+title: C++嵌套类
+date: 2013-04-26 08:04
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<p>C++支持类的嵌套，其语法比较简单。代码是最好的说明。</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> #include &lt;iostream&gt;
+<span style="color: #008080;"> 2</span> <span style="color: #000000;">using namespace std;
+</span><span style="color: #008080;"> 3</span> 
+<span style="color: #008080;"> 4</span> <span style="color: #000000;">class Outter{
+</span><span style="color: #008080;"> 5</span> <span style="color: #000000;">    public:
+</span><span style="color: #008080;"> 6</span>         <span style="color: #0000ff;">int</span><span style="color: #000000;"> a;
+</span><span style="color: #008080;"> 7</span>         static <span style="color: #0000ff;">int</span><span style="color: #000000;"> s;
+</span><span style="color: #008080;"> 8</span>         <span style="color: #008000;">//</span><span style="color: #008000;">nested class and enclosing class are independent.</span>
+<span style="color: #008080;"> 9</span> <span style="color: #000000;">        class Inner{ 
+</span><span style="color: #008080;">10</span> <span style="color: #000000;">            public:
+</span><span style="color: #008080;">11</span>             <span style="color: #0000ff;">int</span><span style="color: #000000;"> b;
+</span><span style="color: #008080;">12</span>             <span style="color: #008000;">//</span><span style="color: #008000;">nested class can access static members of enclosing class</span>
+<span style="color: #008080;">13</span>             <span style="color: #0000ff;">int</span> foo(){ return b +<span style="color: #000000;"> s;}
+</span><span style="color: #008080;">14</span>             <span style="color: #0000ff;">int</span><span style="color: #000000;"> bar();
+</span><span style="color: #008080;">15</span> <span style="color: #000000;">        };
+</span><span style="color: #008080;">16</span> <span style="color: #000000;">};
+</span><span style="color: #008080;">17</span> 
+<span style="color: #008080;">18</span> <span style="color: #0000ff;">int</span> Outter::s = <span style="color: #800080;">1</span><span style="color: #000000;">;
+</span><span style="color: #008080;">19</span> <span style="color: #008000;">//</span><span style="color: #008000;">define a nested class member outside of the class declaration.</span>
+<span style="color: #008080;">20</span> <span style="color: #0000ff;">int</span><span style="color: #000000;"> Outter::Inner::bar(){
+</span><span style="color: #008080;">21</span>     return <span style="color: #800080;">0xdeadbeef</span><span style="color: #000000;">;
+</span><span style="color: #008080;">22</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">23</span> 
+<span style="color: #008080;">24</span> <span style="color: #0000ff;">int</span><span style="color: #000000;"> main(){
+</span><span style="color: #008080;">25</span> <span style="color: #000000;">    Outter o;
+</span><span style="color: #008080;">26</span>     o.a = <span style="color: #800080;">0</span><span style="color: #000000;">;
+</span><span style="color: #008080;">27</span>     <span style="color: #008000;">//</span><span style="color: #008000;">if nested class is specified as public, then everyone can use the nested class.
+</span><span style="color: #008080;">28</span>     <span style="color: #008000;">//</span><span style="color: #008000;">if nested class is specified as protected, then only the enclosing class,
+</span><span style="color: #008080;">29</span>     <span style="color: #008000;">//</span><span style="color: #008000;">friend of the enclosing class and derived class of the enclosing class can access the nested class.
+</span><span style="color: #008080;">30</span>     <span style="color: #008000;">//</span><span style="color: #008000;">if the nested class is specified as private, then only the enclosing class
+</span><span style="color: #008080;">31</span>     <span style="color: #008000;">//</span><span style="color: #008000;">and friend of the enclosing class can access the nested class.</span>
+<span style="color: #008080;">32</span> <span style="color: #000000;">    Outter::Inner i;
+</span><span style="color: #008080;">33</span>     i.b = <span style="color: #800080;">1</span><span style="color: #000000;">;
+</span><span style="color: #008080;">34</span>     cout&lt;&lt;i.foo()&lt;&lt;<span style="color: #000000;">endl;
+</span><span style="color: #008080;">35</span>     cout&lt;&lt;hex&lt;&lt;i.bar()&lt;&lt;<span style="color: #000000;">endl;
+</span><span style="color: #008080;">36</span>     return <span style="color: #800080;">0</span><span style="color: #000000;">;
+</span><span style="color: #008080;">37</span> }</pre>
+</div>
+<p>&nbsp;</p>

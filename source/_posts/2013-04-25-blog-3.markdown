@@ -1,0 +1,22 @@
+---
+layout: post
+title: 获取Linux内核未导出符号的几种方式
+date: 2013-04-25 14:04
+comments: true
+author: RichardUSTC
+categories: Kernel
+---
+<p>&nbsp; &nbsp; 从Linux内核的2.6某个版本开始，内核引入了导出符号的机制。只有在内核中使用EXPORT_SYMBOL或EXPORT_SYMBOL_GPL导出的符号才能在内核模块中直接使用。然而，内核并没有导出所有的符号。例如，在3.8.0的内核中，do_page_fault就没有被导出。</p>
+<p>&nbsp; &nbsp; 而我的内核模块中需要使用do_page_fault，那么有那些方法呢？这些方法分别有什么优劣呢？</p>
+<p>&nbsp; &nbsp; 下面以do_page_fault为例，一一进行分析：</p>
+<ol>
+<li>修改内核，添加EXPORT_SYMBOL(do_page_fault)或EXPORT_SYMBOL_GPL(do_page_fault)。<br />这种方法适用于可以修改内核的情形。在可以修改内核的情况下，这是最简单的方式。<br /><br /></li>
+<li>使用kallsyms_lookup_name读取<br />kallsyms_lookup_name本身也是一个内核符号，如果这个符号被导出了，那么就可以在内核模块中调用kallsyms_lookup_name("do_page_fault")来获得do_page_fault的符号地址。<br />这种方法的局限性在于kallsyms_lookup_name本身不一定被导出。<br /><br /></li>
+<li>读取/boot/System.map-&lt;kernel-version&gt;，再使用内核模块参数传入内核模块<br />System.map-&lt;kernel-version&gt;是编译内核时产生的，它里面记录了编译时内核符号的地址。如果能够保证当前使用的内核与System.map-&lt;kernel-version&gt;是一一对应的，那么从System.map-&lt;kernel-version&gt;中读出的符号地址就是正确的。其中，kernel-version可以通过'uname -r'获得。<br />但是这种方法也有局限性，在模块运行的时候，System.map-&lt;kernel-version&gt;文件不一定存在，即使存在也不能保证与当前内核是正确对应的。<br /><br /></li>
+<li>读取/proc/kallsyms，再使用内核模块参数传入内核模块<br />/proc/kallsyms是一个特殊的文件，它并不是存储在磁盘上的文件。这个文件只有被读取的时候，才会由内核产生内容。因为这些内容是内核动态生成的，所以可以保证其中读到的地址是正确的，不会有System.map-&lt;kernel-version&gt;的问题。<br />需要注意的是，从内核2.6.37开始，普通用户是没有办法从/proc/kallsyms中读到正确的值。在某些版本中，该文件为空。在较新的版本中，该文件中所有符号的地址均为0（除非/porc/sys/kernel/kptr_restrict 的值被设为0）。但是root用户是可以从/proc/kallsyms中读到正确的值的。好在加载模块也需要root权限，可以在加载模块时用脚本获取符号的地址。命令：<br />
+<div class="cnblogs_code">
+<pre>#<span style="color: #0000ff;">cat</span> /proc/kallsyms | <span style="color: #0000ff;">grep</span> <span style="color: #800000;">"</span><span style="color: #800000;">\&lt;do_page_fault\&gt;</span><span style="color: #800000;">"</span> | <span style="color: #0000ff;">awk</span> '<span style="color: #800000;">{print $1}'</span><span style="color: #800000;"><br /></span></pre>
+</div>
+<p>不过，根据我的实际使用经验，/proc/kallsyms中符号的数量比Systemp.map-&lt;kernel-version&gt;要少一些。</p>
+</li>
+</ol>

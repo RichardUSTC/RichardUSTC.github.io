@@ -1,0 +1,35 @@
+---
+layout: post
+title: 拷贝构造函数与拷贝赋值
+date: 2013-03-19 15:03
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<p>通常来说，需要实现析构函数的类都需要实现拷贝构造函数和拷贝赋值。如果没有实现自定义的拷贝构造用函数和拷贝赋值，那么编译器会自动实现它们。在编译器的实现里，如果成员是builtin类型，那么就直接赋值，如果是类类型的，那么就会调用类的相应函数来实现。特别要注意的是，如果是指针，那么只拷贝指针的值，即使是类指针类型也不例外。这就是所谓的浅拷贝。这里有一篇文章<a href="http://www.learncpp.com/cpp-tutorial/912-shallow-vs-deep-copying/" target="_blank">Shallow vs. deep copying</a>介绍地更详细。</p>
+<h1>拷贝构造函数</h1>
+<h2>拷贝构造函数的形式</h2>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">class</span><span style="color: #000000;"> Foo{<br />    Foo();
+    Foo(</span><span style="color: #0000ff;">const</span> Foo&amp;<span style="color: #000000;">);
+};</span></pre>
+</div>
+<p>&nbsp;拷贝构造函数的参数一般是const限定的引用，也可以使用非const限定的引用（后果如何我尚未弄明白）。</p>
+<h2>拷贝构造函数使用的场景</h2>
+<p>1. 声明的同时用另一个同类型对象定义。如：Foo a=Foo();这里的'='就使用拷贝构造函数。</p>
+<p>2.以非引用的方式传递参数</p>
+<p>3.以非引用的方式返回返回值</p>
+<p>4.以花括号形式初始化对象数组或者给<a href="http://en.wikipedia.org/wiki/C%2B%2B_classes#Aggregate_classes" target="_blank">aggregate class</a>的成员初始化。</p>
+<h2>禁止拷贝</h2>
+<p>如果设置拷贝构造函数为私有函数，那么外部类就无法实现此类对象的复制了。另外可以声明拷贝构造函数，但是不实现。那么试图拷贝该类的对象时，编译器会报错。</p>
+<h1>赋值拷贝</h1>
+<p>实现赋值拷贝就是实现参数形式为const限定的类引用的&lsquo;=&rsquo;的重载。</p>
+<p>示例</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">class</span><span style="color: #000000;"> Foo{
+    Foo </span>&amp; <span style="color: #0000ff;">operator</span>=(<span style="color: #0000ff;">const</span> Foo &amp;<span style="color: #000000;">f);
+};</span></pre>
+</div>
+<p>示例中，返回值是左值的引用，如果设置返回值为void，那么就会阻止串联赋值（a=b=c）。一般应该返回左值的引用。</p>
+<h1>小结</h1>
+<p>不得不说，C++的语法细节太多，编译器常常在背后自动做了不少事情，很容易让程序员误入陷阱。相比之下，Java在语法这一块就简洁明晰很多了。</p>

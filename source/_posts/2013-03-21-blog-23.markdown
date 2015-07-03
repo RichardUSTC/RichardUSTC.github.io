@@ -1,0 +1,31 @@
+---
+layout: post
+title: gcc -save-temps选项
+date: 2013-03-21 09:03
+comments: true
+author: RichardUSTC
+categories: Toolchain
+---
+<p>在很多开源项目中，作者喜欢用宏定义以及预处理中的拼接技术来生成一些函数。比如，在QEMU的源码中就使用这种方式来定义函数</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">//  file1<br />#define</span> xglue(x, y) x ## y
+<span style="color: #0000ff;">#define</span> glue(x, y) xglue(x, y)<br />//  file2
+<span style="color: #0000ff;">#define</span> HELPER(name) glue(helper_, name)<br />//  file3<br /><span style="color: #000000;">uint32_t HELPER(clz)(uint32_t x)
+{
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> clz32(x);
+}</span></pre>
+</div>
+<p>其实最终的效果就是定义了</p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">uint32_t helper_clz(uint32_t x)
+{
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> clz32(x);
+}</span></pre>
+</div>
+<p>这种办法给项目的作者减少了一些重复书写的过程，但是却给阅读代码的人带来了很大的障碍。</p>
+<p>为了解决这个问题，可以输出预处理之后的源码，方便阅读的过程中进行分析。gcc提供了一个选项-save-temps，可以保存编译过程中的中间文件，这里面就包括了预处理之后的源码。</p>
+<p>在阅读QEMU代码的时候，可以在configure的过程中加入这个选项，比如</p>
+<div class="cnblogs_code">
+<pre>./configure --target-list=arm-softmmu --extra-cflags=-save-temps</pre>
+</div>
+<p>由于QEMU支持的平台很多，target-list指定多个目标可能会多次编译，后生成的中间文件可能会覆盖之前生成的，所以建议每次只添加一个目标。</p>

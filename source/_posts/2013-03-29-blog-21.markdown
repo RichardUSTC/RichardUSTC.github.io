@@ -1,0 +1,27 @@
+---
+layout: post
+title: C++继承
+date: 2013-03-29 10:03
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<p>1. C++继承语法</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">class</span> Derived [: [<span style="color: #0000ff;">private</span>|<span style="color: #0000ff;">protected</span>|<span style="color: #0000ff;">public</span>] Base1, ...]</pre>
+</div>
+<p>如果没有指定private、protected或public，则默认是private继承。如果是用struct来定义类，那么默认就是public继承。</p>
+<p>使用这里的private、protected和public是用来控制Derived类的对象和子类对Base1等父类的成员的访问，而Derived类内部对与Base1等父类的成员的访问则只受父类的控制。</p>
+<p>2. C++支持多重继承，但是这样容易出现菱形继承，容易产生歧义。<a title="菱形继承" href="http://blog.csdn.net/icerlion/article/details/4409618" target="_blank">关于菱形继承，这一有一篇文章可以参考</a>。</p>
+<p>3. C++中，子类的构造函数应该调用父类的构造函数来完成从父类继承的成员的初始化。语法</p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">Derived(base_x, derived_y):Base(x), y(derived_y){
+    ...
+}</span></pre>
+</div>
+<p>推荐使用父类的构造函数来初始化父类成员，即使有些情况下，父类的成员子类都可以访问，能在子类的构造函数函数体内部初始化。</p>
+<p>4. C++中，推荐将父类和子类的析构函数设置为virtual函数，这样使用指针和引用的时候程序能够自动地找到正确的析构函数去执行。</p>
+<p>5. 父类中定义了类静态变量，子类继承父类之后和父类使用同一个静态变量。</p>
+<p>6. 只有使用public限定的继承才能实现子到父的类型转换。</p>
+<p>7. 父类的友元不能直接访问子类的private成员，子类的友元也不能访问父类的private成员。</p>
+<p>&nbsp;</p>

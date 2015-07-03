@@ -1,0 +1,57 @@
+---
+layout: post
+title: C++虚继承
+date: 2013-04-21 08:04
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<p>C++中支持多重继承，但是菱形继承会带来一些问题。</p>
+<p>比如D1和D2继承了B，而D又同时继承了D1和D2</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> B{
+</span><span style="color: #008080;"> 2</span>     <span style="color: #0000ff;">public</span><span style="color: #000000;">:
+</span><span style="color: #008080;"> 3</span>     <span style="color: #0000ff;">int</span><span style="color: #000000;"> x;
+</span><span style="color: #008080;"> 4</span> <span style="color: #000000;">};
+</span><span style="color: #008080;"> 5</span> 
+<span style="color: #008080;"> 6</span> <span style="color: #0000ff;">class</span> D1:<span style="color: #0000ff;">public</span><span style="color: #000000;"> B{
+</span><span style="color: #008080;"> 7</span> <span style="color: #000000;">};
+</span><span style="color: #008080;"> 8</span> 
+<span style="color: #008080;"> 9</span> <span style="color: #0000ff;">class</span> D2:<span style="color: #0000ff;">public</span><span style="color: #000000;"> B{
+</span><span style="color: #008080;">10</span> <span style="color: #000000;">};
+</span><span style="color: #008080;">11</span> 
+<span style="color: #008080;">12</span> <span style="color: #0000ff;">class</span> D:<span style="color: #0000ff;">public</span> D1, <span style="color: #0000ff;">public</span><span style="color: #000000;"> D2{
+</span><span style="color: #008080;">13</span> };</pre>
+</div>
+<p>如果初始化一个D的对象，访问x就会产生歧义，因为D里面包含D1和D2的成员，而D1和D2各自有一份继承自B的x，编译器此时不知道该访问哪个x。</p>
+<p>而虚继承能够保证菱形继承中，父类B的成员只出现一次，避免这种歧义。</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #0000ff;">class</span> D1:<span style="color: #0000ff;">virtual</span> <span style="color: #0000ff;">public</span><span style="color: #000000;"> B{
+</span><span style="color: #008080;">2</span> <span style="color: #000000;">};
+</span><span style="color: #008080;">3</span> 
+<span style="color: #008080;">4</span> <span style="color: #0000ff;">class</span> D2:<span style="color: #0000ff;">public</span> <span style="color: #0000ff;">virtual</span><span style="color: #000000;"> B{
+</span><span style="color: #008080;">5</span> };</pre>
+</div>
+<p>注意：上面代码中第1行和第4行的两种写法都是可以的。</p>
+<p>虚继承关键字写在D1和D2的继承列表上，但却对D1和D2没有影响，而是影响继承D1和D2的D。</p>
+<p>但是虚继承也无法解决所有的歧义，比如：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> B{
+</span><span style="color: #008080;"> 2</span>     <span style="color: #0000ff;">public</span><span style="color: #000000;">:
+</span><span style="color: #008080;"> 3</span>         <span style="color: #0000ff;">int</span><span style="color: #000000;"> x;
+</span><span style="color: #008080;"> 4</span> <span style="color: #000000;">};
+</span><span style="color: #008080;"> 5</span> 
+<span style="color: #008080;"> 6</span> <span style="color: #0000ff;">class</span> D1:<span style="color: #0000ff;">virtual</span> <span style="color: #0000ff;">public</span><span style="color: #000000;"> B{
+</span><span style="color: #008080;"> 7</span>     <span style="color: #0000ff;">public</span><span style="color: #000000;">:
+</span><span style="color: #008080;"> 8</span>         <span style="color: #0000ff;">int</span><span style="color: #000000;"> x;
+</span><span style="color: #008080;"> 9</span> <span style="color: #000000;">};
+</span><span style="color: #008080;">10</span> 
+<span style="color: #008080;">11</span> <span style="color: #0000ff;">class</span> D2:<span style="color: #0000ff;">public</span> <span style="color: #0000ff;">virtual</span><span style="color: #000000;"> B{
+</span><span style="color: #008080;">12</span>     <span style="color: #0000ff;">public</span><span style="color: #000000;">:
+</span><span style="color: #008080;">13</span>         <span style="color: #0000ff;">int</span><span style="color: #000000;"> x;
+</span><span style="color: #008080;">14</span> <span style="color: #000000;">};
+</span><span style="color: #008080;">15</span> 
+<span style="color: #008080;">16</span> <span style="color: #0000ff;">class</span> D:<span style="color: #0000ff;">public</span> D1, <span style="color: #0000ff;">public</span><span style="color: #000000;"> D2{
+</span><span style="color: #008080;">17</span> };</pre>
+</div>
+<p>在这种情况下，即使使用了虚继承，创建D的对象访问x的时候仍然会发生歧义。</p>

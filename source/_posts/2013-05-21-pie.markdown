@@ -1,0 +1,54 @@
+---
+layout: post
+title: "-pie和-fPIE选项"
+date: 2013-05-21 20:49
+comments: true
+categories: Toolchain
+---
+位置无关可执行程序是一种比较有趣的程序。这种程序像动态库一样，可以自由加载到内存中任意合适的位置执行。
+
+linux下，最著名的位置无关可执行程序就是`/lib/ld-linux.so.2`(32位Linux)或`/lib64/ld-linux-x86-64.so.2`(64位x86 Linux)了。以64位x86机器为例，所有的64位动态连接程序都依赖`/lib64/ld-linux-x86-64.so.2`, 而`/lib64/ld-linux-x86-64.so.2`本身也是一个可执行程序。
+```bash
+$ /lib64/ld-linux-x86-64.so.2 
+Usage: ld.so [OPTION]... EXECUTABLE-FILE [ARGS-FOR-PROGRAM...]
+...
+```
+
+要使用gcc编译出位置无关可执行程序，必须使用-pie和-fPIE选项。其中，-fPIE选项用于编译器，使用这个选项之后，从.c或.cpp编译出来的.o文件将是位置无关的目标文件。而-pie选项则用于链接器，使用这个选项之后，链接器能够把-fPIE选项下编译出来的.o文件链接成位置无关可执行程序。
+
+下面是一个简单的示例。
+`hello.c`源文件：
+```c hello.c
+#include <stdio.h>
+
+void print_hello(void){
+    printf("Hello.\n");
+}
+int main(int argc, char *argv[]) {
+    print_hello();
+	return 0;
+}
+```
+
+编译`hello.c`源文件：
+```bash
+gcc -fPIE -pie hello.c -o hello_pie
+gcc hello.c -o hello
+```
+
+运行`hello`和`hello_pie`：
+```bash
+$ ./hello_pie 
+Hello.
+$ ./hello
+Hello.
+```
+
+利用file命令查看`hello`和`hello_pie`：
+```bash
+$ file hello_pie 
+hello_pie: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.18, not stripped
+$ file hello
+hello: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.18, not stripped
+```
+可以看出`hello_pie`是"shared object"，而`hello`是"executable"。

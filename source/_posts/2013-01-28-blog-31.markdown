@@ -1,0 +1,61 @@
+---
+layout: post
+title: C++中命名强制类型转换
+date: 2013-01-28 14:01
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<p>在C++中有四种命名强制类型转换：const_cast、static_cast、dynamic_cast和reinterpret_cast。<a title="static_cast、dynamic_cast reinterpret_cast和const_cast" href="http://blog.sina.com.cn/s/blog_4a84e45b0100f57m.html" target="_blank">这篇文章</a>对C++中的强制类型转换讲得比较清楚。</p>
+<p>1. const_cast</p>
+<p>&nbsp; &nbsp; const_cast用于将const类型转换为非const类型，例如：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">const</span> <span style="color: #0000ff;">char</span> *str = <span style="color: #800000;">"</span><span style="color: #800000;">hello</span><span style="color: #800000;">"</span><span style="color: #000000;">;
+</span><span style="color: #0000ff;">char</span> *p = const_cast&lt;<span style="color: #0000ff;">char</span> *&gt;(str);</pre>
+</div>
+<p>2. static_cast和dynamic_cast</p>
+<p>&nbsp; &nbsp; 这两种cast功能相似，但是static_cast没有动态检查的功能，而dynamic_cast有动态检查的功能。</p>
+<p>3. reinterprete_cast</p>
+<p>&nbsp; &nbsp; 例子：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">int</span><span style="color: #000000;"> a;
+</span><span style="color: #0000ff;">char</span> *c = reinterpret_cast&lt;<span style="color: #0000ff;">char</span> *&gt;(a);</pre>
+</div>
+<p>4. 一个小例子的分析</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">class</span><span style="color: #000000;"> A{
+    </span><span style="color: #0000ff;">int</span><span style="color: #000000;"> a;
+</span><span style="color: #0000ff;">public</span><span style="color: #000000;">:
+    A(){
+        a </span>= <span style="color: #800080;">0</span><span style="color: #000000;">;
+    }
+};
+</span><span style="color: #0000ff;">class</span> AA:<span style="color: #0000ff;">public</span><span style="color: #000000;"> A{
+    </span><span style="color: #0000ff;">int</span><span style="color: #000000;"> aa;
+</span><span style="color: #0000ff;">public</span><span style="color: #000000;">:
+    AA(){
+        aa </span>= <span style="color: #800080;">0</span><span style="color: #000000;">;
+    }
+    </span><span style="color: #0000ff;">virtual</span> <span style="color: #0000ff;">int</span><span style="color: #000000;"> get_aa(){ //如果没有这个虚函数，那么下面的dynamic_cast无法编译通过
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> aa;
+    }
+};
+</span><span style="color: #0000ff;">class</span><span style="color: #000000;"> B{
+    </span><span style="color: #0000ff;">int</span><span style="color: #000000;"> b;
+</span><span style="color: #0000ff;">public</span><span style="color: #000000;">:
+    B(){
+        b </span>= <span style="color: #800080;">0</span><span style="color: #000000;">;
+    }
+};
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> main(){
+    A </span>*<span style="color: #000000;">x;
+    AA </span>*<span style="color: #000000;">y;
+    B </span>*<span style="color: #000000;">z;
+    static_cast</span>&lt;A *&gt;<span style="color: #000000;">(y);  //向上转换
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">static_cast&lt;B *&gt;(y); //无法编译通过</span>
+    dynamic_cast&lt;B *&gt;<span style="color: #000000;">(y); //运行时转换的结果是NULL
+    reinterpret_cast</span>&lt;B *&gt;<span style="color: #000000;">(x); //reinterpret_cast比较粗暴
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+}</span></pre>
+</div>
+<p>&nbsp;设计得当的话，强制类型转换是可以避免的。应当尽量不要使用强制类型转换。</p>

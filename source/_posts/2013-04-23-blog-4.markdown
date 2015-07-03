@@ -1,0 +1,54 @@
+---
+layout: post
+title: 使用ioctl“实现”自定义的系统调用
+date: 2013-04-23 08:04
+comments: true
+author: RichardUSTC
+categories: Kernel
+---
+<p>最近做的项目跟Linux内核的关系比较大，我们的项目需要在用户态触发一些内核态的代码运行。众所周知，内核态的代码是不能直接被用户态代码调用的，用户态代码触发内核态代码的必须要经过系统调用。</p>
+<h1>为什么选择ioctl</h1>
+<p>那么该如何实现我们的需求呢？有几种方法：</p>
+<ol>
+<li>改写内核，扩大系统调用表，添加新的系统调用</li>
+<li>利用内核模块，覆盖没被使用或这使用频率很低的一个系统调用的处理函数</li>
+<li>利用已有的系统调用，比如ioctl，来&ldquo;实现&rdquo;自定义的系统调用。</li>
+</ol>
+<p>第一种方法需要修改内核，适用面比较窄；第二种方法hack意味很浓，没有被使用的系统调用号有限，不同模块可能都使用这种机制，可能会产生冲突。最终我们选择了第三种方法。下面将一一道来。</p>
+<p>ioctl系统调用是用户态控制设备的接口，其用户态原型为</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">int</span> ioctl(<span style="color: #0000ff;">int</span> d, <span style="color: #0000ff;">int</span> request, ...)</pre>
+</div>
+<p>第一个参数是打开的设备文件的文件描述符，通常是open系统调用的返回值；第二个参数request是可以自定义的请求号；第三个参数可以是一个指针，指向一段用户态内存，用来传递参数，也可以是一个整形数据。函数原型中的'...'并非表示ioctl是可变参数函数，只是为了告诉编译器不要检查第三个参数。</p>
+<p>在较新内核中，ioctl的内核态原型为unlock_ioctl</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">long</span> unlocked_ioctl(<span style="color: #0000ff;">struct</span> file *file, unsigned <span style="color: #0000ff;">int</span> request, unsigned <span style="color: #0000ff;">long</span> arg);</pre>
+</div>
+<p>这个原型可以在struct file_operation的定义中找到，还有一个compat_ioctl，用于内核为64位，用户空间为32位的情形，跟我们的需求关系不大。</p>
+<p>传入的request和arg就来自于ioctl系统调用的第二个和第三个参数。在内核态中，可以根据request的值，来调用约定的函数，&ldquo;实现&rdquo;自定义的系统调用。</p>
+<p>需要注意的是，request的值并不是可以随随便便自定义的，需要遵循一些规则，可以参考《<a href="http://oss.org.cn/kernel-book/ldd3/ch06.html#ChoosingtheioctlCommands.sect2" target="_blank">选择ioctl命令</a>》（注意它用的ioctl的原型是老内核的）。</p>
+<p>ioctl是用来操作设备的，因此我们需要一个虚拟的设备，以便ioctl能够工作。</p>
+<h1>如何实现</h1>
+<p>实现虚拟设备需要通过内核模块来实现。<a href="http://blog.csdn.net/alexmahone_xie/article/details/6118881" target="_blank">这篇文章写了如何写一个入门的内核模块</a>。</p>
+<ol>
+<li>在内核模块初始化代码中<ol>
+<li>用alloc_chrdev_region申请一个设备号</li>
+<li>初始化一个struct file_operations类型的全局变量，将open、close、unlocked_ioctl等成员赋值为我们实现的函数。</li>
+<li>利用cdev_add将设备号与file_operations关联起来</li>
+<li>用class_create创建一个设备类</li>
+<li>用device_create创建一个虚拟设备</li>
+</ol></li>
+<li>在内核模块销毁代码中<ol>
+<li>用cdev_del解除设备号与设备操作之间的关联</li>
+<li>用device_destroy销毁设备</li>
+<li>用class_destroy销毁设备类</li>
+<li>用unregister_chrdev_region释放设备号。</li>
+</ol></li>
+<li>在自定义的unlocked_ioctl中<ol>
+<li>通过switch-case，根据request号进入某个case</li>
+<li>如果目标函数没有参数，那么直接调用即可</li>
+<li>如果要传递给目标函数的参数直接存储在arg中，则直接读取arg再调用即可。</li>
+<li>如果要传递给目标函数的参数是arg所指向的一段用户态内存，则需要从用户态拷贝到内核态。较少的数据可以用get_user和put_user来读写，较多的数据可以用copy_from_user和copy_to_user来读写。准备好参数之后，调用目标函数。</li>
+</ol></li>
+</ol>
+<p>编写字符设备驱动可以参考<a href="http://oreilly.com/openbook/linuxdrive3/book/">《Linux Device Driver》</a>，网络上也有大量的教程，在此不再赘述。</p>

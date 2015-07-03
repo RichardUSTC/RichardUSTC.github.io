@@ -1,0 +1,46 @@
+---
+layout: post
+title: C++类成员指针
+date: 2013-04-23 04:04
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<p>类成员指针用法：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> #include &lt;iostream&gt;
+<span style="color: #008080;"> 2</span> <span style="color: #0000ff;">using</span> <span style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
+</span><span style="color: #008080;"> 3</span> 
+<span style="color: #008080;"> 4</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> Test{
+</span><span style="color: #008080;"> 5</span>     <span style="color: #0000ff;">public</span><span style="color: #000000;">:
+</span><span style="color: #008080;"> 6</span>         <span style="color: #0000ff;">static</span> <span style="color: #0000ff;">int</span> x; <span style="color: #008000;">//</span><span style="color: #008000;">static member</span>
+<span style="color: #008080;"> 7</span>         <span style="color: #0000ff;">int</span><span style="color: #000000;"> y;
+</span><span style="color: #008080;"> 8</span>         <span style="color: #0000ff;">int</span> foo(<span style="color: #0000ff;">int</span><span style="color: #000000;"> i){
+</span><span style="color: #008080;"> 9</span>             <span style="color: #0000ff;">return</span><span style="color: #000000;"> i;
+</span><span style="color: #008080;">10</span> <span style="color: #000000;">        }
+</span><span style="color: #008080;">11</span>         <span style="color: #0000ff;">int</span> Test::*<span style="color: #000000;"> get_y_ptr(){
+</span><span style="color: #008080;">12</span>             <span style="color: #0000ff;">return</span> &amp;<span style="color: #000000;">Test::y;
+</span><span style="color: #008080;">13</span> <span style="color: #000000;">        }
+</span><span style="color: #008080;">14</span> <span style="color: #000000;">};
+</span><span style="color: #008080;">15</span> <span style="color: #0000ff;">int</span> Test::x = <span style="color: #800080;">0</span><span style="color: #000000;">;
+</span><span style="color: #008080;">16</span> 
+<span style="color: #008080;">17</span> <span style="color: #0000ff;">int</span><span style="color: #000000;"> main(){
+</span><span style="color: #008080;">18</span>     cout&lt;&lt;hex&lt;&lt;&amp;(Test::x)&lt;&lt;endl; <span style="color: #008000;">//</span><span style="color: #008000;">we can get address of static member directly</span>
+<span style="color: #008080;">19</span> <span style="color: #000000;">    Test t;
+</span><span style="color: #008080;">20</span>     Test * pt = &amp;<span style="color: #000000;">t;
+</span><span style="color: #008080;">21</span>     t.y = <span style="color: #800080;">0xdeadbeef</span><span style="color: #000000;">;
+</span><span style="color: #008080;">22</span>     <span style="color: #0000ff;">int</span> Test::* p1 = &amp;Test::y; <span style="color: #008000;">//</span><span style="color: #008000;">get member pointer of x</span>
+<span style="color: #008080;">23</span>     cout&lt;&lt;hex&lt;&lt;t.*p1&lt;&lt;<span style="color: #000000;">endl;
+</span><span style="color: #008080;">24</span>     cout&lt;&lt;hex&lt;&lt;pt-&gt;*p1&lt;&lt;<span style="color: #000000;">endl;
+</span><span style="color: #008080;">25</span> 
+<span style="color: #008080;">26</span>     <span style="color: #0000ff;">int</span> Test::* p2 = t.get_y_ptr(); <span style="color: #008000;">//</span><span style="color: #008000;">get member pointer through function call</span>
+<span style="color: #008080;">27</span>     cout&lt;&lt;hex&lt;&lt;t.*p2&lt;&lt;<span style="color: #000000;">endl;
+</span><span style="color: #008080;">28</span>     cout&lt;&lt;hex&lt;&lt;pt-&gt;*p2&lt;&lt;<span style="color: #000000;">endl;
+</span><span style="color: #008080;">29</span> 
+<span style="color: #008080;">30</span>     <span style="color: #0000ff;">int</span> (Test::*func)(<span style="color: #0000ff;">int</span>) = &amp;Test::foo; <span style="color: #008000;">//</span><span style="color: #008000;">get member pointer of member function. pay attention to the position of '*'</span>
+<span style="color: #008080;">31</span>     cout&lt;&lt;(t.*func)(<span style="color: #800080;">0</span>)&lt;&lt;endl;   <span style="color: #008000;">//</span><span style="color: #008000;"> '()' around 't.*func' is essential</span>
+<span style="color: #008080;">32</span>     cout&lt;&lt;(pt-&gt;*func)(<span style="color: #800080;">0</span>)&lt;&lt;endl;  <span style="color: #008000;">//</span><span style="color: #008000;"> so is this case</span>
+<span style="color: #008080;">33</span>     <span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+</span><span style="color: #008080;">34</span> }</pre>
+</div>
+<p>估计成员指针中存放的是该成员在对象中的相对偏移。</p>

@@ -1,0 +1,20 @@
+---
+layout: post
+title: --build、--host和--target选项
+date: 2013-03-13 13:03
+comments: true
+author: RichardUSTC
+categories: Toolchain
+---
+<p>在交叉编译configure时，通常会需要设置--build、--host和--target选项。各个选项的含义如下：</p>
+<p>--build：编译所用的机器的平台。</p>
+<p>--host：编译出的代码运行的平台。</p>
+<p>--target：编译出来的工具链生成的代码的运行平台。这个选项不常用，一般只在编译gcc、ld等工具链的过程中用到。</p>
+<p>在不涉及到交叉编译的时候，--build、--host、--target是一样的，不需要特别设置。交叉编译的时候，比如需要在x86平台编译arm程序，就需要设置--build和--host选项。</p>
+<p>通常，本机上的gcc、ld等工具是没有前缀的，这个时候--build可以设置为空。交叉编译工具链通常都有一个前缀，比如arm-unknown-linux-gnueabi-gcc，这个时候，--host就要设置为arm-unknown-linux-gnueabi。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:cpp;gutter:false;">Example:
+./configure --build='' --host=arm-unknown-gnueabi
+</pre>
+</div>
+<p>这篇文章<a title="Configure with --host, --target and --build options" href="http://jingfenghanmax.blogspot.in/2010/09/configure-with-host-target-and-build.html" target="_blank">Configure with --host, --target and --build options</a>有更多的示例</p>

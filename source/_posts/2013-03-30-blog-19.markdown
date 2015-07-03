@@ -1,0 +1,18 @@
+---
+layout: post
+title: C++中的虚函数(2)
+date: 2013-03-30 13:03
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<p>C++中有一种特殊的虚函数&mdash;&mdash;纯虚函数。语法示例</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">class</span><span style="color: #000000;"> Foo{
+    ...
+    </span><span style="color: #0000ff;">virtual</span> <span style="color: #0000ff;">void</span> foo()=<span style="color: #800080;">0</span><span style="color: #000000;">;
+    ...
+};</span></pre>
+</div>
+<p>当一个类中包含纯虚函数的时候，就称该类为抽象类，不能生成该类的实例。如果子类继承了包含抽象父类，override了父类的所有的纯虚函数，那么就可以生成子类的实例了，否则子类也是抽象类。</p>
+<p>&nbsp;</p>

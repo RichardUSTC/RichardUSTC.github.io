@@ -1,0 +1,42 @@
+---
+layout: post
+title: 页表自映射
+date: 2013-04-12 04:04
+comments: true
+author: RichardUSTC
+categories: Kernel
+---
+<p>今天查找页表映射资料时，无意发现一个有趣的概念，就是页表自映射。</p>
+<p>页目录基址记为PDT，页目录项记为PDE，页表项记为PTE。BITS(m,n,value)表示取value从高m位到高n位的值。</p>
+<p><a href="http://book.51cto.com/art/201006/203595.htm" target="_blank">这篇文章介绍了一个32位虚拟地址x的转换成物理地址过程。</a></p>
+<p>32位系统下，所有的PTE所占的空间刚好是4MB。如果将这些PTE连续地放在内存中，那么这4MB内存空间对应的PTE（称为PTE的PTE）刚好在一个4KB页中，而这个4KB在页目录表中刚好也占一项。</p>
+<p>如果再合理地设置4MB页表的地址，那么就可以使得PTE的PTE所占的4KB的内容与PDE所占的4KB的内容完全相同。这样一来，可以就可以将页目录表也作为一个页表，这也意味着，页目录表中有一项会指向自己。</p>
+<p>页目录表本身占用4KB，所以它也刚好对应了一个PTE。而从前面的设置可以知道页目录表本身也是一个页表，那么指向页目录表的那个PTE必然也在页目录表当中。页目录表基址经过两级页表转换之后仍然可以转换成自己的物理地址，所以页目录表基地址的对应的PDE指向自己，对应的PTE也指向自己。</p>
+<p>符合上面的要求的一个实例：<span>将页表安排在0xc0000000~0xc0400000，页目录安排在0xc0300000~0xc0301000。</span></p>
+<p><span>按照上面的设置，可以如下两个效果：</span></p>
+<p><span style="line-height: 1.5;">1. 通过一个页的PTE(xPTE)的虚地址v_pte，可以直接得到该页的虚地址为(v_pte&lt;&lt;10)</span></p>
+<p><span style="line-height: 1.5;">2. 通过一个页表的PDE(xPDE)的虚地址v_pde，可以直接得到该页表所在页的虚地址为( v_pde&lt;&lt;10)</span></p>
+<p>&nbsp;</p>
+<p><span style="line-height: 1.5;">下面来解释一下为什么：</span></p>
+<p><span style="line-height: 1.5;">1.1 首先看看v_pte自己转换成物理地址的过程</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 1.1.1 v_pte取出BITS(31,22)在页目录表中查找，根据上面的设置，找到的PDE项刚好指向页目录表</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 1.1.2 再取出BITS(21,12)，在页目录表（此时页目录表也作为一个页表）中查找，找到的PTE项指向xPTE所在的页表</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 1.1.3 再计算页内偏移，找到了xPTE的物理地址</span></p>
+<p><span style="line-height: 1.5;">1.2 再来看看(v_pte&lt;&lt;10)转换成物理地址的过程</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 1.2.1&nbsp;(v_pte&lt;&lt;10)取出BITS(31,22)（即v_pte的BITS(21,12)）在页目录表中查找，根据上面的巧妙设置，相当于1.1.2的过程，取到的PDE项指向xPTE所在的页表<br /></span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 1.2.2 (v_pte&lt;&lt;10)取出BITS(21,12)（即v_pte的BITS（11, 2）在xPTE所在页表查找，找到的刚好是xPTE这个PTE</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 1.2.3 xPTE指向的页面的物理地址加上(v_pte&lt;&lt;10)的低12位（低12位为全0）就是(v_pte&lt;&lt;10)的物理地址。也就是说(v_pte&lt;&lt;10)对应的物理地址刚好就是xPTE指向的页面的物理地址，反过来，也就是说(v_pte&lt;&lt;10)就是这个页面的虚地址。</span></p>
+<p>&nbsp;</p>
+<p><span style="line-height: 1.5;">2.1 首先看看xPDE自己的虚地址如何转换成物理地址</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; v_pde的BITS(31,12)刚好就等于页目录表基址，按照页目录表和页表位置的安排，有</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 2.1.1 v_pde取出BITS(31,22)，找到的PDE指向页目录表本身</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 2.1.2 v_pde取出BITS(21,12)，找到的PTE也指向页目录表本身</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 2.1.3 v_pde取出BITS(11,0)作为偏移，加上页目录表的物理地址，得到v_pde的物理地址</span></p>
+<p><span style="line-height: 1.5;">2.2 再来看看(v_pde&lt;&lt;10)的虚地址如何转换成物理地址</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 2.2.1&nbsp;(v_pde&lt;&lt;10)取出BITS(31,22)，也就是v_pde的BITS(21,12)，在页目录表中查找，找到的PDE指向页目录表本身，这一步相当于2.1.2</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 2.2.2&nbsp;(v_pde&lt;&lt;10)取出BITS(21,12)，也就是v_pde的BITS(11, 2)，仍在页目录表中查找，找到的就是xPDE所指向的页表的物理地址</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 2.2.3&nbsp;(v_pde&lt;&lt;10)的BITS(11,0)为全0，所以转换出来的物理地址等于xPDE所指向的页表的物理地址。(v_pde&lt;&lt;10)的物理地址等于xPDE所指向的页表的物理地址，反过来看，(v_pde&lt;&lt;10)就是xPDE所指向的页表的虚地址。</span></p>
+<p>&nbsp;</p>
+<p>参考资料：</p>
+<p><a href="http://blog.csdn.net/panaimin/article/details/5918359" target="_blank">潘爱民老师讲自映射页表的文章</a></p>
+<p><a href="http://blog.csdn.net/dog250/article/details/5302756">linux的页表为什么没有实现自映射</a></p>

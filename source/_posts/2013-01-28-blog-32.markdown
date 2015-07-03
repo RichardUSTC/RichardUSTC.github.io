@@ -1,0 +1,39 @@
+---
+layout: post
+title: C++中的new和delete
+date: 2013-01-28 13:01
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<p>1. new用于动态创建对象。一般用法:</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:cpp;gutter:false;">int *i = new int(128);
+ClassX * c = new ClassX;
+</pre>
+</div>
+<p>如果new的时候没有指定初始化参数，那么会调用默认构造函数来完成对象初始化。</p>
+<p>2. new也可以用于创建动态数组。</p>
+<p>一般用法：</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:cpp;gutter:false;">ClassX [] array = new ClassX[10];</pre>
+</div>
+<p>3. new可以用于创建动态的const对象：</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:cpp;gutter:false;">const ClassX * p = new const ClassX;</pre>
+</div>
+<p>4. delete用于释放new创建的对象。一般用法：</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:cpp;gutter:false;">delete i;
+delete c;</pre>
+</div>
+<p>5. 释放动态数组的时候，delete用法：</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:cpp;gutter:false;">delete [] array;</pre>
+</div>
+<p>6. 释放const对象。与一般释放方法没有区别:</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:cpp;gutter:false;">delete p;
+</pre>
+</div>
+<p>&nbsp;</p>

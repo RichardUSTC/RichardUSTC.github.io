@@ -1,0 +1,11 @@
+---
+layout: post
+title: "Welcome"
+date: 2013-05-10 15:06
+comments: true
+author: RichardUSTC
+categories: Other
+---
+欢迎访问[我的github博客](http://richardustc.github.io/)
+
+我原来的博客位于CNBlog，最近发现octopress的博客比较清爽，而且可以利用github提供的Github Pages功能，于是就迁移到了这里。

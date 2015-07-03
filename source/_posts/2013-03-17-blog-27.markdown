@@ -1,0 +1,12 @@
+---
+layout: post
+title: C++中的算法
+date: 2013-03-17 07:03
+comments: true
+author: RichardUSTC
+categories: CPP
+---
+<p>C++中将算法和容器进行了很好的分离。容器用来存储数据，仅仅提供一些基本的操作，而算法则做到跟底层的数据结构无关。联系容器和算法的关键是迭代器。</p>
+<p>算法不会更改容器的大小，但是也有一些特殊情况，执行过算法之后容器的大小改变了。但是要注意的是，改变容器大小的不是算法，而是迭代器。比如，这里有一个<a title="back_inserter" href="http://www.cplusplus.com/reference/iterator/back_inserter/" target="_blank">back_inserter的例子</a>。unique算法是去掉容器中重复的元素，执行unique完算法之后，会返回一个新的指向容器末尾的迭代器，程序员需要自己手动删除新尾到原尾之间的元素。</p>
+<p>使用算法的时候需要注意的是算法一般不会对容器的大小、迭代器是否有效进行检查，这些都需要程序员在调用算法之前自己检查。</p>
+<p>C++标准库中的算法主要集中在&lt;algorithm&gt;和&lt;numeric&gt;中。</p>
