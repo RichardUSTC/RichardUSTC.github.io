@@ -4,9 +4,9 @@ menu:
   Archives: archives  # 归档
   Categories: categories  # 分类
   Tags: tags  # 标签
-  Repository: repository  # github repositories
-  Books: books  # 豆瓣书单
-  Links: links  # 友链
+  # Repository: repository  # github repositories
+  # Books: books  # 豆瓣书单
+  # Links: links  # 友链
   About: about  # 关于
 
 # Enable/Disable menu icons
@@ -27,11 +27,11 @@ rss: /atom.xml
 # Site
 site:
   logo:
-    enabled: true
+    enabled: false
     width: 40
     height: 40
     url: ../images/logo.png
-  title: Hexo # 页面title
+  title: Richard's Blog # 页面title
   favicon: /favicon.png
   board: <p>欢迎交流与分享经验!</p> # 站点公告
   copyright: false # 底部版权信息
@@ -56,7 +56,7 @@ pagination:
 # Sidebar
 sidebar: right
 widgets:
-  - board  
+  # - board  
   - category
   - tag
   - tagcloud
@@ -83,7 +83,7 @@ search:
 
 # Donate
 donate:
-  enable: true
+  enable: false
   # 微信打赏
   wechatpay:
     qrcode: images/donate/wechatpayimg.png
@@ -96,19 +96,19 @@ donate:
 # Share
 # weibo,qq,qzone,wechat,tencent,douban,diandian,facebook,twitter,google,linkedin
 share:
-  enable: true  # 是否启用分享
+  enable: false  # 是否启用分享
   sites: weibo,qq,wechat,facebook,twitter  # PC端显示的分享图标
   mobile_sites: weibo,qq,qzone  # 移动端显示的分享图标
 
 # Github
 github: 
-  username: cofess  # github username
+  username: RichardUSTC  # github username
 
 # Comment
 # Gitment
 # Introduction: https://imsun.net/posts/gitment-introduction/
 comment:
-  type: valine  # 启用哪种评论系统
+  type: null  # 启用哪种评论系统
   disqus:  # enter disqus shortname here
   youyan: 
     uid: 1783844 # enter youyan uid 
@@ -186,51 +186,48 @@ profile:
   enabled: true # Whether to show profile bar
   avatar: images/avatar.jpg
   gravatar: # Gravatar email address, if you enable Gravatar, your avatar config will be overriden
-  author: 昵称
-  author_title: Web Developer & Designer
-  author_description: 个人简介。
-  location: Shenzhen, China
-  follow: https://github.com/cofess
+  author: Richard
+  author_title: 游戏引擎程序员
+  author_description: You are what you program
+  location: 杭州
+  follow: https://richardustc.github.io
   # Social Links
   social:
     links:
-      github: https://github.com/cofess
-      weibo: http://weibo.com/cofess
-      twitter: https://twitter.com/iwebued
+      # github: https://github.com/RichardUSTC
+      # weibo: http://weibo.com/cofess
+      # twitter: https://twitter.com/iwebued
       # facebook: /
       # dribbble: /
-      behance: https://www.behance.net/cofess
+      # behance: https://www.behance.net/cofess
       rss: atom.xml
     link_tooltip: true # enable the social link tooltip, options: true, false
   # My Skills 
-  skills:
-    Git: ★★★☆☆
-    Gulp: ★★★☆☆
-    Javascript: ★★★☆☆
-    HTML+CSS: ★★★☆☆
-    Bootstrap: ★★★☆☆
-    ThinkPHP: ★★★☆☆
-    平面设计: ★★★☆☆
+  # skills:
+  #   Git: ★★★☆☆
+  #   Gulp: ★★★☆☆
+  #   Javascript: ★★★☆☆
+  #   HTML+CSS: ★★★☆☆
+  #   Bootstrap: ★★★☆☆
+  #   ThinkPHP: ★★★☆☆
+  #   平面设计: ★★★☆☆
   # My Personal Links
   links:
-    Github: https://github.com/cofess
-    Blog: http://blog.cofess.com
-    微博: http://weibo.com/cofess
-    花瓣: http://huaban.com/cofess
-    Behance: https://www.behance.net/cofess
+    # Github: https://github.com/RichardUSTC
+    # Blog: http://richardustc.github.io
+    # 微博: http://weibo.com/cofess
+    # 花瓣: http://huaban.com/cofess
+    # Behance: https://www.behance.net/cofess
   # My Personal Labels
   labels:
-    - 前端
-    - 前端开发
-    - 前端重构
-    - Web前端
-    - 网页重构
+    - 游戏引擎
+    - 图形学
   # My Personal Works
-  works:
-    name:
-      link: http://www.example.com
-      date: 2016
+  # works:
+  #   name:
+  #     link: http://www.example.com
+  #     date: 2016
   # My Personal Projects
-  projects:
-    cofess/gulp-startpro: https://github.com/cofess/gulp-startpro
-    cofess/hexo-theme-pure: https://github.com/cofess/hexo-theme-pure
+  # projects:
+  #   cofess/gulp-startpro: https://github.com/cofess/gulp-startpro
+  #   cofess/hexo-theme-pure: https://github.com/cofess/hexo-theme-pure
