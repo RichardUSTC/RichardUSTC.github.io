@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>页表自映射 | Richard Lee&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="今天查找页表映射资料时，无意发现一个有趣的概念，就是页表自映射。 页目录基址记为PDT，页目录项记为PDE，页表项记为PTE。BITS(m,n,value)表示取value从高m位到高n位的值。 这篇文章介绍了一个32位虚拟地址x的转换成物理地址过程。 32位系统下，所有的PTE所占的空间刚好是4MB。如果将这些PTE连续地放在内存中，那么这4MB内存空间对应的PTE（称为PTE的PTE）刚好在一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="页表自映射">
+<meta property="og:url" content="http://richardustc.github.io/2013-04-12-2013-04-12-blog-11.html">
+<meta property="og:site_name" content="Richard Lee&#39;s Blog">
+<meta property="og:description" content="今天查找页表映射资料时，无意发现一个有趣的概念，就是页表自映射。 页目录基址记为PDT，页目录项记为PDE，页表项记为PTE。BITS(m,n,value)表示取value从高m位到高n位的值。 这篇文章介绍了一个32位虚拟地址x的转换成物理地址过程。 32位系统下，所有的PTE所占的空间刚好是4MB。如果将这些PTE连续地放在内存中，那么这4MB内存空间对应的PTE（称为PTE的PTE）刚好在一">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2013-04-11T20:04:00.000Z">
+<meta property="article:modified_time" content="2020-08-11T06:56:28.587Z">
+<meta property="article:author" content="Richard Lee">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternative" href="/atom.xml" title="Richard Lee&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+<meta name="generator" content="Hexo 5.0.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Richard Lee&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://richardustc.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2013-04-12-blog-11" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-04-12-2013-04-12-blog-11.html" class="article-date">
+  <time datetime="2013-04-11T20:04:00.000Z" itemprop="datePublished">2013-04-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Kernel/">Kernel</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      页表自映射
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天查找页表映射资料时，无意发现一个有趣的概念，就是页表自映射。</p>
+<p>页目录基址记为PDT，页目录项记为PDE，页表项记为PTE。BITS(m,n,value)表示取value从高m位到高n位的值。</p>
+<p><a href="http://book.51cto.com/art/201006/203595.htm" target="_blank">这篇文章介绍了一个32位虚拟地址x的转换成物理地址过程。</a></p>
+<p>32位系统下，所有的PTE所占的空间刚好是4MB。如果将这些PTE连续地放在内存中，那么这4MB内存空间对应的PTE（称为PTE的PTE）刚好在一个4KB页中，而这个4KB在页目录表中刚好也占一项。</p>
+<p>如果再合理地设置4MB页表的地址，那么就可以使得PTE的PTE所占的4KB的内容与PDE所占的4KB的内容完全相同。这样一来，可以就可以将页目录表也作为一个页表，这也意味着，页目录表中有一项会指向自己。</p>
+<p>页目录表本身占用4KB，所以它也刚好对应了一个PTE。而从前面的设置可以知道页目录表本身也是一个页表，那么指向页目录表的那个PTE必然也在页目录表当中。页目录表基址经过两级页表转换之后仍然可以转换成自己的物理地址，所以页目录表基地址的对应的PDE指向自己，对应的PTE也指向自己。</p>
+<p>符合上面的要求的一个实例：<span>将页表安排在0xc0000000~0xc0400000，页目录安排在0xc0300000~0xc0301000。</span></p>
+<p><span>按照上面的设置，可以如下两个效果：</span></p>
+<p><span style="line-height: 1.5;">1. 通过一个页的PTE(xPTE)的虚地址v_pte，可以直接得到该页的虚地址为(v_pte&lt;&lt;10)</span></p>
+<p><span style="line-height: 1.5;">2. 通过一个页表的PDE(xPDE)的虚地址v_pde，可以直接得到该页表所在页的虚地址为( v_pde&lt;&lt;10)</span></p>
+<p>&nbsp;</p>
+<p><span style="line-height: 1.5;">下面来解释一下为什么：</span></p>
+<p><span style="line-height: 1.5;">1.1 首先看看v_pte自己转换成物理地址的过程</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 1.1.1 v_pte取出BITS(31,22)在页目录表中查找，根据上面的设置，找到的PDE项刚好指向页目录表</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 1.1.2 再取出BITS(21,12)，在页目录表（此时页目录表也作为一个页表）中查找，找到的PTE项指向xPTE所在的页表</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 1.1.3 再计算页内偏移，找到了xPTE的物理地址</span></p>
+<p><span style="line-height: 1.5;">1.2 再来看看(v_pte&lt;&lt;10)转换成物理地址的过程</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 1.2.1&nbsp;(v_pte&lt;&lt;10)取出BITS(31,22)（即v_pte的BITS(21,12)）在页目录表中查找，根据上面的巧妙设置，相当于1.1.2的过程，取到的PDE项指向xPTE所在的页表<br /></span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 1.2.2 (v_pte&lt;&lt;10)取出BITS(21,12)（即v_pte的BITS（11, 2）在xPTE所在页表查找，找到的刚好是xPTE这个PTE</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 1.2.3 xPTE指向的页面的物理地址加上(v_pte&lt;&lt;10)的低12位（低12位为全0）就是(v_pte&lt;&lt;10)的物理地址。也就是说(v_pte&lt;&lt;10)对应的物理地址刚好就是xPTE指向的页面的物理地址，反过来，也就是说(v_pte&lt;&lt;10)就是这个页面的虚地址。</span></p>
+<p>&nbsp;</p>
+<p><span style="line-height: 1.5;">2.1 首先看看xPDE自己的虚地址如何转换成物理地址</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; v_pde的BITS(31,12)刚好就等于页目录表基址，按照页目录表和页表位置的安排，有</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 2.1.1 v_pde取出BITS(31,22)，找到的PDE指向页目录表本身</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 2.1.2 v_pde取出BITS(21,12)，找到的PTE也指向页目录表本身</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 2.1.3 v_pde取出BITS(11,0)作为偏移，加上页目录表的物理地址，得到v_pde的物理地址</span></p>
+<p><span style="line-height: 1.5;">2.2 再来看看(v_pde&lt;&lt;10)的虚地址如何转换成物理地址</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 2.2.1&nbsp;(v_pde&lt;&lt;10)取出BITS(31,22)，也就是v_pde的BITS(21,12)，在页目录表中查找，找到的PDE指向页目录表本身，这一步相当于2.1.2</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 2.2.2&nbsp;(v_pde&lt;&lt;10)取出BITS(21,12)，也就是v_pde的BITS(11, 2)，仍在页目录表中查找，找到的就是xPDE所指向的页表的物理地址</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 2.2.3&nbsp;(v_pde&lt;&lt;10)的BITS(11,0)为全0，所以转换出来的物理地址等于xPDE所指向的页表的物理地址。(v_pde&lt;&lt;10)的物理地址等于xPDE所指向的页表的物理地址，反过来看，(v_pde&lt;&lt;10)就是xPDE所指向的页表的虚地址。</span></p>
+<p>&nbsp;</p>
+<p>参考资料：</p>
+<p><a href="http://blog.csdn.net/panaimin/article/details/5918359" target="_blank">潘爱民老师讲自映射页表的文章</a></p>
+<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/dog250/article/details/5302756">linux的页表为什么没有实现自映射</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-04-12-2013-04-12-blog-11.html" data-id="ckdpm8hqg0018qpda3owr7uug" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013-04-18-2013-04-18-blog-9.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          C++中的异常处理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013-04-10-2013-04-10-blog-12.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">C++格式化输出</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C#</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CPP/">CPP</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Command-Line/">Command-Line</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kernel/">Kernel</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LLVM/">LLVM</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PyQt/">PyQt</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Regex/">Regex</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Toolchain/">Toolchain</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PyQt/" rel="tag">PyQt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/PyQt/" style="font-size: 10px;">PyQt</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">八月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">六月 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">五月 2013</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">四月 2013</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">一月 2013</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015-07-09-except-hook.html">python中的excepthook</a>
+          </li>
+        
+          <li>
+            <a href="/2015-07-06-create-PyQt-Program-with-Designer.html">使用Designer编写PyQt程序的简单流程</a>
+          </li>
+        
+          <li>
+            <a href="/2013-12-14-2013-12-14-c-sharp-basics.html">C# Type Basic</a>
+          </li>
+        
+          <li>
+            <a href="/2013-09-26-2013-09-26-generate-random-numbers.html">构造随机数生成器</a>
+          </li>
+        
+          <li>
+            <a href="/2013-09-16-2013-09-16-python-notes.html">Python笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Richard Lee<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//libs.baidu.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

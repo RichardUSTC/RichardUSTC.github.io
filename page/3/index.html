@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Richard Lee&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Personal Blog">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Richard Lee&#39;s Blog">
+<meta property="og:url" content="http://richardustc.github.io/page/3/index.html">
+<meta property="og:site_name" content="Richard Lee&#39;s Blog">
+<meta property="og:description" content="Personal Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Richard Lee">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternative" href="/atom.xml" title="Richard Lee&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+<meta name="generator" content="Hexo 5.0.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Richard Lee&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://richardustc.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-2013-05-19-git-submodules" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-05-19-2013-05-19-git-submodules.html" class="article-date">
+  <time datetime="2013-05-19T13:22:00.000Z" itemprop="datePublished">2013-05-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Git/">Git</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-05-19-2013-05-19-git-submodules.html">Git Submodules</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>有时候，一个项目可能需要使用一些外部的源码，或者多个项目共享一部分相对独立的代码。这个时候，不适宜直接把这些外部源码或者共享的源码包含在当前项目的源码中，最好能够独立管理它们。而git的submodule就正好提供了这个功能。这里举一个简单的示例。</p>
+<p>假设当前项目名为project_a，需要使用一个独立的project_b的代码。假设project_a和project_b的代码仓库都已经创建好。可以这样初始化：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> &lt;project_a-repo&gt; a</span><br><span class="line"><span class="built_in">cd</span> a</span><br><span class="line">git submodule add &lt;project_b-repo&gt; b</span><br></pre></td></tr></table></figure>
+<p>这时，在目录a下就会生成一个.gitmodules的文件，文件内容为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[submodule &quot;b&quot;]</span><br><span class="line">    path &#x3D; b</span><br><span class="line">    url &#x3D; &lt;project_b-repo&gt;</span><br></pre></td></tr></table></figure>
+<p>同时目录a下会生成一个目录b，其中包含的正是project_b的内容。<br>添加需要提交的文件之后，使用git commit提交更改，使用push将project_a的更改推送到<project_a-repo>上。<br>现在，我们再在另外一个位置clone出<project_a-repo>，查看添加submodule的效果。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> &lt;project_a-repo&gt; a</span><br><span class="line"><span class="built_in">cd</span> a</span><br></pre></td></tr></table></figure>
+<p>在目录a下可以发现有一个目录b，但是目录中还没有project_b的内容。<br>现在可以用下面的命令来获取project_b的内容。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git submodule init</span><br><span class="line">git submodule update</span><br></pre></td></tr></table></figure>
+<p>命令执行完成之后，project_b的内容就clone到目录b下了。</p>
+<p>此时需要注意的是，每次git submodule update执行完之后，目录b中的working tree没有指向任何的branch，需要自己使用git checkout切换到已有的分支上，否则所做修改可能丢失。</p>
+<p>以后，当project_b的内容发生变化之后，在目录b下用git pull或git fetch就可以获取project_b的变化了。<br>需要注意的是，当目录b改变之后，需要先将目录b提交之后，才能提交目录a的更改。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-05-19-2013-05-19-git-submodules.html" data-id="ckdpm8hqz002qqpda5i5r19yw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2013-05-17-find" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-05-17-2013-05-17-find.html" class="article-date">
+  <time datetime="2013-05-17T14:38:00.000Z" itemprop="datePublished">2013-05-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Command-Line/">Command-Line</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-05-17-2013-05-17-find.html">Find</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>find 命令在Linux中的应用非常广泛，以前我对find命令不是很熟悉。今天刚好用到了这条命令，就顺便记录一下。</p>
+<figure class="highlight bash"><figcaption><span>find.sh</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">find &lt;path&gt; -name <span class="string">&#x27;&lt;file-name&gt;&#x27;</span></span><br><span class="line">find &lt;path&gt; -name <span class="string">&#x27;&lt;file-name&gt;&#x27;</span> -<span class="built_in">exec</span> &lt;<span class="built_in">command</span>&gt; &#123;&#125; \;</span><br><span class="line">find &lt;path&gt; -name <span class="string">&#x27;&lt;file-name&gt;&#x27;</span> -ok &lt;<span class="built_in">command</span>&gt; &#123;&#125; \;</span><br><span class="line">find &lt;path&gt; -regex <span class="string">&#x27;&lt;reg-expression&gt;&#x27;</span></span><br><span class="line">find &lt;path&gt; -regex <span class="string">&#x27;&lt;reg-expression&gt;&#x27;</span> -<span class="built_in">exec</span> &lt;<span class="built_in">command</span>&gt; &#123;&#125; \;</span><br><span class="line">find &lt;path&gt; -regex <span class="string">&#x27;&lt;reg-expression&gt;&#x27;</span> -ok &lt;<span class="built_in">command</span>&gt; &#123;&#125; \;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-05-17-2013-05-17-find.html" data-id="ckdpm8hqu002bqpda6d9d3l6s" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2013-05-15-git-basics" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-05-15-2013-05-15-git-basics.html" class="article-date">
+  <time datetime="2013-05-15T13:15:00.000Z" itemprop="datePublished">2013-05-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Git/">Git</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-05-15-2013-05-15-git-basics.html">Git Basics</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Git是Linus Torvalds领导开发的分布式版本管理系统，也是世界上最流行的分布式版本管理系统。关于Git，这里有一本非常好的学习资料[中文版][progit-chinese]和[英文版][progit-english]。下面是最常用的一些命令。</p>
+<h2 id="Init"><a href="#Init" class="headerlink" title="Init"></a>Init</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># init a repository with working tree</span><br><span class="line">git init</span><br><span class="line"></span><br><span class="line"># init a repository without working tree</span><br><span class="line">git init --bare</span><br></pre></td></tr></table></figure>
+
+<h2 id="Clone"><a href="#Clone" class="headerlink" title="Clone"></a>Clone</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># clone from an existing repository</span><br><span class="line">git clone &lt;uri&gt;</span><br><span class="line"></span><br><span class="line"># clone from an existing repository and rename it to &#39;repo-name&#39;</span><br><span class="line">git clone &lt;uri&gt; &lt;repo-name&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Add"><a href="#Add" class="headerlink" title="Add"></a>Add</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># add a file &#39;file&#39; to staging area</span><br><span class="line">git add &lt;file&gt;</span><br><span class="line"></span><br><span class="line"># add all files under directory &#39;dir&#39; to staging area</span><br><span class="line">git add &lt;dir&gt;&#x2F;*</span><br><span class="line"></span><br><span class="line"># recursively add all files under current diretory to staging area</span><br><span class="line">git add .</span><br></pre></td></tr></table></figure>
+
+<h2 id="Status"><a href="#Status" class="headerlink" title="Status"></a>Status</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># get the status of current working tree</span><br><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<h2 id="Commit"><a href="#Commit" class="headerlink" title="Commit"></a>Commit</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># commit changes of the working tree in the staging area to local repository</span><br><span class="line">git commit -m &quot;&lt;some comments&gt;&quot;</span><br><span class="line"></span><br><span class="line"># reset the last commit and apply changes of the staging area and then commit it again</span><br><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+
+<h2 id="Log"><a href="#Log" class="headerlink" title="Log"></a>Log</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># show commit history</span><br><span class="line">git log</span><br><span class="line"></span><br><span class="line"># show last &lt;num&gt; history</span><br><span class="line">git log -&lt;num&gt;</span><br><span class="line"></span><br><span class="line"># show branching graph with history</span><br><span class="line">git log --graph</span><br></pre></td></tr></table></figure>
+
+<h2 id="Remove"><a href="#Remove" class="headerlink" title="Remove"></a>Remove</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># remove file from working tree and mark it as removed in staging area</span><br><span class="line">git rm &lt;file&gt; </span><br></pre></td></tr></table></figure>
+
+<h2 id="Reset"><a href="#Reset" class="headerlink" title="Reset"></a>Reset</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># reverse to &#39;git add &lt;file&gt;&#39;, move the changes of &#39;file&#39; out of staging area</span><br><span class="line">git reset &lt;file&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Revert"><a href="#Revert" class="headerlink" title="Revert"></a>Revert</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># drop all changes of &#39;file&#39; after last commit</span><br><span class="line">git checkout -- &lt;file&gt;</span><br><span class="line">&#96;&#96;&#96;    </span><br><span class="line"></span><br><span class="line">## Branch</span><br></pre></td></tr></table></figure>
+<h1 id="create-a-branch-‘new-branch’"><a href="#create-a-branch-‘new-branch’" class="headerlink" title="create a branch ‘new-branch’"></a>create a branch ‘new-branch’</h1><p>git branch <new-branch></p>
+<h1 id="switch-to-a-branch-‘branch’"><a href="#switch-to-a-branch-‘branch’" class="headerlink" title="switch to a branch ‘branch’"></a>switch to a branch ‘branch’</h1><p>git checkout <branch></p>
+<h1 id="create-and-switch-to-a-branch-‘new-branch’"><a href="#create-and-switch-to-a-branch-‘new-branch’" class="headerlink" title="create and switch to a branch ‘new-branch’"></a>create and switch to a branch ‘new-branch’</h1><p>git checkout -b <new-branch></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## Merge</span><br></pre></td></tr></table></figure>
+<h1 id="merge-branch-‘other-branch’-to-current-branch"><a href="#merge-branch-‘other-branch’-to-current-branch" class="headerlink" title="merge branch ‘other-branch’ to current branch"></a>merge branch ‘other-branch’ to current branch</h1><p>git merge <other-branch></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## Stash</span><br></pre></td></tr></table></figure>
+<h1 id="push-the-current-staging-area-to-a-stack"><a href="#push-the-current-staging-area-to-a-stack" class="headerlink" title="push the current staging area to a stack"></a>push the current staging area to a stack</h1><p>git stash</p>
+<h1 id="list-the-stack"><a href="#list-the-stack" class="headerlink" title="list the stack"></a>list the stack</h1><p>git stash list</p>
+<h1 id="pop-the-top-of-stack"><a href="#pop-the-top-of-stack" class="headerlink" title="pop the top of stack"></a>pop the top of stack</h1><p>git stash pop</p>
+<h1 id="get-the-‘num’th-item-in-the-stack-and-remove-it-from-the-stack"><a href="#get-the-‘num’th-item-in-the-stack-and-remove-it-from-the-stack" class="headerlink" title="get the ‘num’th item in the stack and remove it from the stack"></a>get the ‘num’th item in the stack and remove it from the stack</h1><p>git stash pop stash@{<num>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## Tag</span><br></pre></td></tr></table></figure>
+<h1 id="set-a-simple-tag-‘tag-name’"><a href="#set-a-simple-tag-‘tag-name’" class="headerlink" title="set a simple tag ‘tag-name’"></a>set a simple tag ‘tag-name’</h1><p>git tag <tag-name></p>
+<h1 id="set-a-annotated-tag-‘tag-name’"><a href="#set-a-annotated-tag-‘tag-name’" class="headerlink" title="set a annotated tag ‘tag-name’"></a>set a annotated tag ‘tag-name’</h1><p>git tag -a <tag-name> -m “<tag-comment>“</p>
+<h1 id="show-all-tags"><a href="#show-all-tags" class="headerlink" title="show all tags"></a>show all tags</h1><p>git tag</p>
+<h1 id="delete-a-tag"><a href="#delete-a-tag" class="headerlink" title="delete a tag"></a>delete a tag</h1><p>git tag -d <tag-name></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## Remote</span><br></pre></td></tr></table></figure>
+<h1 id="add-a-remote-repository-and-set-its-name-‘remote-repo’"><a href="#add-a-remote-repository-and-set-its-name-‘remote-repo’" class="headerlink" title="add a remote repository, and set its name ‘remote-repo’"></a>add a remote repository, and set its name ‘remote-repo’</h1><p>git remote add <remote-repo> <remote-repo-uri></p>
+<h1 id="remove-a-remote-repository-‘remote-repo’"><a href="#remove-a-remote-repository-‘remote-repo’" class="headerlink" title="remove a remote repository ‘remote-repo’"></a>remove a remote repository ‘remote-repo’</h1><p>git remote rm <remote-repo></p>
+<h1 id="show-remote-repositories"><a href="#show-remote-repositories" class="headerlink" title="show remote repositories"></a>show remote repositories</h1><p>git remote</p>
+<h1 id="show-detailed-information-of-remote-repositories"><a href="#show-detailed-information-of-remote-repositories" class="headerlink" title="show detailed information of remote repositories"></a>show detailed information of remote repositories</h1><p>git remote -v</p>
+<h1 id="rename-a-remote-name"><a href="#rename-a-remote-name" class="headerlink" title="rename a remote name"></a>rename a remote name</h1><p>git remote rename <old-remote-name> <new-remote-name></p>
+<h1 id="set-local-branch-‘local-branch’-track-remote-branch-‘remote-branch’"><a href="#set-local-branch-‘local-branch’-track-remote-branch-‘remote-branch’" class="headerlink" title="set local branch ‘local-branch’ track remote branch ‘remote-branch’"></a>set local branch ‘local-branch’ track remote branch ‘remote-branch’</h1><p>git checkout  <local-branch> –track <remote-repo>/<remote-branch></p>
+<h1 id="create-a-new-local-branch-and-track-remote-branch-‘remote-branch’"><a href="#create-a-new-local-branch-and-track-remote-branch-‘remote-branch’" class="headerlink" title="create a new local branch and track remote branch ‘remote-branch’"></a>create a new local branch and track remote branch ‘remote-branch’</h1><p>git checkout -b <local-branch> <remote-repo>/<remote-branch></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## Push</span><br></pre></td></tr></table></figure>
+<h1 id="push-local-repository-branch-‘local-branch’-to-remote-repository-‘remote-repo’-branch-‘remote-branch’"><a href="#push-local-repository-branch-‘local-branch’-to-remote-repository-‘remote-repo’-branch-‘remote-branch’" class="headerlink" title="push local repository branch ‘local-branch’ to remote repository ‘remote-repo’ branch ‘remote-branch’"></a>push local repository branch ‘local-branch’ to remote repository ‘remote-repo’ branch ‘remote-branch’</h1><p>git push <remote-reop> <local-branch>:<remote-branch></p>
+<h1 id="if-the-local-branch-and-remote-branch-are-of-the-same-name-‘branch-name’"><a href="#if-the-local-branch-and-remote-branch-are-of-the-same-name-‘branch-name’" class="headerlink" title="if the local branch and remote branch are of the same name ‘branch-name’"></a>if the local branch and remote branch are of the same name ‘branch-name’</h1><p>git push <remote-repo> <branch-name></p>
+<h1 id="delete-a-remote-branch-‘remote-branch’"><a href="#delete-a-remote-branch-‘remote-branch’" class="headerlink" title="delete a remote branch ‘remote-branch’"></a>delete a remote branch ‘remote-branch’</h1><p>git push <remote-repo> :<remote-branch> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## Pull</span><br></pre></td></tr></table></figure>
+<h1 id="fetch-content-of-‘remote’-and-merge-it-with-current-branch"><a href="#fetch-content-of-‘remote’-and-merge-it-with-current-branch" class="headerlink" title="fetch content of ‘remote’ and merge it with current branch"></a>fetch content of ‘remote’ and merge it with current branch</h1><p>git pull <remote></p>
+<pre><code>
+[progit-chinese]: http://git-scm.com/book/zh/
+[progit-english]: http://git-scm.com/book</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-05-15-2013-05-15-git-basics.html" data-id="ckdpm8hqw002gqpda02s1f25k" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2013-05-15-crosstool-ng-notes" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-05-15-2013-05-15-crosstool-ng-notes.html" class="article-date">
+  <time datetime="2013-05-15T03:14:00.000Z" itemprop="datePublished">2013-05-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Toolchain/">Toolchain</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-05-15-2013-05-15-crosstool-ng-notes.html">Crosstool-ng Notes</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近的项目需要在x86的机器上编译一些arm程序，而之前编译好的arm交叉编译器要么是Android专用的，要么对内核版本的要求比较高，静态编译出来的程序在较低版本的内核上没法运行。所以今天就再用crosstool-ng重新编译了一次工具链。</p>
+<p>crosstool-ng是一个用于构建交叉编译器的工具，替代了以前的crosstool，而且这个项目目前还处于比较活跃的状态中。目前最新的版本是2013-01-31发布的1.18.0版本。<a target="_blank" rel="noopener" href="http://crosstool-ng.org/">crosstool-ng官方网站</a></p>
+<p>在Google里搜索crosstools-ng，第二条就会出现一些教程，但是这些教程已经比较老了。一些源码包的版本号跟博主当时的需求相关紧密，并不适用于我的情况。于是，我就到crosstool-ng官网下载了源码包，自己一步步看自带的说明文档。crosstool-ng的源码包中的文档位于doc目录，里面的讲解非常详细，按照步骤一步一步做下来基本上没有什么障碍。不过，还是有一些小技巧可以和大家分享分享。</p>
+<ol>
+<li>crosstool-ng 1.18.0版已经可以通过基于ncurses的图形菜单来配置了。首先根据doc中的说明，安装好ct-ng。然后<code>ct-ng menuconfig</code>就可以启用图形菜单了。不过需要注意的是，最好每一项都确认一下，因为默认的设置并不一定适合你的需求。</li>
+<li>crosstool-ng默认使用的软件包下载源比较慢，可以设置使用镜像网站。设置方法：Path and misc options–&gt;Use a mirror，然后更改默认的<code>http://crosstool-ng.org/mirrors</code> 为 <code>http://mirrors.ustc.edu.cn/gnu</code> 。大部分的软件源码包都可以在这个源下下载到。另外，linux-kernel的源码包也可以在<code>http://mirrors.ustc.edu.cn/linux-kernel</code>目录下去下载。在此，特别感谢USTC(中国科学技术大学)和USTC LUG。</li>
+<li>为了避免静态编译出来的程序在较老的内核上报’kernel too old’的错，可以在Operating Syste–&gt;Target OS选则Linux，然后再选择Linux kernel version。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-05-15-2013-05-15-crosstool-ng-notes.html" data-id="ckdpm8hqv002dqpda287agzmc" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2013-05-14-python-basic-data-types" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-05-14-2013-05-14-python-basic-data-types.html" class="article-date">
+  <time datetime="2013-05-14T13:21:00.000Z" itemprop="datePublished">2013-05-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-05-14-2013-05-14-python-basic-data-types.html">Python Basic Data Types</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Python的基本数据结构主要包括Tuple、List、Dict、Set。</p>
+<h2 id="Tuple"><a href="#Tuple" class="headerlink" title="Tuple"></a>Tuple</h2><figure class="highlight python"><figcaption><span>tuple.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">t = ()</span><br><span class="line">t = tuple()</span><br><span class="line">t = (<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="keyword">print</span> t[<span class="number">0</span>]</span><br><span class="line">t[<span class="number">-1</span>]    <span class="comment"># equalvalent to t[len(t)-1]</span></span><br></pre></td></tr></table></figure>
+<p>Tuple中的元素一旦创建之后就不能改变，不能增加，不能减少，不能删除。</p>
+<h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><figure class="highlight python"><figcaption><span>list.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">l = []</span><br><span class="line">l = list()</span><br><span class="line">l = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">l.append(<span class="number">4</span>)</span><br><span class="line">l[<span class="number">5</span>] = <span class="number">5</span></span><br><span class="line"><span class="keyword">del</span>(l[<span class="number">0</span>])</span><br><span class="line"><span class="keyword">print</span> l[<span class="number">0</span>]</span><br><span class="line">item = l.pop()</span><br></pre></td></tr></table></figure>
+<p>List中的元素创建之后还可以改变，可以增加，可以减少，可以删除。</p>
+<h2 id="Dict"><a href="#Dict" class="headerlink" title="Dict"></a>Dict</h2><figure class="highlight python"><figcaption><span>dict.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;&#125;</span><br><span class="line">d = dict()</span><br><span class="line">d = &#123;<span class="string">&quot;k1&quot;</span>:<span class="string">&quot;v1&quot;</span>, <span class="string">&quot;k2&quot;</span>:<span class="string">&quot;v2&quot;</span>&#125;</span><br><span class="line">d[<span class="string">&quot;k3&quot;</span>] = <span class="string">&quot;v3&quot;</span></span><br><span class="line"><span class="keyword">print</span> d[<span class="string">&quot;k1&quot;</span>]</span><br><span class="line"><span class="keyword">print</span> d.get(<span class="string">&quot;k1&quot;</span>, <span class="string">&quot;if k1 not found, return this value&quot;</span>)</span><br><span class="line">key, value = d.pop()</span><br></pre></td></tr></table></figure>
+<p>Dict用来保存key-value对。其中key必须是immutable的。</p>
+<h2 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h2><figure class="highlight python"><figcaption><span>set.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s = set()</span><br><span class="line">s.add(<span class="number">2</span>)</span><br><span class="line">s.add(<span class="number">2</span>) <span class="comment"># After this operation, only one &#x27;2&#x27; is stored</span></span><br><span class="line">item = s.pop() <span class="comment"># return an arbitrary value of the set</span></span><br></pre></td></tr></table></figure>
+<p>Set中的元素是唯一的。</p>
+<h2 id="Slice"><a href="#Slice" class="headerlink" title="Slice"></a>Slice</h2><p>Tuple和List支持slice。</p>
+<figure class="highlight python"><figcaption><span>slice.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">t = (<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">t[:]              <span class="comment"># the whole tuple</span></span><br><span class="line">t[<span class="number">0</span>:<span class="number">2</span>]            <span class="comment"># t[0], t[1]</span></span><br><span class="line">t[:<span class="number">2</span>]             <span class="comment"># same as t[0:2]</span></span><br><span class="line">t[<span class="number">2</span>:]             <span class="comment"># same as t[2:len(t)-1]</span></span><br><span class="line">t[<span class="number">-1</span>:]            <span class="comment"># reversed t</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># The same goes for list</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-05-14-2013-05-14-python-basic-data-types.html" data-id="ckdpm8hqp001zqpdacbei4scv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2013-05-14-python-module" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-05-14-2013-05-14-python-module.html" class="article-date">
+  <time datetime="2013-05-14T11:53:00.000Z" itemprop="datePublished">2013-05-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-05-14-2013-05-14-python-module.html">Python Module</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Python中，module是用来组织代码的有效方法。</p>
+<h2 id="导入模块"><a href="#导入模块" class="headerlink" title="导入模块"></a>导入模块</h2><figure class="highlight python"><figcaption><span>import-module.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> path</span><br><span class="line"><span class="keyword">import</span> xml.dom.minidom <span class="keyword">as</span> minidom</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> sys.argv[<span class="number">0</span>]</span><br><span class="line">path.exists(<span class="string">&quot;test.txt&quot;</span>)</span><br><span class="line">d = minidom.parse(<span class="string">&quot;test.xml&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="判断模块代码是直接运行还是被导入"><a href="#判断模块代码是直接运行还是被导入" class="headerlink" title="判断模块代码是直接运行还是被导入"></a>判断模块代码是直接运行还是被导入</h2><figure class="highlight python"><figcaption><span>check-how-module-is-running.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;module is running directly&quot;</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;module is imported by another module&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="模块搜索路径"><a href="#模块搜索路径" class="headerlink" title="模块搜索路径"></a>模块搜索路径</h2><p>导入模块的时候，python首先会在内置模块中查找，如果找不到，则会到sys.path中指定的路径中去找。sys.path包含这些内容：</p>
+<ul>
+<li>当前目录</li>
+<li>PYTHONPATH PYTHONPATH类似于PATH，包含一系列的目录</li>
+<li>其他的一些跟安装相关的默认路径<br>当前目录的优先级比标准库的优先级更高。<br>Python程序在运行的过程中可以修改sys.path的值，从而影响模块的导入。</li>
+</ul>
+<h2 id="创建自己的模块"><a href="#创建自己的模块" class="headerlink" title="创建自己的模块"></a>创建自己的模块</h2><p>比如我自己写了一个模块，叫做mymoudle.py。</p>
+<ol>
+<li>如果在同一个目录下，直接<code>import mymodule</code>即可。</li>
+<li>如果相对路径为mymodule/mymodule.py，则需要在mymodule目录下创建<code>__init__.py</code>文件，然后<code>import mymodule.mymodule</code>。</li>
+<li>如果相对路径为mymodule/mymodule/mymodule.py，则需要在两个目录中都创建<code>__init__.py</code>文件，然后<code>import mymodule.mymodule.mymodule</code>。</li>
+</ol>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ol>
+<li>使用<code>dir</code>可以查看module中所有可用的变量、类和函数等信息</li>
+<li>当模块被import之后，在模块py文件所在目录会生成<code>.pyc</code>文件。这个文件的内容和格式可参考<a target="_blank" rel="noopener" href="http://blog.donews.com/lemur/archive/2006/02/21/736881.aspx">这篇文章</a></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-05-14-2013-05-14-python-module.html" data-id="ckdpm8hqq0021qpda8z5x7735" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2013-05-14-python-basics" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-05-14-2013-05-14-python-basics.html" class="article-date">
+  <time datetime="2013-05-14T11:23:00.000Z" itemprop="datePublished">2013-05-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-05-14-2013-05-14-python-basics.html">Python Basics</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在复习Python，顺便记录一下自己的复习笔记，以后可以再回来看看。</p>
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><figure class="highlight python"><figcaption><span>hello-world.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;Hello, World.&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h2><figure class="highlight python"><figcaption><span>branch.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> x==y:</span><br><span class="line">    do_x_equal_y_stuff()</span><br><span class="line"><span class="keyword">elif</span> x==z:</span><br><span class="line">    do_x_equal_z_stuff()</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    do_other_stuff()</span><br></pre></td></tr></table></figure>
+
+<h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><figure class="highlight python"><figcaption><span>for-loop.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">    <span class="keyword">print</span> i</span><br><span class="line">    <span class="keyword">if</span> i == j:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">if</span> i == k:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="comment"># do something if the loop end normally</span></span><br><span class="line">    do_some_stuff()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><figcaption><span>while-loop.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> x&gt;<span class="number">0</span>:</span><br><span class="line">    x--</span><br><span class="line">    <span class="keyword">print</span> x</span><br><span class="line">    <span class="keyword">if</span> x == j:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">if</span> x == k:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="comment">#do something if the loop end normally</span></span><br><span class="line">    do_some_stuff()</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><figure class="highlight python"><figcaption><span>simple-function.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">a,b</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27; return the result of a plus b&#x27;&#x27;&#x27;</span> <span class="comment"># docstring, need to be at the first line of the function</span></span><br><span class="line">    <span class="keyword">return</span> a+b</span><br><span class="line"></span><br><span class="line"><span class="comment">#call the function</span></span><br><span class="line"><span class="keyword">print</span> add(<span class="number">1</span>,<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><figcaption><span>local-global.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">x=<span class="number">10</span>        <span class="comment"># Here, x is global</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span>():</span></span><br><span class="line">    x = <span class="number">50</span>  <span class="comment"># Here, x is local, does not affect the global x</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bar</span>():</span></span><br><span class="line">    <span class="keyword">global</span> x</span><br><span class="line">    x= <span class="number">8</span>    <span class="comment"># Here, x is global</span></span><br><span class="line"><span class="comment"># test</span></span><br><span class="line">foo()</span><br><span class="line"><span class="keyword">print</span> x</span><br><span class="line">bar()</span><br><span class="line"><span class="keyword">print</span> x</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><figcaption><span>default-parameters.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">a, b, c=<span class="number">0</span>, d=<span class="number">3</span></span>):</span></span><br><span class="line">    <span class="keyword">return</span> a+b+c+d</span><br><span class="line"></span><br><span class="line"><span class="comment">#call the function</span></span><br><span class="line"><span class="keyword">print</span> add(<span class="number">1</span>, <span class="number">3</span>)</span><br><span class="line"><span class="keyword">print</span> add(<span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line"><span class="keyword">print</span> add(<span class="number">1</span>, <span class="number">3</span>, d=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><figcaption><span>list-and-dict-parameters.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span>(<span class="params">a, *l, **d</span>):</span></span><br><span class="line">    <span class="keyword">print</span> a</span><br><span class="line">    <span class="keyword">for</span> list_item <span class="keyword">in</span> l:</span><br><span class="line">        <span class="keyword">print</span> list_item</span><br><span class="line">    <span class="keyword">for</span> key,value <span class="keyword">in</span> d:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">&quot;&#123;k&#125;:&#123;v&#125;&quot;</span>.format(k=key, v=value)</span><br><span class="line"></span><br><span class="line"><span class="comment"># test</span></span><br><span class="line">foo(<span class="number">1</span>, [<span class="string">&quot;x&quot;</span>,<span class="string">&quot;y&quot;</span>], &#123;<span class="string">&quot;key&quot;</span>: <span class="string">&quot;value&quot;</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">__metaclass__ = type <span class="comment"># new-style class</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ClassName</span>(<span class="params">Parent1, Parent2</span>):</span></span><br><span class="line">    classVar = <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, parameter</span>):</span></span><br><span class="line">        super(ClassName, self).__init__(parameter)</span><br><span class="line">        self.__class__.classVar += <span class="number">1</span></span><br><span class="line">        self.objectVar = <span class="number">0</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">method</span>(<span class="params">self, parameter</span>):</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">classMethod</span>(<span class="params">cls, parameter</span>):</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">staticMethod</span>(<span class="params">parameter</span>):</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">__metaclass__ = type</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fib</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.first = <span class="number">1</span></span><br><span class="line">        self.second = <span class="number">1</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self   <span class="comment"># a iterator returns a object which implements the &#x27;next&#x27; method</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">next</span>(<span class="params">self</span>):</span>   <span class="comment"># if there is no next item, raise &#x27;StopIteration&#x27; exception</span></span><br><span class="line">        ret = self.first</span><br><span class="line">        tmp = self.second</span><br><span class="line">        self.second = self.second + self.first</span><br><span class="line">        self.first = tmp</span><br><span class="line">        <span class="keyword">return</span> ret</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generator</span>(<span class="params">l</span>):</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> l:</span><br><span class="line">        <span class="keyword">yield</span> item</span><br></pre></td></tr></table></figure>
+
+<h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> exceptions <span class="comment">#standard exceptions</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span>(<span class="params">parameters</span>):</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># do something</span></span><br><span class="line">        <span class="keyword">if</span> someCondition :</span><br><span class="line">            <span class="keyword">raise</span> SomeError</span><br><span class="line">        <span class="keyword">if</span> someOtherCondition:</span><br><span class="line">            <span class="keyword">raise</span> someErrorObject</span><br><span class="line">        <span class="comment"># do something</span></span><br><span class="line">    <span class="keyword">except</span> SomeError:</span><br><span class="line">        <span class="keyword">raise</span>    <span class="comment"># raise the exception again</span></span><br><span class="line">    <span class="keyword">except</span> (SomeError1, SomeError2): <span class="comment"># catch two types of exceptions at the same site</span></span><br><span class="line">        <span class="comment"># do something</span></span><br><span class="line">    <span class="keyword">except</span> (SomeError3), errorObject:</span><br><span class="line">        <span class="comment"># do something with errorObject</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="comment"># catch all exceptions</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># do something if no exception is raised</span></span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        <span class="comment"># do something whether there is any exception or not</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-05-14-2013-05-14-python-basics.html" data-id="ckdpm8hqr0024qpdah0ap4sdn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2013-05-11-migration" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-05-11-2013-05-11-migration.html" class="article-date">
+  <time datetime="2013-05-11T12:13:00.000Z" itemprop="datePublished">2013-05-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Other/">Other</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-05-11-2013-05-11-migration.html">从CNBlog迁移到Github</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我是从CNBlog迁移过来，所以需要将CNBlog的文章导入到新的博客中。</p>
+<p>jekyll支持从多种别的博客平台迁移到当前平台，但是没有支持CNBlog，于是我不得不自己来完成这个博客导入的过程。</p>
+<p>CNBlog的文章备份出来的是一个xml文件。我分析了这个文件之后，写了一个python脚本，完成从xml到markdown的转换。我的脚本号称转换成了markdown，其实只是增加了一个<a target="_blank" rel="noopener" href="https://github.com/mojombo/jekyll/wiki/yaml-front-matter">yaml front matter</a>，内容部分仍然是原来的html。不过就效果来看，还马马虎虎可以接受，就不再继续折腾了。</p>
+<p>脚本特点：</p>
+<ul>
+<li><p>保留了原来的发表日期</p>
+</li>
+<li><p>保留了原来的标题，但是因为octopress对文件名为中文的文件支持不好，所以文件名改为了<date>-blog-<N>的形式</p>
+</li>
+<li><p>支持在转换的过程中指定分类</p>
+</li>
+<li><p>支持转换输出为html或者octopress使用的markdown格式</p>
+<p>这个python脚本已经上传的github上了，<a target="_blank" rel="noopener" href="https://github.com/RichardUSTC/cnblogs-extractor">这个是github链接</a>，欢迎大家批评指正。</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-05-11-2013-05-11-migration.html" data-id="ckdpm8hqp001xqpda0f51ble9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2013-05-10-welcome" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-05-10-2013-05-10-welcome.html" class="article-date">
+  <time datetime="2013-05-10T07:06:00.000Z" itemprop="datePublished">2013-05-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Other/">Other</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-05-10-2013-05-10-welcome.html">Welcome</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>欢迎访问<a href="http://richardustc.github.io/">我的github博客</a></p>
+<p>我原来的博客位于CNBlog，最近发现octopress的博客比较清爽，而且可以利用github提供的Github Pages功能，于是就迁移到了这里。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-05-10-2013-05-10-welcome.html" data-id="ckdpm8hqs0028qpda8y5yh7p6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2013-05-03-blog-0" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-05-03-2013-05-03-blog-0.html" class="article-date">
+  <time datetime="2013-05-03T04:05:00.000Z" itemprop="datePublished">2013-05-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Kernel/">Kernel</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-05-03-2013-05-03-blog-0.html">截获Linux操作系统异常处理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&nbsp; &nbsp; 在某些情况下，我们可能需要去截获Linux操作系统的一些异常处理，比如截获page fault异常处理。</p>
+<h1>可以修改内核的情况下</h1>
+<p>&nbsp; &nbsp; 如果我们能够修改内核，那么截获page fault异常处理就会非常简单。以linux 3.8.0内核为例，系统中发生page fault之后，会进入page fault异常处理，调用do_page_fault函数。do_page_fault的代码如下：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> dotraplinkage <span style="color: #0000ff;">void</span><span style="color: #000000;"> __kprobes
+</span><span style="color: #008080;">2</span> do_page_fault(<span style="color: #0000ff;">struct</span> pt_regs *regs, unsigned <span style="color: #0000ff;">long</span><span style="color: #000000;"> error_code)
+</span><span style="color: #008080;">3</span> <span style="color: #000000;">{
+</span><span style="color: #008080;">4</span> <span style="color: #000000;">    exception_enter(regs);
+</span><span style="color: #008080;">5</span> <span style="color: #000000;">    __do_page_fault(regs, error_code);
+</span><span style="color: #008080;">6</span> <span style="color: #000000;">    exception_exit(regs);
+</span><span style="color: #008080;">7</span> }</pre>
+</div>
+<p>&nbsp; &nbsp; 我们把do_page_fault函数的内容提取出来，写成一个新的函数default_do_page_fault。再增加一个函数指针do_page_fault_handler，初始化为default_do_page_fault。将原来的do_page_fault内部改为调用函数指针do_page_fault_handler。修改之后的代码如下：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">void</span><span style="color: #000000;">
+default_do_page_fault(</span><span style="color: #0000ff;">struct</span> pt_regs *regs, unsigned <span style="color: #0000ff;">long</span><span style="color: #000000;"> error_code)
+{
+    exception_enter(regs);
+    __do_page_fault(regs, error_code);
+    exception_exit(regs);
+}<br />EXPORT_SYMBOL(default_do_page_fault);
+
+<p>typedef </span><span style="color: #0000ff;">void</span> (*do_page_fault_handler_t)(<span style="color: #0000ff;">struct</span> pt_regs *, unsigned <span style="color: #0000ff;">long</span><span style="color: #000000;">);</p>
+<p>do_page_fault_handler_t do_page_fault_handler </span>=<span style="color: #000000;"> default_do_page_fault;<br>EXPORT_SYMBOL(do_page_fault_handler);</p>
+<p>dotraplinkage </span><span style="color: #0000ff;">void</span><span style="color: #000000;"> __kprobes<br>do_page_fault(</span><span style="color: #0000ff;">struct</span> pt_regs *regs, unsigned <span style="color: #0000ff;">long</span><span style="color: #000000;"> error_code){<br>    do_page_fault_handler(regs, error_code);<br>}</span></pre></p>
+</div>
+<p>&nbsp; &nbsp; 由于do_page_fault_handler被EXPORT_SYMBOL导出，我们在内核模块中可以很方便地访问它。只要将do_page_fault_handler的值设置为自定义的page fault异常处理函数，就能完成截获功能。如果想要恢复原来的异常处理函数，只需要再次把do_page_fault_handler设置为default_do_page_fault即可。</p>
+<h1>不能修改内核的情况下</h1>
+<p>&nbsp; &nbsp;但是有些情况下，我们不能直接修改内核代码，需要在已经编译好的内核上完成截获功能。</p>
+<p>&nbsp; &nbsp;开始的时候，我考虑在do_page_fault函数开始处插入跳转代码，跳转到自定义的page fault处理函数中。但是实践的时候发现，内核不允许直接修改do_page_fault的代码。</p>
+<p>&nbsp; &nbsp; 经过一番调查，又想到一个新的办法，即通过更改IDT表的方式来截获page fault。</p>
+<p>&nbsp; &nbsp; 内核原有的IDT表肯定是不能直接写的，所以我申请了一个页，将原来的IDT表复制过来，再更改页面异常对应的ISR(Interrupt Service Routine)。page fault的ISR名称为page_fault，它将寄存器压栈，将error number压栈，然后调用do_page_fault，待do_page_fault返回之后再恢复寄存器，退出异常处理。</p>
+<p>&nbsp; &nbsp; 在Linux内核中，ISR是用汇编写的。例如，x86_64 Linux的ISR源码位于内核源码arch/x86/kernel/entry_64.S中，X86_32的位于arch/x86/kernel/entry_32.S中。如果去读entry_64.S或者entry_32.S，你会发现这两个文件非常复杂，利用了很多的汇编宏和宏定义，无法方便地基于它们写一个自定义的ISR出来。</p>
+<p>&nbsp; &nbsp; 我的解决办法是将内核编译出来，反汇编vmlinux.o，然后查找page_fault，找到其汇编代码。下面的汇编代码就是linux-3.8.0 X86_64内核的</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #000000;">ffffffff8136f6f0 &lt;page_fault&gt;:
+</span><span style="color: #008080;"> 2</span> <span style="color: #008080;">ffffffff8136f6f0:</span>       <span style="color: #800080;">66</span> <span style="color: #800080;">66</span> <span style="color: #800080;">90</span>                data32 <span style="color: #0000ff;">xchg</span><span style="color: #000000;"> %ax,%ax
+</span><span style="color: #008080;"> 3</span> <span style="color: #008080;">ffffffff8136f6f3:</span>       ff <span style="color: #800080;">15</span> <span style="color: #800080;">07</span> <span style="color: #800080;">0a</span> 2b <span style="color: #800080;">00</span><span style="color: #000000;">       callq  *0x2b0a07(%rip)        # ffffffff81620100 &lt;pv_irq_ops+0x30&gt;
+</span><span style="color: #008080;"> 4</span> <span style="color: #008080;">ffffffff8136f6f9:</span>       <span style="color: #800080;">48</span> <span style="color: #800080;">83</span> ec <span style="color: #800080;">78</span>             <span style="color: #0000ff;">sub</span><span style="color: #000000;">    $0x78,%rsp
+</span><span style="color: #008080;"> 5</span> <span style="color: #008080;">ffffffff8136f6fd:</span>       e8 ae <span style="color: #800080;">01</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span><span style="color: #000000;">          callq  ffffffff8136f8b0 &lt;error_entry&gt;
+</span><span style="color: #008080;"> 6</span> <span style="color: #008080;">ffffffff8136f702:</span>       <span style="color: #800080;">48</span> <span style="color: #800080;">89</span> e7                <span style="color: #0000ff;">mov</span><span style="color: #000000;">    %rsp,%rdi
+</span><span style="color: #008080;"> 7</span> <span style="color: #008080;">ffffffff8136f705:</span>       <span style="color: #800080;">48</span> 8b <span style="color: #800080;">74</span> <span style="color: #800080;">24</span> <span style="color: #800080;">78</span>          <span style="color: #0000ff;">mov</span><span style="color: #000000;">    0x78(%rsp),%rsi
+</span><span style="color: #008080;"> 8</span> <span style="color: #008080;">ffffffff8136f70a:</span>       <span style="color: #800080;">48</span> c7 <span style="color: #800080;">44</span> <span style="color: #800080;">24</span> <span style="color: #800080;">78</span><span style="color: #000000;"> ff ff    movq   $0xffffffffffffffff,0x78(%rsp)
+</span><span style="color: #008080;"> 9</span> <span style="color: #008080;">ffffffff8136f711:</span><span style="color: #000000;">       ff ff 
+</span><span style="color: #008080;">10</span> <span style="color: #008080;">ffffffff8136f713:</span>       e8 1f 2e <span style="color: #800080;">00</span> <span style="color: #800080;">00</span><span style="color: #000000;">          callq  ffffffff81372537 &lt;do_page_fault&gt;
+</span><span style="color: #008080;">11</span> <span style="color: #008080;">ffffffff8136f718:</span>       e9 <span style="color: #800080;">33</span> <span style="color: #800080;">02</span> <span style="color: #800080;">00</span> <span style="color: #800080;">00</span><span style="color: #000000;">          jmpq   ffffffff8136f950 &lt;error_exit&gt;
+</span><span style="color: #008080;">12</span> <span style="color: #008080;">ffffffff8136f71d:</span>       <span style="color: #800080;">0f</span> 1f <span style="color: #800080;">00</span>                nopl   (%rax)</pre>
+</div>
+<p>我仿照着写了一个，名为my_page_fault</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> asmlinkage <span style="color: #0000ff;">void</span> my_page_fault(<span style="color: #0000ff;">void</span><span style="color: #000000;">);
+</span><span style="color: #008080;"> 2</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   .text</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;"> 3</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   .type my_page_fault,@function</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;"> 4</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">my_page_fault:</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;"> 5</span> <span style="color: #008000;">//</span><span style="color: #008000;">the first 3 bytes of the routine basically do nothing,
+</span><span style="color: #008080;"> 6</span> <span style="color: #008000;">//</span><span style="color: #008000;">but I decide to keep them because kernel may rely on them for some special purpose</span>
+<span style="color: #008080;"> 7</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   .byte 0x66</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;"> 8</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   xchg %ax, %ax</span><span style="color: #800000;">"</span><span style="color: #000000;">); 
+</span><span style="color: #008080;"> 9</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   callq *addr_adjust_exception_frame</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;">10</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   sub $0x78, %rsp</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;">11</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   callq *addr_error_entry</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;">12</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   mov %rsp, %rdi</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;">13</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   mov 0x78(%rsp), %rsi</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;">14</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   movq $0xffffffffffffffff, 0x78(%rsp)</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;">15</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   callq my_do_page_fault</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;">16</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   jmpq *addr_error_exit</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;">17</span> asm(<span style="color: #800000;">"</span><span style="color: #800000;">   nopl (%rax)</span><span style="color: #800000;">"</span>);</pre>
+</div>
+<p>其中第9行addr_adjust_exception_frame是(pv_irq_ops+0x30)地址处存储的值；第11行addr_error_entry是error_entry的地址；第16行addr_error_exit是error_exit的地址。这几个值需要从System.map文件中查询，然后用内核模块参数的形式传入。而my_do_page_fault则是我们自己定义的page fault处理函数。</p>
+<p>&nbsp; &nbsp; 如果需要<a href="http://cs.usfca.edu/~cruse/cs635s03/pgfaults.c" target="_blank">截获X86_32的page fault，可以参考这个C文件</a>。不过需要注意的是，新版内核有所变动，这里的代码需要根据自己的情况做一些调整。</p>
+<p>&nbsp; &nbsp; 有了自定义的ISR之后，就可以将这个ISR填到IDT中，加载新的IDT表之后，自定义的page fault处理函数就开始发挥作用了。这个过程主要有以下几个步骤：</p>
+<ol>
+<li>用store_idt(&amp;default_idtr)保存现有的IDT寄存器值</li>
+<li>从default_idtr中读出IDT表首地址和表的大小</li>
+<li>申请一个页面</li>
+<li>将原来的idt表拷贝到新申请的页面中</li>
+<li>利用pack_gate将my_page_fault（注意不是my_do_page_fault）填入到对应的IDT项中</li>
+<li>在idtr中填写新的IDT表地址和大小，用load_idt(&amp;idtr)加载新的IDT表到当前CPU</li>
+<li>利用smp_call_function，将新的IDT表加载到其他CPU上。</li>
+</ol>
+<p>&nbsp; &nbsp; 如果想恢复原来的IDT表，则用load(&amp;default_idtr)和smp_call_function加载原来的IDT表，释放申请的页面。</p>
+<p>&nbsp; &nbsp; 读完文章之后，可以参考我的github中的代码：<a target="_blank" rel="noopener" href="https://github.com/RichardUSTC/intercept-page-fault-handler">https://github.com/RichardUSTC/intercept-page-fault-handler</a></p>
+<p>&nbsp; &nbsp; 本文链接：<a target="_blank" rel="noopener" href="http://www.cnblogs.com/richardustc/archive/2013/05/03/3057455.html">http://www.cnblogs.com/richardustc/archive/2013/05/03/3057455.html</a></p>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-05-03-2013-05-03-blog-0.html" data-id="ckdpm8hqs0026qpda6c4hgld0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
+    </nav>
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C#</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CPP/">CPP</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Command-Line/">Command-Line</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kernel/">Kernel</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LLVM/">LLVM</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PyQt/">PyQt</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Regex/">Regex</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Toolchain/">Toolchain</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PyQt/" rel="tag">PyQt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/PyQt/" style="font-size: 10px;">PyQt</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">八月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">六月 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">五月 2013</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">四月 2013</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">一月 2013</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015-07-09-except-hook.html">python中的excepthook</a>
+          </li>
+        
+          <li>
+            <a href="/2015-07-06-create-PyQt-Program-with-Designer.html">使用Designer编写PyQt程序的简单流程</a>
+          </li>
+        
+          <li>
+            <a href="/2013-12-14-2013-12-14-c-sharp-basics.html">C# Type Basic</a>
+          </li>
+        
+          <li>
+            <a href="/2013-09-26-2013-09-26-generate-random-numbers.html">构造随机数生成器</a>
+          </li>
+        
+          <li>
+            <a href="/2013-09-16-2013-09-16-python-notes.html">Python笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Richard Lee<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//libs.baidu.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

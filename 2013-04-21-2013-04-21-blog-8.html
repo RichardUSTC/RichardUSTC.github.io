@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>C++虚继承 | Richard Lee&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="C++中支持多重继承，但是菱形继承会带来一些问题。 比如D1和D2继承了B，而D又同时继承了D1和D2   1 class B{  2     public:  3     int x;  4 };  5   6 class D1:public B{  7 };  8   9 class D2:public B{ 10 }; 11  12 class D:public D1, public D2{">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++虚继承">
+<meta property="og:url" content="http://richardustc.github.io/2013-04-21-2013-04-21-blog-8.html">
+<meta property="og:site_name" content="Richard Lee&#39;s Blog">
+<meta property="og:description" content="C++中支持多重继承，但是菱形继承会带来一些问题。 比如D1和D2继承了B，而D又同时继承了D1和D2   1 class B{  2     public:  3     int x;  4 };  5   6 class D1:public B{  7 };  8   9 class D2:public B{ 10 }; 11  12 class D:public D1, public D2{">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2013-04-21T00:04:00.000Z">
+<meta property="article:modified_time" content="2020-08-11T06:56:28.589Z">
+<meta property="article:author" content="Richard Lee">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternative" href="/atom.xml" title="Richard Lee&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+<meta name="generator" content="Hexo 5.0.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Richard Lee&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://richardustc.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2013-04-21-blog-8" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-04-21-2013-04-21-blog-8.html" class="article-date">
+  <time datetime="2013-04-21T00:04:00.000Z" itemprop="datePublished">2013-04-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/CPP/">CPP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C++虚继承
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>C++中支持多重继承，但是菱形继承会带来一些问题。</p>
+<p>比如D1和D2继承了B，而D又同时继承了D1和D2</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> B{
+</span><span style="color: #008080;"> 2</span>     <span style="color: #0000ff;">public</span><span style="color: #000000;">:
+</span><span style="color: #008080;"> 3</span>     <span style="color: #0000ff;">int</span><span style="color: #000000;"> x;
+</span><span style="color: #008080;"> 4</span> <span style="color: #000000;">};
+</span><span style="color: #008080;"> 5</span> 
+<span style="color: #008080;"> 6</span> <span style="color: #0000ff;">class</span> D1:<span style="color: #0000ff;">public</span><span style="color: #000000;"> B{
+</span><span style="color: #008080;"> 7</span> <span style="color: #000000;">};
+</span><span style="color: #008080;"> 8</span> 
+<span style="color: #008080;"> 9</span> <span style="color: #0000ff;">class</span> D2:<span style="color: #0000ff;">public</span><span style="color: #000000;"> B{
+</span><span style="color: #008080;">10</span> <span style="color: #000000;">};
+</span><span style="color: #008080;">11</span> 
+<span style="color: #008080;">12</span> <span style="color: #0000ff;">class</span> D:<span style="color: #0000ff;">public</span> D1, <span style="color: #0000ff;">public</span><span style="color: #000000;"> D2{
+</span><span style="color: #008080;">13</span> };</pre>
+</div>
+<p>如果初始化一个D的对象，访问x就会产生歧义，因为D里面包含D1和D2的成员，而D1和D2各自有一份继承自B的x，编译器此时不知道该访问哪个x。</p>
+<p>而虚继承能够保证菱形继承中，父类B的成员只出现一次，避免这种歧义。</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #0000ff;">class</span> D1:<span style="color: #0000ff;">virtual</span> <span style="color: #0000ff;">public</span><span style="color: #000000;"> B{
+</span><span style="color: #008080;">2</span> <span style="color: #000000;">};
+</span><span style="color: #008080;">3</span> 
+<span style="color: #008080;">4</span> <span style="color: #0000ff;">class</span> D2:<span style="color: #0000ff;">public</span> <span style="color: #0000ff;">virtual</span><span style="color: #000000;"> B{
+</span><span style="color: #008080;">5</span> };</pre>
+</div>
+<p>注意：上面代码中第1行和第4行的两种写法都是可以的。</p>
+<p>虚继承关键字写在D1和D2的继承列表上，但却对D1和D2没有影响，而是影响继承D1和D2的D。</p>
+<p>但是虚继承也无法解决所有的歧义，比如：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> B{
+</span><span style="color: #008080;"> 2</span>     <span style="color: #0000ff;">public</span><span style="color: #000000;">:
+</span><span style="color: #008080;"> 3</span>         <span style="color: #0000ff;">int</span><span style="color: #000000;"> x;
+</span><span style="color: #008080;"> 4</span> <span style="color: #000000;">};
+</span><span style="color: #008080;"> 5</span> 
+<span style="color: #008080;"> 6</span> <span style="color: #0000ff;">class</span> D1:<span style="color: #0000ff;">virtual</span> <span style="color: #0000ff;">public</span><span style="color: #000000;"> B{
+</span><span style="color: #008080;"> 7</span>     <span style="color: #0000ff;">public</span><span style="color: #000000;">:
+</span><span style="color: #008080;"> 8</span>         <span style="color: #0000ff;">int</span><span style="color: #000000;"> x;
+</span><span style="color: #008080;"> 9</span> <span style="color: #000000;">};
+</span><span style="color: #008080;">10</span> 
+<span style="color: #008080;">11</span> <span style="color: #0000ff;">class</span> D2:<span style="color: #0000ff;">public</span> <span style="color: #0000ff;">virtual</span><span style="color: #000000;"> B{
+</span><span style="color: #008080;">12</span>     <span style="color: #0000ff;">public</span><span style="color: #000000;">:
+</span><span style="color: #008080;">13</span>         <span style="color: #0000ff;">int</span><span style="color: #000000;"> x;
+</span><span style="color: #008080;">14</span> <span style="color: #000000;">};
+</span><span style="color: #008080;">15</span> 
+<span style="color: #008080;">16</span> <span style="color: #0000ff;">class</span> D:<span style="color: #0000ff;">public</span> D1, <span style="color: #0000ff;">public</span><span style="color: #000000;"> D2{
+</span><span style="color: #008080;">17</span> };</pre>
+</div>
+<p>在这种情况下，即使使用了虚继承，创建D的对象访问x的时候仍然会发生歧义。</p>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-04-21-2013-04-21-blog-8.html" data-id="ckdpm8hqk001jqpda0bzhgyom" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013-04-22-2013-04-22-blog-7.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          C++特殊技巧
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013-04-18-2013-04-18-blog-10.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">小程序通用Makefile</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C#</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CPP/">CPP</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Command-Line/">Command-Line</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kernel/">Kernel</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LLVM/">LLVM</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PyQt/">PyQt</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Regex/">Regex</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Toolchain/">Toolchain</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PyQt/" rel="tag">PyQt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/PyQt/" style="font-size: 10px;">PyQt</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">八月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">六月 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">五月 2013</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">四月 2013</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">一月 2013</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015-07-09-except-hook.html">python中的excepthook</a>
+          </li>
+        
+          <li>
+            <a href="/2015-07-06-create-PyQt-Program-with-Designer.html">使用Designer编写PyQt程序的简单流程</a>
+          </li>
+        
+          <li>
+            <a href="/2013-12-14-2013-12-14-c-sharp-basics.html">C# Type Basic</a>
+          </li>
+        
+          <li>
+            <a href="/2013-09-26-2013-09-26-generate-random-numbers.html">构造随机数生成器</a>
+          </li>
+        
+          <li>
+            <a href="/2013-09-16-2013-09-16-python-notes.html">Python笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Richard Lee<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//libs.baidu.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

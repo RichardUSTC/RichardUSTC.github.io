@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Richard Lee&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Personal Blog">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Richard Lee&#39;s Blog">
+<meta property="og:url" content="http://richardustc.github.io/page/2/index.html">
+<meta property="og:site_name" content="Richard Lee&#39;s Blog">
+<meta property="og:description" content="Personal Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Richard Lee">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternative" href="/atom.xml" title="Richard Lee&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+<meta name="generator" content="Hexo 5.0.2"></head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Richard Lee&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://richardustc.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-2013-06-20-javascript-basic-concept" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-06-20-2013-06-20-javascript-basic-concept.html" class="article-date">
+  <time datetime="2013-06-20T13:11:00.000Z" itemprop="datePublished">2013-06-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Javascript/">Javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-06-20-2013-06-20-javascript-basic-concept.html">javascript basic concept</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>以前也学过一段时间的Javascript，但是长时间不用，很多东西已经忘记了。趁此机会总结一下Javascript的基本用法。</p>
+<h2 id="Javascript的位置"><a href="#Javascript的位置" class="headerlink" title="Javascript的位置"></a>Javascript的位置</h2><h3 id="head内"><a href="#head内" class="headerlink" title="head内"></a>head内</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;script type=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            alert(<span class="string">&quot;hello, world.&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt; </span><br><span class="line">&lt;/head&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="body内"><a href="#body内" class="headerlink" title="body内"></a>body内</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script type=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            alert(<span class="string">&quot;hello, world.&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt; </span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="外部Javascript文件"><a href="#外部Javascript文件" class="headerlink" title="外部Javascript文件"></a>外部Javascript文件</h3><head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+
+<h2 id="Javascript的语句"><a href="#Javascript的语句" class="headerlink" title="Javascript的语句"></a>Javascript的语句</h2><p>Javascript的语句可以以’;’结尾，也可以以换行来结尾。如果需要断行，可以使用’&#39;。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">alert(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">alert(<span class="string">&quot;2&quot;</span>)</span><br><span class="line">alert(<span class="string">&quot;\</span></span><br><span class="line"><span class="string">3&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Javascript注释"><a href="#Javascript注释" class="headerlink" title="Javascript注释"></a>Javascript注释</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// comment in one line</span></span><br><span class="line"><span class="comment">/* comment</span></span><br><span class="line"><span class="comment">   in</span></span><br><span class="line"><span class="comment">   multiple</span></span><br><span class="line"><span class="comment">   line</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Javascript变量"><a href="#Javascript变量" class="headerlink" title="Javascript变量"></a>Javascript变量</h2><ul>
+<li>Javascript中所有的变量都是对象。</li>
+<li>Javascript变量类型是动态可变的。</li>
+<li>第一次初始化之前不声明，则变量是全局的。如果有声明，那么变量的作用域为变量声明所在的域。</li>
+<li>Javascript变量未初始化之前为undefined。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x;</span><br><span class="line">x = <span class="number">1</span>;</span><br><span class="line">x = <span class="string">&quot;hello&quot;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Javascript中的数据类型"><a href="#Javascript中的数据类型" class="headerlink" title="Javascript中的数据类型"></a>Javascript中的数据类型</h2><h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s1 = <span class="string">&quot;hello&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> s2 = <span class="string">&quot;world&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> s3 = x + y;</span><br><span class="line"><span class="keyword">var</span> s4 = <span class="string">&quot;hello, &#x27;world&#x27;&quot;</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num1 = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> num2 = <span class="number">1.1</span>;</span><br><span class="line"><span class="keyword">var</span> num3 = <span class="number">1e10</span>;</span><br><span class="line"><span class="keyword">var</span> num4 = <span class="number">1e-3</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="布尔值"><a href="#布尔值" class="headerlink" title="布尔值"></a>布尔值</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> b1 = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">var</span> b2 = <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line">arr[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">&quot;2&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> arr2 = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">1</span>, <span class="string">&quot;2&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> arr3 = [<span class="number">1</span>, <span class="string">&quot;2&quot;</span>];</span><br><span class="line">arr.length</span><br></pre></td></tr></table></figure>
+<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj1 = &#123;<span class="attr">f1</span>:<span class="number">1</span>, <span class="attr">f2</span>:<span class="string">&quot;2&quot;</span>&#125;;</span><br><span class="line"><span class="keyword">var</span> i = obj1.f1;</span><br><span class="line"><span class="keyword">var</span> s = obj1.f2;</span><br><span class="line"><span class="keyword">var</span> obj2 = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">obj2.f1 = <span class="number">1</span>;</span><br><span class="line">obj2.f2 = <span class="string">&quot;2&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">person</span>(<span class="params">name, age</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = name;</span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sam = <span class="keyword">new</span> person(<span class="string">&quot;Sam&quot;</span>, <span class="string">&quot;10&quot;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Javascript函数"><a href="#Javascript函数" class="headerlink" title="Javascript函数"></a>Javascript函数</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func1</span>(<span class="params">arg1, arg2</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> arg1 + arg2;</span><br><span class="line">&#125;</span><br><span class="line">func2 = <span class="function"><span class="keyword">function</span>(<span class="params">arg1, arg2</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> arg1 + arg2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Javascript运算符"><a href="#Javascript运算符" class="headerlink" title="Javascript运算符"></a>Javascript运算符</h2><ol>
+<li>+, -, *, /, %</li>
+<li>++, –</li>
+<li>=, +=, -=, *=, /=, %=</li>
+<li>==, ===, !=, &gt;, &lt;, &gt;=, &lt;=</li>
+<li>&amp;&amp;, ||, !</li>
+</ol>
+<h2 id="Javascript语句"><a href="#Javascript语句" class="headerlink" title="Javascript语句"></a>Javascript语句</h2><h3 id="条件语句"><a href="#条件语句" class="headerlink" title="条件语句"></a>条件语句</h3><p>与C语言类似</p>
+<h3 id="switch语句"><a href="#switch语句" class="headerlink" title="switch语句"></a>switch语句</h3><p>与C语言类似</p>
+<h3 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h3><h4 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;length; i++)&#123;</span><br><span class="line">    arr[i] = i;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> x)&#123;</span><br><span class="line">    arr[i] = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h4><p>与C语言类似</p>
+<h4 id="do-while循环"><a href="#do-while循环" class="headerlink" title="do..while循环"></a>do..while循环</h4><p>与C语言类似</p>
+<h3 id="break语句"><a href="#break语句" class="headerlink" title="break语句"></a>break语句</h3><p>不带标签时与C语言类似</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">list:&#123;</span><br><span class="line">    <span class="built_in">document</span>.write(cars[<span class="number">0</span>] + <span class="string">&quot;&lt;br&gt;&quot;</span>); </span><br><span class="line">    <span class="built_in">document</span>.write(cars[<span class="number">1</span>] + <span class="string">&quot;&lt;br&gt;&quot;</span>); </span><br><span class="line">    <span class="built_in">document</span>.write(cars[<span class="number">2</span>] + <span class="string">&quot;&lt;br&gt;&quot;</span>); </span><br><span class="line">    <span class="keyword">break</span> list;</span><br><span class="line">    <span class="comment">// The next three statement will not be executed</span></span><br><span class="line">    <span class="built_in">document</span>.write(cars[<span class="number">3</span>] + <span class="string">&quot;&lt;br&gt;&quot;</span>); </span><br><span class="line">    <span class="built_in">document</span>.write(cars[<span class="number">4</span>] + <span class="string">&quot;&lt;br&gt;&quot;</span>); </span><br><span class="line">    <span class="built_in">document</span>.write(cars[<span class="number">5</span>] + <span class="string">&quot;&lt;br&gt;&quot;</span>); </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> iNum = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">outermost:</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;<span class="number">10</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> j=<span class="number">0</span>; j&lt;<span class="number">10</span>; j++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">5</span> &amp;&amp; j == <span class="number">5</span>) &#123;</span><br><span class="line">    <span class="keyword">break</span> outermost;</span><br><span class="line">  &#125;</span><br><span class="line">  iNum++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">alert(iNum);    <span class="comment">//输出 &quot;55&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="continue语句"><a href="#continue语句" class="headerlink" title="continue语句"></a>continue语句</h3><p>不带标签时与C语言类似</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> iNum = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">outermost:</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;<span class="number">10</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> j=<span class="number">0</span>; j&lt;<span class="number">10</span>; j++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">5</span> &amp;&amp; j == <span class="number">5</span>) &#123;</span><br><span class="line">        <span class="keyword">continue</span> outermost;</span><br><span class="line">  &#125;</span><br><span class="line">  iNum++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">alert(iNum);    <span class="comment">//输出 &quot;95&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="try-catch"><a href="#try-catch" class="headerlink" title="try..catch"></a>try..catch</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="comment">//do something</span></span><br><span class="line">    <span class="comment">//throw some_err</span></span><br><span class="line">    <span class="comment">//do something</span></span><br><span class="line">&#125;<span class="keyword">catch</span>(err)&#123;</span><br><span class="line">    <span class="comment">//deal with error</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Javascript操作DOM"><a href="#Javascript操作DOM" class="headerlink" title="Javascript操作DOM"></a>Javascript操作DOM</h2><h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x=<span class="built_in">document</span>.getElementById(<span class="string">&quot;intro&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> y=x.getElementsByTagName(<span class="string">&quot;p&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="改变HTML"><a href="#改变HTML" class="headerlink" title="改变HTML"></a>改变HTML</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.write(<span class="string">&quot;new content&quot;</span>) <span class="comment">// originally contents will be flushed</span></span><br><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">&quot;header&quot;</span>).innerHTML=<span class="string">&quot;new header&quot;</span>;</span><br><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">&quot;image&quot;</span>).src=<span class="string">&quot;landscape.jpg&quot;</span>;</span><br><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">&quot;p2&quot;</span>).style.color=<span class="string">&quot;blue&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="针对事件做出反应"><a href="#针对事件做出反应" class="headerlink" title="针对事件做出反应"></a>针对事件做出反应</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">&quot;myBtn&quot;</span>).onclick=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;displayDate()&#125;;</span><br></pre></td></tr></table></figure>
+<p>DOM<a target="_blank" rel="noopener" href="http://www.w3school.com.cn/htmldom/dom_obj_event.asp">事件列表</a></p>
+<h3 id="创建新的HTML元素"><a href="#创建新的HTML元素" class="headerlink" title="创建新的HTML元素"></a>创建新的HTML元素</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> para=<span class="built_in">document</span>.createElement(<span class="string">&quot;p&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> node=<span class="built_in">document</span>.createTextNode(<span class="string">&quot;这是新段落。&quot;</span>);</span><br><span class="line">para.appendChild(node);</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除HTML元素"><a href="#删除HTML元素" class="headerlink" title="删除HTML元素"></a>删除HTML元素</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> parent=<span class="built_in">document</span>.getElementById(<span class="string">&quot;div1&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> child=<span class="built_in">document</span>.getElementById(<span class="string">&quot;p1&quot;</span>);</span><br><span class="line">parent.removeChild(child);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Javascript-Cheat-Sheet"><a href="#Javascript-Cheat-Sheet" class="headerlink" title="Javascript Cheat Sheet"></a>Javascript Cheat Sheet</h2><p><a target="_blank" rel="noopener" href="http://www.addedbytes.com/cheat-sheets/download/javascript-cheat-sheet-v1.png">Javascript Cheat Sheet</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-06-20-2013-06-20-javascript-basic-concept.html" data-id="ckdpm8hr40036qpda9o926rtf" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2013-06-20-72-transformation-of-one-executable" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-06-20-2013-06-20-72-transformation-of-one-executable.html" class="article-date">
+  <time datetime="2013-06-20T09:21:00.000Z" itemprop="datePublished">2013-06-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Other/">Other</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-06-20-2013-06-20-72-transformation-of-one-executable.html">一个可执行文件的72变</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>同一个可执行文件，改成不同的名字，就拥有不同的功能？</p>
+<p>我最早看到的这种拥有“72变”能力的可执行文件就是大名鼎鼎的<code>busybox</code>。<br>经过一番思考，我弄明白了其中的原理，现在在这里剖析一下。<br>先来看一看一个简单的test.c</p>
+<figure class="highlight c"><figcaption><span>test.c</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, argv[<span class="number">0</span>]);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ gcc test.c -o test</span><br><span class="line">$ .&#x2F;test</span><br><span class="line">.&#x2F;test</span><br><span class="line">$ cp test test1</span><br><span class="line">$ .&#x2F;test1</span><br><span class="line">.&#x2F;test1</span><br></pre></td></tr></table></figure>
+<p>之所以会产生这样的结果是因为传给main的参数<code>argv</code>中的<code>argv[0]</code>始终存储着可执行文件的路径。利用这个特性，我们就可以写出一个拥有“72变”能力的程序了。</p>
+<p>下面给出一个拥有“3变”能力的例子。</p>
+<figure class="highlight c"><figcaption><span>3.c</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;libgen.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line">    <span class="comment">//get the name of the executable</span></span><br><span class="line">    <span class="keyword">char</span> *path = strdup(argv[<span class="number">0</span>]);</span><br><span class="line">    <span class="keyword">char</span> *bname = basename(path);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(!<span class="built_in">strcmp</span>(bname, <span class="string">&quot;happy&quot;</span>))&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;I&#x27;m happy!\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(!<span class="built_in">strcmp</span>(bname, <span class="string">&quot;unhappy&quot;</span>))&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;I&#x27;m not happy!\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;To be, or not to be, that is the question.\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ gcc 3.c -o happy</span><br><span class="line">$ .&#x2F;happy</span><br><span class="line">I&#39;m happy!</span><br><span class="line">$ mv happy unhappy</span><br><span class="line">$ .&#x2F;unhappy</span><br><span class="line">I&#39;m not happy!</span><br><span class="line">$ mv unhappy x</span><br><span class="line">$ .&#x2F;x</span><br><span class="line">To be, or not to be, that is the question.</span><br></pre></td></tr></table></figure>
+
+<p>Shell脚本也可以玩这一招</p>
+<figure class="highlight sh"><figcaption><span>3.sh</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line">bname=`basename <span class="variable">$0</span>`</span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$bname</span> = <span class="string">&quot;happy&quot;</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;I&#x27;m happy!&quot;</span></span><br><span class="line"><span class="keyword">elif</span> [ <span class="variable">$bname</span> = <span class="string">&quot;unhappy&quot;</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;I&#x27;m not happy!&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;To be, or not to be, that is the question.&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-06-20-2013-06-20-72-transformation-of-one-executable.html" data-id="ckdpm8hr30032qpda1mlh2niz" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2013-06-19-programming-with-llvm-ir" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-06-19-2013-06-19-programming-with-llvm-ir.html" class="article-date">
+  <time datetime="2013-06-19T08:40:00.000Z" itemprop="datePublished">2013-06-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/LLVM/">LLVM</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-06-19-2013-06-19-programming-with-llvm-ir.html">使用LLVM IR编程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近做的工作要使用LLVM IR来进行编程，借这篇文章来整理一下最近学到的一些东西。<br>LLVM是一个非常有名的编译器基础设施。访问<a target="_blank" rel="noopener" href="http://www.llvm.org/">LLVM官方网站</a>获得更多信息。</p>
+<h2 id="LLVM-IR简介"><a href="#LLVM-IR简介" class="headerlink" title="LLVM IR简介"></a>LLVM IR简介</h2><p>LLVM有自己的一套中间表示IR(Intermedia Representation)。IR在编译器中承担着一个承前启后的角色。编译器前端对源程序进行语法和语义分析，生成IR。编译器后端则将IR汇编成对应的机器指令。此外，编译器中大部分的优化都是在IR上完成的。</p>
+<p>LLVM的IR功能强大，其形式类似于RISC机器的指令。LLVM可以使用解释来执行IR，也可以利用JIT将IR翻译成对应的机器指令。</p>
+<h2 id="LLVM-IR相关概念"><a href="#LLVM-IR相关概念" class="headerlink" title="LLVM IR相关概念"></a>LLVM IR相关概念</h2><p>使用LLVM IR编程要涉及到Module, Function, BasicBlock, Instruction, ExecutionEngine等概念。下面对这些概念进行一个简单的说明。</p>
+<h3 id="Module"><a href="#Module" class="headerlink" title="Module"></a>Module</h3><p>可以将LLVM中的Module类比为C程序中的源文件。一个C源文件中包含函数和全局变量定义、外部函数和外部函数声明，一个Module中包含的内容也基本上如此，只不过C源文件中是源码来表示，Module中是用IR来表示。</p>
+<h3 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h3><p>Function是LLVM JIT操作的基本单位。Function被Module所包含。LLVM的Function包含函数名、函数的返回值和参数类型。Function内部则包含BasicBlock。</p>
+<h3 id="BasicBlock"><a href="#BasicBlock" class="headerlink" title="BasicBlock"></a>BasicBlock</h3><p>BasicBlock与编译技术中常见的基本块(basic block)的概念是一致的。BasicBlock必须以跳转指令结尾。</p>
+<h3 id="Instruction"><a href="#Instruction" class="headerlink" title="Instruction"></a>Instruction</h3><p>Instruction就是LLVM IR的最基本单位。Instruction被包含在BasicBlock中。</p>
+<h3 id="ExecutionEngine"><a href="#ExecutionEngine" class="headerlink" title="ExecutionEngine"></a>ExecutionEngine</h3><p>ExecutionEngine是用来运行IR的。运行IR有两种方式：解释运行和JIT生成机器码运行。相应的ExecutionEngine就有两种：Interpreter和JIT。ExecutionEngine的类型可以在创建ExecutionEngine时指定。</p>
+<h2 id="LLVM-IR编程基本流程"><a href="#LLVM-IR编程基本流程" class="headerlink" title="LLVM IR编程基本流程"></a>LLVM IR编程基本流程</h2><ol>
+<li>创建一个Module</li>
+<li>在Module中添加Function</li>
+<li>在Function中添加BasicBlock</li>
+<li>在BasicBlock中添加指令</li>
+<li>创建一个ExecutionEngine</li>
+<li>使用ExecutionEngine来运行IR</li>
+</ol>
+<h2 id="LLVM-IR编程示例与说明"><a href="#LLVM-IR编程示例与说明" class="headerlink" title="LLVM IR编程示例与说明"></a>LLVM IR编程示例与说明</h2><p>注意： LLVM处于快速发展之中，其API变化非常大，不同版本之间的API可能不兼容。本文的示例都基于LLVM 2.9。</p>
+<h3 id="创建Module"><a href="#创建Module" class="headerlink" title="创建Module"></a>创建Module</h3><p>Module创建时需要一个context，通常使用global context。在例子中，Module的name被设置为<code>test</code>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Module Construction</span></span><br><span class="line">LLVMContext &amp; context = llvm::getGlobalContext();</span><br><span class="line">Module* <span class="keyword">module</span> = <span class="keyword">new</span> Module(<span class="string">&quot;test&quot;</span>, context);</span><br></pre></td></tr></table></figure>
+
+<h3 id="在Module中添加Function"><a href="#在Module中添加Function" class="headerlink" title="在Module中添加Function"></a>在Module中添加Function</h3><p>在Module中添加Function的方法比较多，这里介绍一种比较简洁的方法。下面的代码生成了一个函数<code>void foo(void)</code>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Constant* c = <span class="keyword">module</span>-&gt;getOrInsertFunction(<span class="string">&quot;foo&quot;</span>,</span><br><span class="line"><span class="comment">/*ret type*/</span>                           Type::getVoidTy(context),</span><br><span class="line"><span class="comment">/*args*/</span>                               Type::getVoidTy(context),</span><br><span class="line"><span class="comment">/*varargs terminated with null*/</span>       <span class="literal">NULL</span>);</span><br><span class="line">Function* foo = cast&lt;Function&gt;(c); <span class="comment">/* cast is provided by LLVM</span></span><br><span class="line"><span class="comment">foo-&gt;setCallingConv(CallingConv::C);</span></span><br></pre></td></tr></table></figure>
+<p>到目前为止，还没有添加BasicBlock，函数foo仅仅是一个函数原型。第6行设置foo遵循C函数调用的规则。LLVM中的函数支持多种调用规则，通常使用C的调用规则即可。更多调用规则可以参考<code>llvm::CallingConv::ID</code>。</p>
+<h3 id="在Function中添加BasicBlock"><a href="#在Function中添加BasicBlock" class="headerlink" title="在Function中添加BasicBlock"></a>在Function中添加BasicBlock</h3><p>创建BasicBlock可以使用BasicBlock类的静态函数Create。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BasicBlock* block = BasicBlock::Create(context, <span class="string">&quot;entry&quot;</span>, foo);</span><br></pre></td></tr></table></figure>
+<p>第三个参数<code>foo</code>表示将<code>block</code>插入到Function <code>foo</code>中。</p>
+<h3 id="在BasicBlock中添加指令"><a href="#在BasicBlock中添加指令" class="headerlink" title="在BasicBlock中添加指令"></a>在BasicBlock中添加指令</h3><p>下面介绍一个在BasicBlock中添加指令的简洁方法。这个方法使用了一个工厂类<code>IRBuilder</code>的实例<code>builder</code>。<br>首先，初始化<code>builder</code>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">IRBuilder&lt;&gt; <span class="title">builder</span><span class="params">(block)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>这里将<code>block</code>作为参数表示接下来的指令将被插入到<code>block</code>中。</p>
+<p>接下来的一段代码开始向<code>block</code>中插入代码。含义包含在注释中。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Create three constant integer x, y, z.</span></span><br><span class="line">Value *x = ConstantInt::get(Type::getInt32Ty(context), <span class="number">3</span>);</span><br><span class="line">Value *y = ConstantInt::get(Type::getInt32Ty(context), <span class="number">2</span>);</span><br><span class="line">Value *z = ConstantInt::get(Type::getInt32Ty(context), <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//addr = &amp;value</span></span><br><span class="line"><span class="comment">/* we will check the value of &#x27;value&#x27; and see</span></span><br><span class="line"><span class="comment">** whether the function we construct is running correctly.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">long</span> value = <span class="number">10</span>;</span><br><span class="line">Value * addr = builder.CreateIntToPtr(</span><br><span class="line">    ConstantInt::get(Type::getInt64Ty(context), (<span class="keyword">uint64_t</span>)&amp;value),</span><br><span class="line">    Type::getInt64PtrTy(context),</span><br><span class="line">    <span class="string">&quot;addr&quot;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// mem = [addr]</span></span><br><span class="line">Value* mem = builder.CreateLoad(addr, <span class="string">&quot;mem&quot;</span>);</span><br><span class="line"><span class="comment">// tmp = 3*mem</span></span><br><span class="line">Value* tmp = builder.CreateBinOp(Instruction::Mul,</span><br><span class="line">                                 x, mem, <span class="string">&quot;tmp&quot;</span>);</span><br><span class="line"><span class="comment">// tmp2 = tmp+2</span></span><br><span class="line">Value* tmp2 = builder.CreateBinOp(Instruction::Add,</span><br><span class="line">                                  tmp, y, <span class="string">&quot;tmp2&quot;</span>);</span><br><span class="line"><span class="comment">// tmp3 = tmp2-1</span></span><br><span class="line">Value* tmp3 = builder.CreateBinOp(Instruction::Sub,</span><br><span class="line">                                  tmp2, z, <span class="string">&quot;tmp3&quot;</span>);</span><br><span class="line"><span class="comment">// [addr] = mem</span></span><br><span class="line">builder.CreateStore(tmp3, addr); </span><br><span class="line"><span class="comment">// ret</span></span><br><span class="line">builder.CreateRetVoid();</span><br></pre></td></tr></table></figure>
+<p>至此，我们通过LLVM的IR生成一个Module <code>test</code>，这个Module中包含一个Function <code>foo</code>，而<code>foo</code>中包含一个BasicBlock <code>entry</code>。</p>
+<h3 id="展示已经生成的IR"><a href="#展示已经生成的IR" class="headerlink" title="展示已经生成的IR"></a>展示已经生成的IR</h3><p>我们可以使用Module的dump方法先展示目前的成果。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span>-&gt;dump();</span><br></pre></td></tr></table></figure>
+<p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">; ModuleID &#x3D; &#39;test&#39;</span><br><span class="line"></span><br><span class="line">define void @foo(void) &#123;</span><br><span class="line">entry:</span><br><span class="line">  ; the number &#39;140735314124408&#39; maybe different on your machine.</span><br><span class="line">  %mem &#x3D; load i64* inttoptr (i64 140735314124408 to i64*) </span><br><span class="line">  %tmp &#x3D; mul i32 3, i64 %mem</span><br><span class="line">  %tmp2 &#x3D; add i32 %tmp, 2</span><br><span class="line">  %tmp3 &#x3D; sub i32 %tmp2, 1</span><br><span class="line">  ; the number &#39;140735314124408&#39; maybe different on your machine.</span><br><span class="line">  store i32 %tmp3, i64* inttoptr (i64 140735314124408 to i64*)</span><br><span class="line">  ret void</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建ExecutionEngine"><a href="#创建ExecutionEngine" class="headerlink" title="创建ExecutionEngine"></a>创建ExecutionEngine</h3><p>接下来就要使用ExecutionEngine来生成代码了。</p>
+<p>创建一个JIT类型的ExecutionEngine，为了便于观察IR生成的机器码，设置为不优化。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">InitializeNativeTarget();</span><br><span class="line">    ExecutionEngine *ee = EngineBuilder(<span class="keyword">module</span>).setEngineKind(EngineKind::JIT)</span><br><span class="line">        .setOptLevel(CodeGenOpt::None).create();</span><br></pre></td></tr></table></figure>
+
+<h3 id="生成机器指令"><a href="#生成机器指令" class="headerlink" title="生成机器指令"></a>生成机器指令</h3><p>JIT生成机器指令以Function为单位。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> * fooAddr = ee-&gt;getPointerToFunction(foo);</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt;<span class="string">&quot;address of function &#x27;foo&#x27;: &quot;</span> &lt;&lt; <span class="built_in">std</span>::hex &lt;&lt; fooAddr &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+<p>如果用gdb跟踪函数执行，待输出fooAddr后，用<code>x/i</code>命令，即可查看<code>foo</code>对应的机器指令。<br>例如，我的X86_64机器上输出为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">0x7ffff7f6d010:  movabs $0x7fffffffe2b0,%rax</span><br><span class="line">0x7ffff7f6d01a:  mov    $0x3,%ecx</span><br><span class="line">0x7ffff7f6d01f:  mov    (%rax),%edx</span><br><span class="line">0x7ffff7f6d021:  imul   %ecx,%edx</span><br><span class="line">0x7ffff7f6d024:  add    $0x2,%edx</span><br><span class="line">0x7ffff7f6d02a:  sub    $0x1,%edx</span><br><span class="line">0x7ffff7f6d030:  mov    %edx,(%rax)</span><br><span class="line">0x7ffff7f6d032:  retq</span><br></pre></td></tr></table></figure>
+
+<h3 id="运行机器指令"><a href="#运行机器指令" class="headerlink" title="运行机器指令"></a>运行机器指令</h3><p>使用类型转换将fooAddr转换成一个函数fooFunc，然后调用。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Run the function</span></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="built_in">std</span>::dec &lt;&lt; <span class="string">&quot;Before calling foo: value = &quot;</span> &lt;&lt; value &lt;&lt;  <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(*FuncType)</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line">FuncType fooFunc = (FuncType)fooAddr;</span><br><span class="line">fooFunc();</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;After calling foo: value = &quot;</span> &lt;&lt; value &lt;&lt;  <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+<p>我们使用value的值来检验<code>foo</code>构造的正确性。运行之后的输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Before calling foo: value &#x3D; 10</span><br><span class="line">After calling foo: value &#x3D; 31</span><br></pre></td></tr></table></figure>
+<p>经过验算，<code>foo</code>的功能是正确的。</p>
+<h3 id="直接生成并运行机器指令"><a href="#直接生成并运行机器指令" class="headerlink" title="直接生成并运行机器指令"></a>直接生成并运行机器指令</h3><p>ExecutionEngine还提供一个接口<code>runFunction</code>直接JIT并运行机器指令。具体做法可以参考<code>LLVM::ExecutionEngine::runFunction</code>的文档。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>本文中的全部代码可以在<a target="_blank" rel="noopener" href="https://github.com/RichardUSTC/llvm-ir-programming-example">这里查看</a>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-06-19-2013-06-19-programming-with-llvm-ir.html" data-id="ckdpm8hr30034qpda6zojfmeu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2013-06-09-diff-with-regex" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-06-09-2013-06-09-diff-with-regex.html" class="article-date">
+  <time datetime="2013-06-09T06:12:00.000Z" itemprop="datePublished">2013-06-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Command-Line/">Command-Line</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-06-09-2013-06-09-diff-with-regex.html">正则表达式与diff的结合</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>diff是Linux下一个非常有用的工具，主要用来比较两个文件的不同。有时候，需要diff的两个文件中包含一些无关的信息，这些信息不同，导致diff的结果很复杂，难于分析。碰到这种情况，通常是利用sed之类的工具去掉源文件中的无关信息，生成临时文件，再对临时文件做diff。diff完成之后再删除临时文件。</p>
+<p>今天刚好搜到StackOverflow上的一个问答，直接用diff的功能解决了这个问题，无需再创建和删除临时文件了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">diff --label example_file1 &lt;(sed <span class="string">&#x27;s/example_old1_regex/example_new1_regex/&#x27;</span> example_file1) \</span><br><span class="line">     --label example_file2 &lt;(sed <span class="string">&#x27;s/example_old2_regex/example_new2_regex/&#x27;</span> example_file2)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-06-09-2013-06-09-diff-with-regex.html" data-id="ckdpm8hr20030qpdaeblh7roq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2013-06-04-assertion-in-regular-expression" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-06-04-2013-06-04-assertion-in-regular-expression.html" class="article-date">
+  <time datetime="2013-06-04T13:45:00.000Z" itemprop="datePublished">2013-06-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Regex/">Regex</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-06-04-2013-06-04-assertion-in-regular-expression.html">正则表达式中的断言</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>正则表达式主要用于文本匹配，并从匹配的文本中提取出感兴趣的字段。正则表达式的应用非常广泛，已经有非常多的编程语言和工具支持正则表达式。这里有一篇文章<a target="_blank" rel="noopener" href="http://deerchao.net/tutorials/regex/regex.htm">30分钟学会正则表达式</a>。本文主要记录一下正则表达式中的零宽断言，因为这一部分是我平时很少用到，掌握不牢的部分。</p>
+<p>零宽断言是正则表达式中匹配位置的一种方式。零宽断言分为以下几种：</p>
+<h2 id="零宽度正预测先行断言"><a href="#零宽度正预测先行断言" class="headerlink" title="零宽度正预测先行断言"></a>零宽度正预测先行断言</h2><ul>
+<li>语法：(?=&lt;exp&gt;)</li>
+<li>含义：从当前位置开始向前（向右）成功匹配exp，则匹配位置成功</li>
+<li>示例：(?=abc)</li>
+<li>示例含义：匹配向右看三个字符是’abc’的位置</li>
+</ul>
+<h2 id="零宽度负预测先行断言"><a href="#零宽度负预测先行断言" class="headerlink" title="零宽度负预测先行断言"></a>零宽度负预测先行断言</h2><ul>
+<li>语法：(?!&lt;exp&gt;)</li>
+<li>含义：从当前位置开始向前（向右）无法成功匹配exp，则匹配位置成功</li>
+<li>示例：(?!abc)</li>
+<li>示例含义：匹配向右看三个字符不是’abc’的位置</li>
+</ul>
+<h2 id="零宽度正回顾后发断言"><a href="#零宽度正回顾后发断言" class="headerlink" title="零宽度正回顾后发断言"></a>零宽度正回顾后发断言</h2><ul>
+<li>语法：(?&lt;=&lt;exp&gt;)</li>
+<li>含义：从当前位置开始向后（向左）成功匹配exp，则匹配位置成功</li>
+<li>示例：(?&lt;=abc)</li>
+<li>示例含义：匹配往左看连续三个字符为’abc’的位置</li>
+</ul>
+<h2 id="零宽度负回顾后发断言"><a href="#零宽度负回顾后发断言" class="headerlink" title="零宽度负回顾后发断言"></a>零宽度负回顾后发断言</h2><ul>
+<li>语法：(?&lt;!&lt;exp&gt;)</li>
+<li>含义：从当前位置开始向后（向左）无法成功匹配exp，则匹配位置成功</li>
+<li>示例：(?&lt;!abc)</li>
+<li>示例含义：匹配往左看连续三个字符不为’abc’的位置</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-06-04-2013-06-04-assertion-in-regular-expression.html" data-id="ckdpm8hr0002vqpdad6zagg7p" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2013-05-27-wget" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-05-27-2013-05-27-wget.html" class="article-date">
+  <time datetime="2013-05-27T05:51:00.000Z" itemprop="datePublished">2013-05-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Command-Line/">Command-Line</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-05-27-2013-05-27-wget.html">利用wget复制网站</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>曾经维护过一个网站，但是为了成本和安全性多方面的考虑，主机上只host静态网页。于是就在自己的机器上搭建wordpress环境，在本地更新内容之后，使用wget将整个网站复制下来，再上传到远程主机上。整个网页看起来和直接使用wordpress是一模一样的。</p>
+<p>使用的命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -E -c -r -p -k -np -l 100  http://localhost/example/</span><br></pre></td></tr></table></figure>
+<p>下面分别解释一下各个参数的含义：</p>
+<ul>
+<li><code>-E</code>: 如果下载了一个网页文件，但是没有后缀，使用这个选项会自动调整后缀为<code>html</code>。这个选项在处理动态网站的时候很有用。比如<code>http://localhost/example/?key=123</code>。等同<code>--adjust-extension</code>。</li>
+<li><code>-c</code>: 续传，等同<code>--continue</code>。</li>
+<li><code>-r</code>: 递归下载，等同<code>--recursive</code>。使用这个选项之后，wget会自动找到当前页面中的链接，并下载链接对应的文件。</li>
+<li><code>-p</code>: 下载正常显示页面所需要的所有资源文件，比如内置图片、css文件等等，等同与<code>--page-requisites</code>。</li>
+<li><code>-k</code>: 将链接中的绝对路径转换为相对路径，这样下载的文件可以放置在任何位置访问，等同于<code>--convert-links</code>。</li>
+<li><code>-np</code>: 不下载指定url的父目录中的文件，在本例中，这个选项表示只下载目标网站example/目录下的文件，等同于<code>--no-parent</code>。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-05-27-2013-05-27-wget.html" data-id="ckdpm8hr0002sqpda2z2f9ptn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2013-05-21-min-mmap-addr" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-05-21-2013-05-21-min-mmap-addr.html" class="article-date">
+  <time datetime="2013-05-21T14:03:00.000Z" itemprop="datePublished">2013-05-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Kernel/">Kernel</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-05-21-2013-05-21-min-mmap-addr.html">mmap x86小于0x10000的虚地址</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们的项目比较特殊，需要在x86机器上mmap小于0x10000的虚地址。然而在默认的x86 Linux上，小于0x10000的虚地址是没有办法mmap的。而x86 Linux不让用户mmap低于0x10000的虚地址也是有它的道理的。</p>
+<p>有时候因为某些设计缺陷，程序使用了错误的指针，访问了错误的内存。如果指针指向的地址在进程中没有被映射，那么执行时会产生page fault异常，操作系统会给进程发送SIGSEGV信号。如果程序没有注册SIGSEGV信号处理函数，接收到这个信号就会退出，并报告我们熟悉的’Segmentation Fault’。但是，如果指针指向的地址在进程中被映射了，错误的内存访问就会悄无声息地发生，给debug带来了很大的难度。在设计进程的虚拟空间的时候，x86 Linux不让用户mmap低于0x10000的虚地址空间，那么这段空间永远不会被映射，所有非法访问这段内存的行为都会被发现，为程序debug带来了一些便利。</p>
+<p>其实，在不同的Linux系统下，默认可以mmap的最低地址是不同的。比如x86上是0x10000，mips上是0x4000，arm上是0x1000。</p>
+<p>下面这个小程序能够输出当前系统下可以mmap的最低地址：</p>
+<figure class="highlight c"><figcaption><span>mmap.c</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/mman.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">void</span> *start = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">size_t</span> page_size = getpagesize();</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">void</span> *addr = mmap(start, page_size, PROT_READ|PROT_WRITE, \</span><br><span class="line">        MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, <span class="number">-1</span>, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span>(addr != MAP_FAILED) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;lowest mapable address: %p\n&quot;</span>, start);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        start += page_size;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们的项目必须要能够在x86 Linux中mmap 0x1000到0x10000这段地址，经过一番摸索，我终于找到了解决办法。Linux Kernel中有一个参数<code>mmap_min_addr</code>控制着mmap能够映射的最低内存地址，而这个参数能够通过<code>/proc/sys/vm/mmap_min_addr</code>这个文件[1]来进行读写。系统中的任何用户都可以读这个文件，但只有root用户能够写这个文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># echo 4096 &gt; /proc/sys/vm/mmap_min_addr</span></span><br></pre></td></tr></table></figure>
+<p>执行完这条命令之后，再用上面的小程序测试可以mmap的最低地址就变成了0x1000，实现了我们的需求。</p>
+<p>在重新启动Linux之后，<code>mmap_min_addr</code>就会重新被设置为默认值。要想永久改变<code>mmap_min_addr</code>的值，可以在/etc/sysctl.conf中添加一行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm.mmap_min_addr &#x3D; 4096</span><br></pre></td></tr></table></figure>
+
+<p>[1] 其实这个文件是一种特殊的文件，其文件大小为0，读取文件内容时，系统调用read会触发内核中的代码自动生成内容填写给用户态buffer中。写文件内容时，系统调用write会触发内核中的代码自动从用户态buffer读取内容，设置相应的内核数据。内核模块的参数也可以通过这种文件的方式来读取和设置。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-05-21-2013-05-21-min-mmap-addr.html" data-id="ckdpm8hqx002iqpda98f83ngj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2013-05-21-pie" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-05-21-2013-05-21-pie.html" class="article-date">
+  <time datetime="2013-05-21T12:49:00.000Z" itemprop="datePublished">2013-05-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Toolchain/">Toolchain</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-05-21-2013-05-21-pie.html">-pie和-fPIE选项</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>位置无关可执行程序是一种比较有趣的程序。这种程序像动态库一样，可以自由加载到内存中任意合适的位置执行。</p>
+<p>linux下，最著名的位置无关可执行程序就是<code>/lib/ld-linux.so.2</code>(32位Linux)或<code>/lib64/ld-linux-x86-64.so.2</code>(64位x86 Linux)了。以64位x86机器为例，所有的64位动态连接程序都依赖<code>/lib64/ld-linux-x86-64.so.2</code>, 而<code>/lib64/ld-linux-x86-64.so.2</code>本身也是一个可执行程序。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ /lib64/ld-linux-x86-64.so.2 </span><br><span class="line">Usage: ld.so [OPTION]... EXECUTABLE-FILE [ARGS-FOR-PROGRAM...]</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>要使用gcc编译出位置无关可执行程序，必须使用-pie和-fPIE选项。其中，-fPIE选项用于编译器，使用这个选项之后，从.c或.cpp编译出来的.o文件将是位置无关的目标文件。而-pie选项则用于链接器，使用这个选项之后，链接器能够把-fPIE选项下编译出来的.o文件链接成位置无关可执行程序。</p>
+<p>下面是一个简单的示例。<br><code>hello.c</code>源文件：</p>
+<figure class="highlight c"><figcaption><span>hello.c</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_hello</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Hello.\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span>&#123;</span><br><span class="line">    print_hello();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译<code>hello.c</code>源文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc -fPIE -pie hello.c -o hello_pie</span><br><span class="line">gcc hello.c -o hello</span><br></pre></td></tr></table></figure>
+
+<p>运行<code>hello</code>和<code>hello_pie</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ./hello_pie </span><br><span class="line">Hello.</span><br><span class="line">$ ./hello</span><br><span class="line">Hello.</span><br></pre></td></tr></table></figure>
+
+<p>利用file命令查看<code>hello</code>和<code>hello_pie</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ file hello_pie </span><br><span class="line">hello_pie: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), <span class="keyword">for</span> GNU/Linux 2.6.18, not stripped</span><br><span class="line">$ file hello</span><br><span class="line">hello: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), <span class="keyword">for</span> GNU/Linux 2.6.18, not stripped</span><br></pre></td></tr></table></figure>
+<p>可以看出<code>hello_pie</code>是”shared object”，而<code>hello</code>是”executable”。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-05-21-2013-05-21-pie.html" data-id="ckdpm8hr1002xqpda1rxy4z4f" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2013-05-21-add-new-cpu-model-for-gem5" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-05-21-2013-05-21-add-new-cpu-model-for-gem5.html" class="article-date">
+  <time datetime="2013-05-21T04:10:00.000Z" itemprop="datePublished">2013-05-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Other/">Other</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-05-21-2013-05-21-add-new-cpu-model-for-gem5.html">Add a New CPU Model for Gem5</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p><a target="_blank" rel="noopener" href="http://www.m5sim.org/Main_Page">Gem5</a> is a simulator system, which can support several kinds of ISA and several kinds of CPU.</p>
+<p>The documentation of <a target="_blank" rel="noopener" href="http://www.m5sim.org/Adding_a_New_CPU_Model">“Adding a New CPU Model”</a> is out of date. I tried to update the documentation, but the update has not been approved yet. So, I decide to write down the procedures in my own blog. Some of the procedures are based the old documentation.</p>
+<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>First, make sure you have basic understanding of how the CPU models function within the M5 framework. A good start is the <a target="_blank" rel="noopener" href="http://www.m5sim.org/CPU_Models">CPU Models</a> page.</p>
+<p>This brief tutorial will show you how to create a custom CPU model called ‘MyCPU’, which will just be a renamed version of the AtomicSimpleCPU. After you learn how to compile and build ‘MyCPU’, then you have the liberty to edit the ‘MyCPU’ code at your heart’s content without worrying about breaking any existing M5 CPU Models.</p>
+<h2 id="Port-C-Code-for-MyCPU"><a href="#Port-C-Code-for-MyCPU" class="headerlink" title="Port C++ Code for MyCPU"></a>Port C++ Code for MyCPU</h2><p>The easiest way is to derive a new C++ class of your CPU Model from M5 CPU Models that are already defined and the easiest model to start with is the ‘AtomicSimpleCPU’ located in the ‘gem5/src/cpu/simple’ directory. </p>
+<p>For this example, we’ll just copy the files from the ‘gem5/src/cpu/simple’ and place them in our own CPU directory: gem5/src/cpu/mycpu.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">me@mymachine:~/gem5$ <span class="built_in">cd</span> src/cpu</span><br><span class="line">me@mymachine:~/gem5/src/cpu$ cp -r simple mycpu</span><br></pre></td></tr></table></figure>
+
+
+<p>Now check the mycpu directory to make sure you’ve copied the files successfully.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">me@mymachine:~/gem5/src/cpu$ <span class="built_in">cd</span> mycpu </span><br><span class="line">me@mymachine:~/gem5/src/cpu/mycpu$ ls</span><br><span class="line">AtomicSimpleCPU.py  BaseSimpleCPU.py  SConscript  SConsopts  TimingSimpleCPU.py  </span><br><span class="line">atomic.cc  atomic.hh  base.cc  base.hh timing.cc  timing.hh</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Let’s remove the files TimingSimpleCPU.py, timing.cc and timing.hh. We don’t need them.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">me@mymachine:~/gem5/src/cpu/mycpu$ rm TimingSimpleCPU.py timing.cc timing.hh</span><br><span class="line">me@mymachine:~/gem5/src/cpu/mycpu$ ls</span><br><span class="line">BaseSimpleCPU.py AtomicSimpleCPU.py  SConscript  SConsopts  atomic.cc  atomic.hh  base.cc  base.hh</span><br></pre></td></tr></table></figure>
+
+<p>Since we want to change ‘AtomicSimpleCPU’ to ‘MyCPU’, we will just replace all the names in the AtomicSimpleCPU.py, atomic.* files and name them MyCPU.py, mycpu.* files. We don’t need AtomicSimpleCPU.py, atomic.cc and atomic.hh any more, so we will remove them.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">me@mymachine:~/gem5/src/cpu/mycpu$ <span class="keyword">for</span> file <span class="keyword">in</span> *; <span class="keyword">do</span> perl -pe s/AtomicSimpleCPU/MyCPU/g <span class="variable">$file</span> &gt; <span class="variable">$file</span>.tmp; mv <span class="variable">$file</span>.tmp <span class="variable">$file</span>; <span class="keyword">done</span></span><br><span class="line">me@mymachine:~/gem5/src/cpu/mycpu$ mv AtomicSimpleCPU.py MyCPU.py</span><br><span class="line">me@mymachine:~/gem5/src/cpu/mycpu$ mv atomic.cc mycpu.cc</span><br><span class="line">me@mymachine:~/gem5/src/cpu/mycpu$ mv atomic.hh mycpu.hh</span><br><span class="line">me@mymachine:~/gem5/src/cpu/mycpu$ ls</span><br><span class="line">BaseSimpleCPU.py MyCPU.py SConscript SConsopts base.cc base.hh mycpu.hh mycpu.cc</span><br></pre></td></tr></table></figure>
+
+<p>We also need to change ‘BaseSimpleCPU’ to ‘BaseMyCPU’, or we will have duplicated definition of ‘BaseSimpleCPU’ when compiling.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">me@mymachine:~/gem5/src/cpu/mycpu$ <span class="keyword">for</span> file <span class="keyword">in</span> *; <span class="keyword">do</span> perl -pe s/BaseSimpleCPU/BaseMyCPU/g <span class="variable">$file</span> &gt; <span class="variable">$file</span>.tmp; mv <span class="variable">$file</span>.tmp <span class="variable">$file</span>; <span class="keyword">done</span></span><br><span class="line">me@mymachine:~/gem5/src/cpu/mycpu$ mv BaseSimpleCPU.py BaseMyCPU.py</span><br></pre></td></tr></table></figure>
+
+<p>Next, you need to edit all your files to only include files in ‘mycpu’ directory instead of ‘simple’ directory. We also need to replace ‘atomic.hh’ to ‘mycpu.hh’ in mycpu.cc file.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">me@mymachine:~/gem5/src/cpu/mycpu$ <span class="keyword">for</span> file <span class="keyword">in</span> *; <span class="keyword">do</span> perl -pe s/atomic\.hh/mycpu\.hh/g <span class="variable">$file</span> &gt;<span class="variable">$file</span>.tmp; mv <span class="variable">$file</span>.tmp <span class="variable">$file</span>; <span class="keyword">done</span></span><br><span class="line">me@mymachine:~/gem5/src/cpu/mycpu$ <span class="keyword">for</span> file <span class="keyword">in</span> *; <span class="keyword">do</span> perl -pe s<span class="comment">#/simple/#/mycpu/#g $file &gt; $file.tmp; mv $file.tmp $file; done</span></span><br></pre></td></tr></table></figure>
+
+<p>Next, you need to comment out the function ‘change_thread_state’ from base.cc, or there will be duplicated definition of ‘change_thread_state’ when compiling.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">me@mymachine:~/gem5/src/cpu/mycpu$ vim base.cc</span><br></pre></td></tr></table></figure>
+
+<p>NOTE: The AtomicSimpleCPU is really just based off the BaseSimpleCPU (src/cpu/simple/base.hh) so your new CPU Model MyCPU is really a derivation off of this CPU model. Additionally, the BaseSimpleCPU model is derived from the BaseCPU (src/cpu/base.hh). As you can see, M5 is heavily object oriented.</p>
+<h2 id="Making-M5-Recognize-MyCPU"><a href="#Making-M5-Recognize-MyCPU" class="headerlink" title="Making M5 Recognize MyCPU"></a>Making M5 Recognize MyCPU</h2><p>Now that you’ve created a separate directory and files for your MyCPU code (i.e. gem5/src/cpu/mycpu), there are a couple files that need to be updated so that M5 can recognize MyCPU as a build option.</p>
+<p><code>gem5/src/cpu/mycpu/SConscript</code>: Edit the SConscript for your CPU model and add the relevant files that need to be built in here. Your file should only contain this code.</p>
+<figure class="highlight python"><figcaption><span>SConscript</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Import(<span class="string">&#x27;*&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="string">&#x27;MyCPU&#x27;</span> <span class="keyword">in</span> env[<span class="string">&#x27;CPU_MODELS&#x27;</span>]:</span><br><span class="line">    SimObject(<span class="string">&#x27;MyCPU.py&#x27;</span>)</span><br><span class="line">    Source(<span class="string">&#x27;mycpu.cc&#x27;</span>)</span><br><span class="line">    DebugFlag(<span class="string">&#x27;MyCPU&#x27;</span>)</span><br><span class="line">    Source(<span class="string">&#x27;base.cc&#x27;</span>)</span><br><span class="line">    SimObject(<span class="string">&#x27;BaseMyCPU.py&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>gem5/src/cpu/mycpu/SConsopts</code>: Edit the SConscript for your CPU model and add in CPU Model-specific information for the ISA Parser. The ISA Parser will use this when referring to the “Execution Context” for executing instructions. For instance, the AtomicSimpleCPU’s instructions get all of their information from the actual CPU (since it’s a 1 CPI machine). Thus, instructions only need to know the current state or “Execution Context” of the ‘AtomicSimpleCPU’ object. However, the instructions in a O3CPU needed to know the register values (&amp; other state) only known to that current instruction so it’s “Execution Context” is the O3DynInst object. (check out the <a target="_blank" rel="noopener" href="http://www.m5sim.org/The_M5_ISA_description_language">ISA Description Language documentation</a> page for more details). Your file should only contain this code:</p>
+<figure class="highlight python"><figcaption><span>SConsopts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Import(<span class="string">&#x27;*&#x27;</span>)</span><br><span class="line"></span><br><span class="line">CpuModel(<span class="string">&#x27;MyCPU&#x27;</span>, <span class="string">&#x27;my_cpu_exec.cc&#x27;</span>,</span><br><span class="line">         <span class="string">&#x27;#include &quot;cpu/mycpu/mycpu.hh&quot;&#x27;</span>,</span><br><span class="line">         &#123; <span class="string">&#x27;CPU_exec_context&#x27;</span>: <span class="string">&#x27;MyCPU&#x27;</span> &#125;,</span><br><span class="line">         default=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>gem5/src/cpu/static_inst.hh</code>: Put a forward class declaration of your model in here</p>
+<figure class="highlight cpp"><figcaption><span>static_inst.hh</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CheckerCPU</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FastCPU</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AtomicSimpleCPU</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TimingSimpleCPU</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">InorderCPU</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyCPU</span>;</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>You alse need to add ‘MyCPU’ to ‘CPU_MODELS’ so that it will be compiled latter. Navigate to the ‘build_opts’ directory.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">me@mymachine:~/gem5/src/python/objects$ <span class="built_in">cd</span> ~/gem5/build_opts</span><br><span class="line">me@mymachine:~/gem5/build_opts$ <span class="keyword">for</span> file <span class="keyword">in</span> *;<span class="keyword">do</span> perl -pe s/AtomicSimpleCPU/AtomicSimpleCPU,MyCPU/g <span class="variable">$file</span> &gt; <span class="variable">$file</span>.tmp; mv <span class="variable">$file</span>.tmp <span class="variable">$file</span>; <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Building-MyCPU"><a href="#Building-MyCPU" class="headerlink" title="Building MyCPU"></a>Building MyCPU</h2><p>Before building your cpu model, you need to make sure you have all the needed tools installed. See <a target="_blank" rel="noopener" href="http://www.m5sim.org/Dependencies">Dependencies</a> page for details.<br>Navigate to the M5 top-level directory and build your model:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">me@mymachine:~/gem5/src/python/objects$ <span class="built_in">cd</span> ~/gem5</span><br><span class="line">me@mymachine:~/gem5$ scons build/MIPS/gem5.debug</span><br><span class="line">scons: Reading SConscript files ...</span><br><span class="line">Checking <span class="keyword">for</span> leading underscore <span class="keyword">in</span> global variables...(cached) no</span><br><span class="line">Checking <span class="keyword">for</span> C header file Python.h... (cached) yes</span><br><span class="line">Checking <span class="keyword">for</span> C library pthread... (cached) yes</span><br><span class="line">Checking <span class="keyword">for</span> C library dl... (cached) yes</span><br><span class="line">Checking <span class="keyword">for</span> C library util... (cached) yes</span><br><span class="line">Checking <span class="keyword">for</span> C library m... (cached) yes</span><br><span class="line">Checking <span class="keyword">for</span> C library python2.7... (cached) yes</span><br><span class="line">Checking <span class="keyword">for</span> accept(0,0,0) <span class="keyword">in</span> C++ library None... (cached) yes</span><br><span class="line">Checking <span class="keyword">for</span> zlibVersion() <span class="keyword">in</span> C++ library z... (cached) yes</span><br><span class="line">Checking <span class="keyword">for</span> clock_nanosleep(0,0,NULL,NULL) <span class="keyword">in</span> C library None... (cached) no</span><br><span class="line">...</span><br><span class="line"> [  RANLIB]  -&gt; libelf/libelf.a</span><br><span class="line"> [   SHCXX] gzstream/gzstream.cc -&gt; .os</span><br><span class="line"> [      AR]  -&gt; gzstream/libgzstream.a</span><br><span class="line"> [  RANLIB]  -&gt; gzstream/libgzstream.a</span><br><span class="line"> [    LINK]  -&gt; MIPS/gem5.debug</span><br><span class="line">scons: <span class="keyword">done</span> building targets.</span><br></pre></td></tr></table></figure>
+
+<p>If you are compiling on a dual-core CPU, use this command-line to speed-up the compilation:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scons -j2 build/MIPS/gem5.debug</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Creating-Configuration-Scripts-for-MyCPU"><a href="#Creating-Configuration-Scripts-for-MyCPU" class="headerlink" title="Creating Configuration Scripts for MyCPU"></a>Creating Configuration Scripts for MyCPU</h2><p>Now that you have a M5 binary built for use with the MIPS Architecture in a M5 MyCPU Model, you are almost ready to simulate. Note that the standard M5 command line requires that you provide at least a configuration script for the M5 binary to use. </p>
+<p>The easiest way to get up and running is to use the sample Syscall-Emulation script: <code>configs/example/se.py</code>.</p>
+<p>You’ll note that line 9 of the se.py Python script imports the details of what type of Simulation will be run (e.g. what CPU Model?) from the Simulation.py file found here:<br>gem5/configs/common/Simulation.py. And then, the Simulation.py file imports it’s CPU Model options from the Options.py file in the same directory. Edit those two files and your M5 binary will be ready to simulate.</p>
+<p><code>gem5/configs/common/Options.py</code>: Add ‘mycpu’ to the cpu_type list…</p>
+<figure class="highlight python"><figcaption><span>Options.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">    parser.add_option(<span class="string">&quot;--cpu-type&quot;</span>, type=<span class="string">&quot;choice&quot;</span>, default=<span class="string">&quot;atomic&quot;</span>,</span><br><span class="line">                      choices = [<span class="string">&quot;atomic&quot;</span>, <span class="string">&quot;timing&quot;</span>, <span class="string">&quot;mycpu&quot;</span>, <span class="string">&quot;detailed&quot;</span>, <span class="string">&quot;inorder&quot;</span>,</span><br><span class="line">                                 <span class="string">&quot;arm_detailed&quot;</span>],</span><br><span class="line">                      help = <span class="string">&quot;type of cpu to run with&quot;</span>)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+
+<p><code>gem5/configs/common/Simulation.py</code>: Edit the Simulation script to recognize your model as a CPU class. After your edits, the setCPUClass function should look like this:</p>
+<figure class="highlight python"><figcaption><span>Simulation.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">setCPUClass</span>(<span class="params">options</span>):</span></span><br><span class="line">...</span><br><span class="line">    <span class="keyword">elif</span> options.cpu_type == <span class="string">&quot;inorder&quot;</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> options.caches:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">&quot;InOrder CPU must be used with caches&quot;</span></span><br><span class="line">            sys.exit(<span class="number">1</span>)</span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">TmpClass</span>(<span class="params">InOrderCPU</span>):</span> <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">elif</span> options.cpu_type == <span class="string">&quot;mycpu&quot;</span>:</span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">TmpClass</span>(<span class="params">MyCPU</span>):</span><span class="keyword">pass</span></span><br><span class="line">        atomic = <span class="literal">True</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">TmpClass</span>(<span class="params">AtomicSimpleCPU</span>):</span> <span class="keyword">pass</span></span><br><span class="line">        atomic = <span class="literal">True</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="Testing-MyCPU"><a href="#Testing-MyCPU" class="headerlink" title="Testing MyCPU"></a>Testing MyCPU</h2><p>Once you’ve edited the configuration scripts, you can run a M5 simulation from the top level directory with this command line:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">me@mymachine:~/gem5$ ./build/MIPS/gem5.debug configs/example/se.py --cpu-type mycpu --cmd tests/<span class="built_in">test</span>-progs/hello/bin/mips/linux/hello</span><br><span class="line">gem5 Simulator System.  http://gem5.org</span><br><span class="line">gem5 is copyrighted software; use the --copyright option <span class="keyword">for</span> details.</span><br><span class="line"></span><br><span class="line">gem5 compiled May 17 2013 20:17:23</span><br><span class="line">gem5 started May 17 2013 20:22:42</span><br><span class="line">gem5 executing on server</span><br><span class="line"><span class="built_in">command</span> line: ./build/MIPS/gem5.debug ./configs/example/se.py --cpu-type mycpu --cmd tests/<span class="built_in">test</span>-progs/hello/bin/mips/linux/hello</span><br><span class="line">Global frequency <span class="built_in">set</span> at 1000000000000 ticks per second</span><br><span class="line">warn: CoherentBus system.membus has no snooping ports attached!</span><br><span class="line">0: system.remote_gdb.listener: listening <span class="keyword">for</span> remote gdb <span class="comment">#0 on port 7000</span></span><br><span class="line">**** REAL SIMULATION ****</span><br><span class="line">info: Entering event queue @ 0.  Starting simulation...</span><br><span class="line">info: Increasing stack size by one page.</span><br><span class="line">Hello World!</span><br><span class="line">hack: be nice to actually delete the event here</span><br><span class="line">Exiting @ tick 2913500 because target called <span class="built_in">exit</span>()</span><br></pre></td></tr></table></figure>
+
+<p>NOTE: This binary path refers to the gem5/tests directory.</p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>So the above “tutorial” showed you how to build your own CPU model in M5. Now, it’s up to you to customize the CPU Model as you like and do your experiments! Good luck!</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-05-21-2013-05-21-add-new-cpu-model-for-gem5.html" data-id="ckdpm8hqy002nqpda7lpz7yh0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2013-05-20-git-svn" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013-05-20-2013-05-20-git-svn.html" class="article-date">
+  <time datetime="2013-05-20T03:13:00.000Z" itemprop="datePublished">2013-05-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Git/">Git</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013-05-20-2013-05-20-git-svn.html">Git SVN</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>目前有很多项目使用了svn。为了利用git的优势，可以使用git svn系列命令来实现git与svn的结合。<br>详细的资料可以参考<a target="_blank" rel="noopener" href="http://git-scm.com/book/en/Git-and-Other-Systems-Git-and-Subversion">git svn教程</a>。</p>
+<p>从svn仓库中取出数据。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git svn <span class="built_in">clone</span> &lt;svn-repo&gt; &lt;repo-name&gt;</span><br></pre></td></tr></table></figure>
+<p>向svn仓库中推送本地的更改。<br>注意：需要先用git commit提交本地更改到本地仓库。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git svn dcommit -m <span class="string">&quot;comment&quot;</span></span><br></pre></td></tr></table></figure>
+<p>获取svn仓库中的更改，和本地内容进行合并</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git svn rebase</span><br></pre></td></tr></table></figure>
+<p>查看svn式的log</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git svn <span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+<p>此外，在本地仓库中的分支内容的合并最好不要直接merge，而是rebase。因为使用merge方式合并，代码提交历史不是线性的，提交到svn仓库之后，源分支的提交历史信息就丢失了。</p>
+<p>有时候，不希望svn代码仓库中包含.gitignore文件。这时候，可以将需要写在.gitignore目录中的规则写在<code>$GIT_DIR/info/exclude</code>文件中，通常<code>$GIT_DIR</code>就是<code>./.git</code>。这个exclude文件仅作用于当前的本地仓库，并且不会被提交到svn仓库中。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://richardustc.github.io/2013-05-20-2013-05-20-git-svn.html" data-id="ckdpm8hqy002lqpdab5e0c2hw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
+    </nav>
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C#</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CPP/">CPP</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Command-Line/">Command-Line</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kernel/">Kernel</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LLVM/">LLVM</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PyQt/">PyQt</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Regex/">Regex</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Toolchain/">Toolchain</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PyQt/" rel="tag">PyQt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/PyQt/" style="font-size: 10px;">PyQt</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">八月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">七月 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">六月 2013</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">五月 2013</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">四月 2013</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">一月 2013</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015-07-09-except-hook.html">python中的excepthook</a>
+          </li>
+        
+          <li>
+            <a href="/2015-07-06-create-PyQt-Program-with-Designer.html">使用Designer编写PyQt程序的简单流程</a>
+          </li>
+        
+          <li>
+            <a href="/2013-12-14-2013-12-14-c-sharp-basics.html">C# Type Basic</a>
+          </li>
+        
+          <li>
+            <a href="/2013-09-26-2013-09-26-generate-random-numbers.html">构造随机数生成器</a>
+          </li>
+        
+          <li>
+            <a href="/2013-09-16-2013-09-16-python-notes.html">Python笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Richard Lee<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//libs.baidu.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>
