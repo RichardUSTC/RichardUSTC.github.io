@@ -4,7 +4,7 @@ title: C++中的函数模版
 date: 2013-03-30 14:03
 comments: true
 author: RichardUSTC
-categories: CPP
+tags: C++
 ---
 <h1>函数模版</h1>
 <p>语法结构</p>

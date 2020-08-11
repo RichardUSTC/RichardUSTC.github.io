@@ -3,7 +3,7 @@ layout: post
 title: "-pie和-fPIE选项"
 date: 2013-05-21 20:49
 comments: true
-categories: Toolchain
+tags: Toolchain
 ---
 位置无关可执行程序是一种比较有趣的程序。这种程序像动态库一样，可以自由加载到内存中任意合适的位置执行。
 

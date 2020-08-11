@@ -3,7 +3,7 @@ layout: post
 title: "javascript basic concept"
 date: 2013-06-20 21:11
 comments: true
-categories: Javascript
+tags: Javascript
 ---
 以前也学过一段时间的Javascript，但是长时间不用，很多东西已经忘记了。趁此机会总结一下Javascript的基本用法。
 ## Javascript的位置

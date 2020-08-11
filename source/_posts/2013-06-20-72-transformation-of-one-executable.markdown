@@ -3,7 +3,7 @@ layout: post
 title: "一个可执行文件的72变"
 date: 2013-06-20 17:21
 comments: true
-categories: Other
+tags: Other
 ---
 同一个可执行文件，改成不同的名字，就拥有不同的功能？
 

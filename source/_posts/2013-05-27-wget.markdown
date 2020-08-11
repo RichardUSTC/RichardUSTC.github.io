@@ -3,7 +3,7 @@ layout: post
 title: "利用wget复制网站"
 date: 2013-05-27 13:51
 comments: true
-categories: Command-Line
+tags: Shell
 ---
 
 曾经维护过一个网站，但是为了成本和安全性多方面的考虑，主机上只host静态网页。于是就在自己的机器上搭建wordpress环境，在本地更新内容之后，使用wget将整个网站复制下来，再上传到远程主机上。整个网页看起来和直接使用wordpress是一模一样的。

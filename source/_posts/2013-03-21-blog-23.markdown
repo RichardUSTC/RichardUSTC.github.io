@@ -4,7 +4,7 @@ title: gcc -save-temps选项
 date: 2013-03-21 09:03
 comments: true
 author: RichardUSTC
-categories: Toolchain
+tags: Toolchain
 ---
 <p>在很多开源项目中，作者喜欢用宏定义以及预处理中的拼接技术来生成一些函数。比如，在QEMU的源码中就使用这种方式来定义函数</p>
 <div class="cnblogs_code">

@@ -3,7 +3,7 @@ layout: post
 title: "Python Module"
 date: 2013-05-14 19:53
 comments: true
-categories: Python
+tags: Python
 ---
 Python中，module是用来组织代码的有效方法。
 

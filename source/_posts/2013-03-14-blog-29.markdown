@@ -4,7 +4,7 @@ title: C++中的顺序容器
 date: 2013-03-14 13:03
 comments: true
 author: RichardUSTC
-categories: CPP
+tags: C++
 ---
 <p>继续之前的C++复习笔记。</p>
 <p>顺序容器中放置的元素不能是引用或者不可复制的对象（比如输入输出流对象）。</p>

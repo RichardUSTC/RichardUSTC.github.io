@@ -3,7 +3,7 @@ layout: post
 title: "Python笔记"
 date: 2013-09-16 17:06
 comments: true
-categories: Python
+tags: Python
 published: true
 ---
 这篇文章里将会总结Python中的各种小知识点。

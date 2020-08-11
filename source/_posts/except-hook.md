@@ -1,6 +1,5 @@
 title: python中的excepthook
 date: 2015-07-09 08:20:17
-category: Python
 tags: Python
 ---
 Python中，可以通过sys.excepthook来实现对Python程序中的exception的自定义处理

@@ -3,7 +3,7 @@ layout: post
 title: "Add a New CPU Model for Gem5"
 date: 2013-05-21 12:10
 comments: true
-categories: Other
+tags: Other
 ---
 ## Introduction
 [Gem5][gem5] is a simulator system, which can support several kinds of ISA and several kinds of CPU.

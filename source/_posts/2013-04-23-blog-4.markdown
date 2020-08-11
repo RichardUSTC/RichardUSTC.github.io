@@ -4,7 +4,7 @@ title: 使用ioctl“实现”自定义的系统调用
 date: 2013-04-23 08:04
 comments: true
 author: RichardUSTC
-categories: Kernel
+tags: Kernel
 ---
 <p>最近做的项目跟Linux内核的关系比较大，我们的项目需要在用户态触发一些内核态的代码运行。众所周知，内核态的代码是不能直接被用户态代码调用的，用户态代码触发内核态代码的必须要经过系统调用。</p>
 <h1>为什么选择ioctl</h1>

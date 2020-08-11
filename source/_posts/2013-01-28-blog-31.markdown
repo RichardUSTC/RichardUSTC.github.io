@@ -4,7 +4,7 @@ title: C++中命名强制类型转换
 date: 2013-01-28 14:01
 comments: true
 author: RichardUSTC
-categories: CPP
+tags: C++
 ---
 <p>在C++中有四种命名强制类型转换：const_cast、static_cast、dynamic_cast和reinterpret_cast。<a title="static_cast、dynamic_cast reinterpret_cast和const_cast" href="http://blog.sina.com.cn/s/blog_4a84e45b0100f57m.html" target="_blank">这篇文章</a>对C++中的强制类型转换讲得比较清楚。</p>
 <p>1. const_cast</p>

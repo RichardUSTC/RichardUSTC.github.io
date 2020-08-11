@@ -4,7 +4,7 @@ title: 获取Linux内核未导出符号的几种方式
 date: 2013-04-25 14:04
 comments: true
 author: RichardUSTC
-categories: Kernel
+tags: Kernel
 ---
 <p>&nbsp; &nbsp; 从Linux内核的2.6某个版本开始，内核引入了导出符号的机制。只有在内核中使用EXPORT_SYMBOL或EXPORT_SYMBOL_GPL导出的符号才能在内核模块中直接使用。然而，内核并没有导出所有的符号。例如，在3.8.0的内核中，do_page_fault就没有被导出。</p>
 <p>&nbsp; &nbsp; 而我的内核模块中需要使用do_page_fault，那么有那些方法呢？这些方法分别有什么优劣呢？</p>

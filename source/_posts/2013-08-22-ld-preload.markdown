@@ -3,7 +3,7 @@ layout: post
 title: "LD_PRELOAD的作用"
 date: 2013-08-22 15:00
 comments: true
-categories: Toolchain
+tags: Toolchain
 ---
 LD_PRELOAD用于指定提前加载一些动态库，这些动态库比libc.so等库装载更早，它们提供的函数能够屏蔽后加载的动态库中的函数。这个特性可以方便地用来截获库函数调用。
 

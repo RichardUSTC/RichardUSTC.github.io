@@ -4,7 +4,7 @@ title: 取得ld默认的ldscript配置
 date: 2013-04-09 15:04
 comments: true
 author: RichardUSTC
-categories: Toolchain
+tags: Toolchain
 ---
 <p>有时候我们需要修改一些链接时的参数，但是不想从零开始写一个链接脚本，这个时候可以利用命令</p>
 <div class="cnblogs_code">

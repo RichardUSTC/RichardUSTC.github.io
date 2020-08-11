@@ -1,6 +1,5 @@
 title: 使用Designer编写PyQt程序的简单流程
 date: 2015-07-06 22:34:56
-categories: PyQt
 tags: PyQt
 ---
 

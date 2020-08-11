@@ -3,7 +3,7 @@ layout: post
 title: "mmap x86小于0x10000的虚地址"
 date: 2013-05-21 22:03
 comments: true
-categories: Kernel
+tags: Kernel
 ---
 我们的项目比较特殊，需要在x86机器上mmap小于0x10000的虚地址。然而在默认的x86 Linux上，小于0x10000的虚地址是没有办法mmap的。而x86 Linux不让用户mmap低于0x10000的虚地址也是有它的道理的。
 

@@ -3,7 +3,7 @@ layout: post
 title: "Python Basic Data Types"
 date: 2013-05-14 21:21
 comments: true
-categories: Python
+tags: Python
 ---
 
 Python的基本数据结构主要包括Tuple、List、Dict、Set。

@@ -4,6 +4,6 @@ title: 第一篇博客
 date: 2013-01-28 06:01
 comments: true
 author: RichardUSTC
-categories: Other
+tags: Other
 ---
 <p>这是我在博客园的第一篇博客，希望以后能够坚持下去，在写博客的过程中提高自己！</p>

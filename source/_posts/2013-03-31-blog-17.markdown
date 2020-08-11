@@ -4,7 +4,7 @@ title: C++中lambda的实现(2)
 date: 2013-03-31 08:03
 comments: true
 author: RichardUSTC
-categories: CPP
+tags: C++
 ---
 <p>之前写了一篇<a title="C++中lambda的实现" href="http://www.cnblogs.com/richardustc/archive/2013/03/17/2964736.html">C++中的lambda的实现(1)</a>，从汇编语言的角度来分析了一下non-mutable lambda的实现方式。这篇文章主要介绍一下mutable lambda的实现方式。<a title="C++ lambda" href="http://www.cnblogs.com/hujian/archive/2012/02/14/2350306.html">而这篇文章中有比较详细的lambda语法示例</a>。</p>
 <p>实验用gcc版本4.7.2，据说4.5以前的gcc不能支持C++11中的lambda。</p>

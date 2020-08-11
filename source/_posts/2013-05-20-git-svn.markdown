@@ -3,7 +3,7 @@ layout: post
 title: "Git SVN"
 date: 2013-05-20 11:13
 comments: true
-categories: Git
+tags: Git
 ---
 目前有很多项目使用了svn。为了利用git的优势，可以使用git svn系列命令来实现git与svn的结合。
 详细的资料可以参考[git svn教程][git svn tutorial]。

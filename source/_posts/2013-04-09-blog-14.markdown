@@ -4,6 +4,6 @@ title: 开始专注内核相关
 date: 2013-04-09 14:04
 comments: true
 author: RichardUSTC
-categories: Kernel
+tags: Kernel
 ---
 <p>最近的项目跟操作系统的内核关系不小，往后要看不少跟内核编程相关的资料了，有什么新的收获就会发在这里。</p>

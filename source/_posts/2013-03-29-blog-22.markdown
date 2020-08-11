@@ -4,7 +4,7 @@ title: C++中的虚函数(1)
 date: 2013-03-29 02:03
 comments: true
 author: RichardUSTC
-categories: CPP
+tags: C++
 ---
 <p>虚函数语法形式</p>
 <div class="cnblogs_code">

@@ -4,7 +4,7 @@ title: C++类成员指针
 date: 2013-04-23 04:04
 comments: true
 author: RichardUSTC
-categories: CPP
+tags: C++
 ---
 <p>类成员指针用法：</p>
 <div class="cnblogs_code">

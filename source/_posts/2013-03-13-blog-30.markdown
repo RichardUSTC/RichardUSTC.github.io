@@ -4,7 +4,7 @@ title: --build、--host和--target选项
 date: 2013-03-13 13:03
 comments: true
 author: RichardUSTC
-categories: Toolchain
+tags: Toolchain
 ---
 <p>在交叉编译configure时，通常会需要设置--build、--host和--target选项。各个选项的含义如下：</p>
 <p>--build：编译所用的机器的平台。</p>

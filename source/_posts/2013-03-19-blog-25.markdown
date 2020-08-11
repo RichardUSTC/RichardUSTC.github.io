@@ -4,7 +4,7 @@ title: 拷贝构造函数与拷贝赋值
 date: 2013-03-19 15:03
 comments: true
 author: RichardUSTC
-categories: CPP
+tags: C++
 ---
 <p>通常来说，需要实现析构函数的类都需要实现拷贝构造函数和拷贝赋值。如果没有实现自定义的拷贝构造用函数和拷贝赋值，那么编译器会自动实现它们。在编译器的实现里，如果成员是builtin类型，那么就直接赋值，如果是类类型的，那么就会调用类的相应函数来实现。特别要注意的是，如果是指针，那么只拷贝指针的值，即使是类指针类型也不例外。这就是所谓的浅拷贝。这里有一篇文章<a href="http://www.learncpp.com/cpp-tutorial/912-shallow-vs-deep-copying/" target="_blank">Shallow vs. deep copying</a>介绍地更详细。</p>
 <h1>拷贝构造函数</h1>

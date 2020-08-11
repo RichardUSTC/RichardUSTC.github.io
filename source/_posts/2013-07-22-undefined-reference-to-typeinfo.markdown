@@ -3,7 +3,7 @@ layout: post
 title: "Undefined reference to typeinfo"
 date: 2013-07-22 14:34
 comments: true
-categories: CPP
+tags: C++
 ---
 在项目中遇到了这样一个问题：C++文件编译都OK，但链接的时候报错：undefined reference to `typeinfo for xxx'。typeinfo是C++中的RTTI(RunTime Type Identification)机制中记录类型信息用的，dynamic_cast和typeid操作符会使用这些信息。
 

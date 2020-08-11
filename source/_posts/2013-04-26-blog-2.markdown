@@ -4,7 +4,7 @@ title: C++嵌套类
 date: 2013-04-26 08:04
 comments: true
 author: RichardUSTC
-categories: CPP
+tags: C++
 ---
 <p>C++支持类的嵌套，其语法比较简单。代码是最好的说明。</p>
 <div class="cnblogs_code">

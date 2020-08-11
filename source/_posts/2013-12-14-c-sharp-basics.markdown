@@ -3,7 +3,7 @@ layout: post
 title: "C# Type Basic"
 date: 2013-12-14 10:05
 comments: true
-categories: C#
+tags: C#
 ---
 C\#中所有的类型都有同一个基类object
 

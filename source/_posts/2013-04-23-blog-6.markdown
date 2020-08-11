@@ -4,7 +4,7 @@ title: C++中的枚举
 date: 2013-04-23 01:04
 comments: true
 author: RichardUSTC
-categories: CPP
+tags: C++
 ---
 <ol>
 <li>没有类型名，全局作用域的枚举，比如enum {x0, x1, x2}</li>

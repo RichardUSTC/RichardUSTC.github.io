@@ -4,7 +4,7 @@ title: C++中的虚函数(2)
 date: 2013-03-30 13:03
 comments: true
 author: RichardUSTC
-categories: CPP
+tags: C++
 ---
 <p>C++中有一种特殊的虚函数&mdash;&mdash;纯虚函数。语法示例</p>
 <div class="cnblogs_code">

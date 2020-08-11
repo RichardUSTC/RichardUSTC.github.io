@@ -4,7 +4,7 @@ title: C++中的类模版
 date: 2013-04-09 14:04
 comments: true
 author: RichardUSTC
-categories: CPP
+tags: C++
 ---
 <p>C++中的类模版语法示例：</p>
 <div class="cnblogs_code">

@@ -4,7 +4,7 @@ title: 利用“.byte”在嵌入式汇编中直接插入机器码
 date: 2013-05-01 03:05
 comments: true
 author: RichardUSTC
-categories: Toolchain
+tags: Toolchain
 ---
 <p>最近做的工作需要截获page_fault异常处理，需要模仿着原来的page fault异常处理例程写一个自己的异常处理例程。这个异常处理例程有一部分是汇编代码写的。反汇编原来的内核，发现这样一条指令</p>
 <div class="cnblogs_code">

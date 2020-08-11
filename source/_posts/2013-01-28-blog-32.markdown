@@ -4,7 +4,7 @@ title: C++中的new和delete
 date: 2013-01-28 13:01
 comments: true
 author: RichardUSTC
-categories: CPP
+tags: C++
 ---
 <p>1. new用于动态创建对象。一般用法:</p>
 <div class="cnblogs_Highlighter">

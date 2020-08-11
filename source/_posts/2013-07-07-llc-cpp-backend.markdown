@@ -3,7 +3,7 @@ layout: post
 title: "使用llc C++后端辅助LLVM IR编程"
 date: 2013-07-07 15:23
 comments: true
-categories: LLVM
+tags: LLVM
 ---
 llc是LLVM提供的一个工具，以LLVM bitcode或LLVM汇编为输入，根据指定的后端生成相应的代码。通常情况下，后端跟某一种ISA相关，比如x86、mips、arm等，指定这些后端就会生成在相应处理器上运行的机器码。但是llc还支持一种特殊的后端：cpp。指定这种后端的时候，输出的是C++代码，而这些C++代码正好就是利用LLVM的IR API编程。所以可以利用这种方法来学习如何进行LLVM的IR编程。
 

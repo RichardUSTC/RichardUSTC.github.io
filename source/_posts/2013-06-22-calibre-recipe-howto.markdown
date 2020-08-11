@@ -3,7 +3,7 @@ layout: post
 title: "如何使用Calibre Recipe"
 date: 2013-06-22 21:57
 comments: true
-categories: Other
+tags: Other
 ---
 
 Calibre Recipe是Calibre用来抓取网页或RSS并制作成电子书的脚本。Calibre Recipe的使用方法有两种：

@@ -3,7 +3,7 @@ layout: post
 title: "在LLVM IR中绑定外部的变量和函数"
 date: 2013-07-07 16:58
 comments: true
-categories: LLVM
+tags: LLVM
 ---
 [前面的文章][llvm-ir-programming]中提到了如何利用LLVM的IR进行编程，这篇文章将讲述如何将LLVM IR外部的变量和函数与LLVM IR结合起来。
 

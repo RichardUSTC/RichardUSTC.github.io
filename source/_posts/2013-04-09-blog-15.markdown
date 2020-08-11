@@ -4,7 +4,7 @@ title: C++模版参考资料
 date: 2013-04-09 14:04
 comments: true
 author: RichardUSTC
-categories: CPP
+tags: C++
 ---
 <p><a href="http://www.cplusplus.com/doc/tutorial/templates/">来自www.cplusplus.com的关于C++模版的英文介绍资料</a>，值得一读。</p>
 <p>这篇资料里面涉及到函数模版和类模版，给出了很多实例。其中关于Template Specialization和Templates and multiple-file projects这两节需要特别注意。</p>

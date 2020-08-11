@@ -4,7 +4,7 @@ title: QEMU编译及使用方法
 date: 2013-03-15 05:03
 comments: true
 author: RichardUSTC
-categories: Other
+tags: Other
 ---
 <p>QEMU是一个支持跨平台虚拟化的虚拟机，有user mode和system mode两种配置方式。其中qemu在system mode配置下模拟出整个计算机，可以在qemu之上运行一个操作系统。QEMU的system mode与常见的VMware和Virtualbox等虚拟机比较相似，但是QEMU的优势是可以跨指令集。例如，VMware和Virtualbox之类的工具通常只能在x86计算机上虚拟出一个x86计算机，而QEMU支持在x86上虚拟出一个ARM计算机。qemu在user mode配置下，可以运行跟当前平台指令集不同的平台可执行程序。例如可以用qemu在x86上运行ARM的可执行程序，但是两个平台必须是同一种操作系统，比如Linux。</p>
 <p>QEMU还支持很多其他的平台，<a title="QEMU支持列表" href="http://qemu.weilnetz.de/qemu-doc.html#intro_005ffeatures" target="_blank">详细列表参见这里</a>。</p>

@@ -3,7 +3,7 @@ layout: post
 title: "Git Submodules"
 date: 2013-05-19 21:22
 comments: true
-categories: Git
+tags: Git
 ---
 有时候，一个项目可能需要使用一些外部的源码，或者多个项目共享一部分相对独立的代码。这个时候，不适宜直接把这些外部源码或者共享的源码包含在当前项目的源码中，最好能够独立管理它们。而git的submodule就正好提供了这个功能。这里举一个简单的示例。
 

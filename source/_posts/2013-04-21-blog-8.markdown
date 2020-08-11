@@ -4,7 +4,7 @@ title: C++虚继承
 date: 2013-04-21 08:04
 comments: true
 author: RichardUSTC
-categories: CPP
+tags: C++
 ---
 <p>C++中支持多重继承，但是菱形继承会带来一些问题。</p>
 <p>比如D1和D2继承了B，而D又同时继承了D1和D2</p>

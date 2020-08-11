@@ -4,7 +4,7 @@ title: 截获Linux操作系统异常处理
 date: 2013-05-03 12:05
 comments: true
 author: RichardUSTC
-categories: Kernel
+tags: Kernel
 ---
 <p>&nbsp; &nbsp; 在某些情况下，我们可能需要去截获Linux操作系统的一些异常处理，比如截获page fault异常处理。</p>
 <h1>可以修改内核的情况下</h1>

@@ -4,7 +4,7 @@ title: C++中的异常处理
 date: 2013-04-18 09:04
 comments: true
 author: RichardUSTC
-categories: CPP
+tags: C++
 ---
 <p>C++异常处理的语法</p>
 <div class="cnblogs_code">

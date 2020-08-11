@@ -3,7 +3,7 @@ layout: post
 title: "Python Basics"
 date: 2013-05-14 19:23
 comments: true
-categories: Python
+tags: Python
 ---
 最近在复习Python，顺便记录一下自己的复习笔记，以后可以再回来看看。
 

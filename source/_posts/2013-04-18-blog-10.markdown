@@ -4,7 +4,7 @@ title: 小程序通用Makefile
 date: 2013-04-18 09:04
 comments: true
 author: RichardUSTC
-categories: Toolchain
+tags: Toolchain
 ---
 <p>有时候经常需要写一些小的测试用例，有一个Makefile会比较方便。于是就想到写一个比较通用的Makefile。</p>
 <p><strong>github地址：</strong><a href="https://github.com/RichardUSTC/general-makefile">https://github.com/RichardUSTC/general-makefile</a></p>

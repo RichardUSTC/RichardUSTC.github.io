@@ -3,7 +3,7 @@ layout: post
 title: "Find"
 date: 2013-05-17 22:38
 comments: true
-categories: "Command-Line"
+tags: "Shell"
 ---
 find 命令在Linux中的应用非常广泛，以前我对find命令不是很熟悉。今天刚好用到了这条命令，就顺便记录一下。
 ```bash find.sh

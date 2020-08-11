@@ -4,7 +4,7 @@ title: C++ overload、override、overwrite
 date: 2013-03-29 12:03
 comments: true
 author: RichardUSTC
-categories: CPP
+tags: C++
 ---
 <p><a title="overload、override、overwrite" href="http://blog.csdn.net/penzo/article/details/6001193">这篇文章对C++的overload、override和overwrite有一个详细的介绍</a>。</p>
 <p>Java与C++有些不同。</p>

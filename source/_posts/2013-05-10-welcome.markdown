@@ -4,7 +4,7 @@ title: "Welcome"
 date: 2013-05-10 15:06
 comments: true
 author: RichardUSTC
-categories: Other
+tags: Other
 ---
 欢迎访问[我的github博客](http://richardustc.github.io/)
 

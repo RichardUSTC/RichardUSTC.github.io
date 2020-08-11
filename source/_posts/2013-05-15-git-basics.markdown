@@ -3,7 +3,7 @@ layout: post
 title: "Git Basics"
 date: 2013-05-15 21:15
 comments: true
-categories: Git
+tags: Git
 ---
 Git是Linus Torvalds领导开发的分布式版本管理系统，也是世界上最流行的分布式版本管理系统。关于Git，这里有一本非常好的学习资料[中文版][progit-chinese]和[英文版][progit-english]。下面是最常用的一些命令。
 ## Init

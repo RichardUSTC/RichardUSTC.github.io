@@ -3,7 +3,7 @@ layout: post
 title: "使用LLVM IR编程"
 date: 2013-06-19 16:40
 comments: true
-categories: LLVM
+tags: LLVM
 ---
 最近做的工作要使用LLVM IR来进行编程，借这篇文章来整理一下最近学到的一些东西。
 LLVM是一个非常有名的编译器基础设施。访问[LLVM官方网站][llvm.org]获得更多信息。

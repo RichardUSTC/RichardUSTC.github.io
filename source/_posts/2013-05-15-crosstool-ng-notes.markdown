@@ -3,7 +3,7 @@ layout: post
 title: "Crosstool-ng Notes"
 date: 2013-05-15 11:14
 comments: true
-categories: Toolchain
+tags: Toolchain
 ---
 最近的项目需要在x86的机器上编译一些arm程序，而之前编译好的arm交叉编译器要么是Android专用的，要么对内核版本的要求比较高，静态编译出来的程序在较低版本的内核上没法运行。所以今天就再用crosstool-ng重新编译了一次工具链。
 

@@ -4,7 +4,7 @@ title: C++中lambda的实现(1)
 date: 2013-03-17 10:03
 comments: true
 author: RichardUSTC
-categories: CPP
+tags: C++
 ---
 <p>在看C++ Primer的过程中，发现C++11标准中添加了lambda和类型推断系统。这篇文章介绍了很多<a title="初探C++11之lambda表达式" href="http://www.cnblogs.com/l00l/archive/2012/02/04/2338038.html" target="_blank">lambda的实例</a>。</p>
 <p>为了弄清楚lambda的实现，特地做了一个小实验。这一次只看non-mutable lambda。测试的gcc版本为4.6.3（貌似4.5以前的gcc不支持lambda表达式）。</p>

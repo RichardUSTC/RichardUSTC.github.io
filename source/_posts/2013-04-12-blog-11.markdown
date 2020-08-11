@@ -4,7 +4,7 @@ title: 页表自映射
 date: 2013-04-12 04:04
 comments: true
 author: RichardUSTC
-categories: Kernel
+tags: Kernel
 ---
 <p>今天查找页表映射资料时，无意发现一个有趣的概念，就是页表自映射。</p>
 <p>页目录基址记为PDT，页目录项记为PDE，页表项记为PTE。BITS(m,n,value)表示取value从高m位到高n位的值。</p>

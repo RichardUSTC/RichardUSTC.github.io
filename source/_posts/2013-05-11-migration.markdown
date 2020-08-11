@@ -3,7 +3,7 @@ layout: post
 title: "从CNBlog迁移到Github"
 date: 2013-05-11 20:13
 comments: true
-categories: Other
+tags: Other
 ---
 我是从CNBlog迁移过来，所以需要将CNBlog的文章导入到新的博客中。
 
